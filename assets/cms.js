@@ -555,6 +555,11 @@
     if (rulesSectionTitle) rulesSectionTitle.textContent = isEn ? "Regulations & Specifications" : "詳細徵選辦法與規範";
     if (rulesSectionDesc) rulesSectionDesc.textContent = isEn ? "Please review submission guidelines carefully to ensure compliance." : "請詳細參閱投稿規定，確保作品符合評選標準。";
 
+    // 4.6. 主視覺圖片（可由試算表 hero_desktop_img / hero_mobile_logo / hero_mobile_campus 覆寫）
+    applyPictureImage(document.querySelector(".hero-poster-img"), s.hero_desktop_img && (isEn ? s.hero_desktop_img.en : s.hero_desktop_img.zh));
+    applyPictureImage(document.querySelector(".mobile-100-img"), s.hero_mobile_logo && (isEn ? s.hero_mobile_logo.en : s.hero_mobile_logo.zh));
+    applyMobileCampusBg(s.hero_mobile_campus && (isEn ? s.hero_mobile_campus.en : s.hero_mobile_campus.zh));
+
     // 5. Highlights 區塊渲染
     renderHighlights(lang);
 
@@ -671,31 +676,75 @@
     if (dialogTitle) dialogTitle.textContent = isEn ? "Academia Sinica Centennial Slogan Campaign — Guidelines" : "中央研究院百周年院慶標語公開徵選辦法";
 
     const dialogBody = document.querySelector(".dialog-content");
-    if (!dialogBody || !liveData.rules) return;
+    const formUrl = liveData.settings.submit_form_url ? (isEn ? liveData.settings.submit_form_url.en : liveData.settings.submit_form_url.zh) : "https://forms.gle/MJkYBRTb5NpWaSAZ6";
 
-    dialogBody.innerHTML = liveData.rules
-      .filter(r => r.show)
-      .map(r => {
-        const title = isEn ? r.title_en : r.title_zh;
-        const content = isEn ? r.content_en : r.content_zh;
-        const lines = content.split("\n").filter(Boolean);
-        const bodyHtml = lines.map(line => `<p style="margin-bottom: 8px;">${line}</p>`).join("");
-        return `
-          <h3>${title}</h3>
-          <div>${bodyHtml}</div>
-        `;
-      })
-      .join("");
+    if (dialogBody && liveData.rules) {
+      dialogBody.innerHTML = liveData.rules
+        .filter(r => r.show)
+        .map(r => {
+          const title = isEn ? r.title_en : r.title_zh;
+          const content = isEn ? r.content_en : r.content_zh;
+          const lines = content.split("\n").filter(Boolean);
+          const bodyHtml = lines.map(line => `<p style="margin-bottom: 8px;">${line}</p>`).join("");
+          return `
+            <h3>${title}</h3>
+            <div>${bodyHtml}</div>
+          `;
+        })
+        .join("");
+    }
 
     const closeBtnText = document.getElementById("dialogCancelBtn");
     if (closeBtnText) closeBtnText.textContent = isEn ? "Close" : "關閉視窗";
 
     const dialogSubmitBtn = document.getElementById("dialogSubmitBtn");
     if (dialogSubmitBtn) {
-      const formUrl = liveData.settings.submit_form_url ? (isEn ? liveData.settings.submit_form_url.en : liveData.settings.submit_form_url.zh) : "https://forms.gle/MJkYBRTb5NpWaSAZ6";
       dialogSubmitBtn.href = formUrl;
       dialogSubmitBtn.textContent = isEn ? "Submit Now ›" : "前往表單投稿 ›";
     }
+
+    // 首頁「詳細徵選辦法與規範」區塊，同樣以試算表「徵選辦法彈窗」資料驅動
+    const rulesGrid = document.querySelector("#rules .rules-grid");
+    if (rulesGrid && liveData.rules) {
+      const cardsHtml = liveData.rules
+        .filter(r => r.show)
+        .map(r => {
+          const title = isEn ? r.title_en : r.title_zh;
+          const content = isEn ? r.content_en : r.content_zh;
+          const lines = (content || "").split("\n").filter(Boolean);
+          const bodyHtml = lines.map(line => `<p class="spec-desc" style="margin-bottom: 10px;">${line}</p>`).join("");
+          return `<div class="rules-card-box"><h3 class="rules-box-title">${title}</h3>${bodyHtml}</div>`;
+        })
+        .join("");
+      const ctaText = isEn ? "Submit via Google Form ›" : "立即前往 Google 表單投稿 ›";
+      rulesGrid.innerHTML = cardsHtml + `
+        <div style="grid-column: 1 / -1; text-align: center; margin-top: 10px;">
+          <a href="${formUrl}" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" style="display: inline-flex; width: auto; padding: 14px 38px;">
+            ${ctaText}
+          </a>
+        </div>
+      `;
+    }
+  }
+
+  // 套用主視覺圖片（若試算表提供的網址與目前 src 不同，移除 <picture> 內的 <source> 以確保實際顯示新圖）
+  function applyPictureImage(imgEl, url) {
+    if (!imgEl || !url) return;
+    if (imgEl.getAttribute("src") === url) return;
+    const picture = imgEl.closest("picture");
+    if (picture) {
+      picture.querySelectorAll("source").forEach(src => src.remove());
+    }
+    imgEl.src = url;
+  }
+
+  // 套用手機版院區風景背景圖（維持原本的漸層遮罩效果）
+  function applyMobileCampusBg(url) {
+    if (!url) return;
+    const mobileHero = document.querySelector(".hero-mobile-layout");
+    if (!mobileHero) return;
+    mobileHero.style.backgroundImage =
+      "linear-gradient(180deg, rgba(254, 252, 248, 0.94) 0%, rgba(254, 252, 248, 0.84) 45%, rgba(254, 252, 248, 0.92) 80%, #faf6ef 100%), url('" + url + "')";
   }
 
   // 渲染 FAQ 常見問題
