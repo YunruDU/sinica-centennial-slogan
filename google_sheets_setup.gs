@@ -2,7 +2,7 @@
  * 中央研究院百周年標語徵選網 - Google 試算表自動化建立與初始化腳本
  * 使用方法：
  * 在 Google 試算表中點選「擴充功能」->「Apps Script」，將本程式碼貼上並點擊「執行 (Run)」
- * 即可自動建立 6 個格式優美、色彩典雅、附帶說明與中英資料的工作表。
+ * 即可自動建立 7 個格式優美、色彩典雅、附帶說明與中英資料的工作表。
  */
 
 function setupCentennialSloganSheets() {
@@ -20,6 +20,7 @@ function setupCentennialSloganSheets() {
     ["nav_rules", "導覽項目 4", "詳細辦法", "Guidelines", "導覽選單"],
     ["nav_faq", "導覽項目 5", "常見問題", "FAQ", "導覽選單"],
     ["nav_shortlist", "導覽項目 6", "入圍名單", "Shortlist", "導覽選單"],
+    ["nav_winners", "導覽項目 7", "得獎公告", "Winners", "導覽選單"],
     ["nav_submit_btn", "導覽列投稿按鈕文字", "我要投稿", "Submit Now", "頂部與導覽按鈕"],
     ["submit_form_url", "我要投稿 Google 表單連結", "https://forms.gle/MJkYBRTb5NpWaSAZ6", "https://forms.gle/MJkYBRTb5NpWaSAZ6", "點擊「我要投稿」前往的表單（中英文可不同網址）"],
     ["hero_desktop_img", "桌機主視覺圖片 URL", "assets/hero-desktop.png", "assets/hero-desktop.png", "可填寫本機路徑或外部圖片 URL (1672x806)"],
@@ -36,21 +37,37 @@ function setupCentennialSloganSheets() {
     ["section_highlights_title", "「最新消息」區塊標題", "最新消息", "Latest News", "首頁第1區塊大標"],
     ["section_highlights_desc", "「最新消息」區塊說明", "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。", "Latest announcements and updates about the centennial slogan campaign.", "首頁第1區塊副標"],
     ["section_highlights_show", "是否顯示「最新消息」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
+    ["section_highlights_order", "「最新消息」區塊順序", "1", "1", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
     ["section_timeline_title", "「重要時程」區塊標題", "活動推展重要時程", "Campaign Timeline", "首頁第2區塊大標"],
     ["section_timeline_desc", "「重要時程」區塊說明", "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。", "Key milestones and tentative schedule. Submit your entries before the deadline!", "首頁第2區塊副標"],
     ["section_timeline_show", "是否顯示「重要時程」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
+    ["section_timeline_order", "「重要時程」區塊順序", "2", "2", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
     ["section_faq_title", "「常見問答」區塊標題", "常見問答", "Frequently Asked Questions", "首頁第4區塊大標"],
     ["section_faq_desc", "「常見問答」區塊說明", "關於百年院慶標語徵選活動之常見問題整理", "Answers to common questions regarding the slogan campaign.", "首頁第4區塊副標"],
     ["section_faq_show", "是否顯示「常見問答」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
+    ["section_faq_order", "「常見問答」區塊順序", "4", "4", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
+    ["section_rules_order", "「詳細辦法」導覽項目順序", "3", "3", "此項目沒有對應區塊（點擊開彈窗），只影響選單排序"],
     ["section_shortlist_title", "「入圍名單公告」區塊標題", "入圍名單公告", "Shortlist Announcement", "首頁入圍名單區塊大標"],
     ["section_shortlist_desc", "「入圍名單公告」區塊說明", "初選入圍作品名單，正式得獎結果請以官方公告為準。", "List of shortlisted entries. Official winners will follow a separate announcement.", "首頁入圍名單區塊副標"],
     ["section_shortlist_show", "是否顯示「入圍名單公告」整個區塊", "否", "否", "初選結果出爐前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"],
+    ["section_shortlist_order", "「入圍名單公告」區塊順序", "5", "5", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
     ["shortlist_show_dept", "入圍名單是否顯示「所別」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_name", "入圍名單是否顯示「姓名」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_sso", "入圍名單是否顯示「SSO」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_mask_sso", "入圍名單「SSO」欄是否遮蔽顯示", "是", "是", "填「是」只顯示帳號前2碼＋星號；填「否」完整顯示帳號"],
     ["shortlist_show_slogan_zh", "入圍名單是否顯示「中文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_slogan_en", "入圍名單是否顯示「英文標語」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["section_winners_title", "「得獎公告」區塊標題", "得獎公告", "Winners Announcement", "首頁得獎公告區塊大標"],
+    ["section_winners_desc", "「得獎公告」區塊說明", "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。", "Congratulations to the winners, and thank you to everyone who submitted an entry.", "首頁得獎公告區塊副標"],
+    ["section_winners_show", "是否顯示「得獎公告」整個區塊", "否", "否", "得獎名單確定前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"],
+    ["section_winners_order", "「得獎公告」區塊順序", "6", "6", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
+    ["winners_show_award", "得獎公告是否顯示「獎項」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["winners_show_dept", "得獎公告是否顯示「所別」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["winners_show_name", "得獎公告是否顯示「姓名」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["winners_show_sso", "得獎公告是否顯示「SSO」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["winners_mask_sso", "得獎公告「SSO」欄是否遮蔽顯示", "是", "是", "填「是」只顯示帳號前2碼＋星號；填「否」完整顯示帳號"],
+    ["winners_show_slogan_zh", "得獎公告是否顯示「中文標語」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["winners_show_slogan_en", "得獎公告是否顯示「英文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["dialog_title", "徵選辦法彈窗標題", "中央研究院百周年標語徵選活動辦法", "Academia Sinica Centennial Slogan Campaign — Guidelines", "彈窗頂部標題"],
     ["dialog_notice", "彈窗內活動提示文字", "本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。", "This page follows the Secretariat's requirements. Submissions link to a Google Form; official results follow the organizer's latest announcements.", "彈窗內黃色提示框文字"],
     ["dialog_close_btn", "彈窗關閉按鈕文字", "關閉視窗", "Close", "彈窗底部按鈕"],
@@ -119,6 +136,13 @@ function setupCentennialSloganSheets() {
     ["順序", "所別 (中)", "所別 (英)", "姓名 (中)", "姓名 (英)", "SSO帳號", "中文標語", "英文標語", "是否顯示"],
     ["1", "範例：資訊服務處", "e.g. Office of Information Technology", "王小明", "Wang Xiao-Ming", "wxm1234", "範例標語：以一句話，凝鍊百年學術精神", "Example: A century of scholarship in a single phrase", "否"]
   ], [60, 180, 260, 120, 160, 140, 320, 360, 90], "#500a11");
+
+  // 7. 得獎公告
+  // SSO 欄位預設遮蔽顯示，整個區塊預設隱藏（section_winners_show = 否），得獎名單確定後再改為「是」公開。
+  createOrUpdateSheet(ss, "得獎公告", [
+    ["順序", "獎項 (中)", "獎項 (英)", "所別 (中)", "所別 (英)", "姓名 (中)", "姓名 (英)", "SSO帳號", "中文標語", "英文標語", "是否顯示"],
+    ["1", "範例：首獎", "e.g. Grand Prize", "範例：資訊服務處", "e.g. Office of Information Technology", "王小明", "Wang Xiao-Ming", "wxm1234", "範例標語：以一句話，凝鍊百年學術精神", "Example: A century of scholarship in a single phrase", "否"]
+  ], [60, 140, 180, 180, 260, 120, 160, 140, 320, 360, 90], "#7a541c");
 }
 
 function createOrUpdateSheet(ss, sheetName, data, colWidths, headerColor) {

@@ -33,6 +33,7 @@
       nav_rules: { zh: "詳細辦法", en: "Guidelines" },
       nav_faq: { zh: "常見問題", en: "FAQ" },
       nav_shortlist: { zh: "入圍名單", en: "Shortlist" },
+      nav_winners: { zh: "得獎公告", en: "Winners" },
       nav_submit_btn: { zh: "我要投稿", en: "Submit Now" },
       submit_form_url: {
         zh: "https://forms.gle/MJkYBRTb5NpWaSAZ6",
@@ -68,30 +69,49 @@
         en: "Latest announcements and updates about the centennial slogan campaign."
       },
       section_highlights_show: { zh: "是", en: "是" },
+      section_highlights_order: { zh: "1", en: "1" },
       section_shortlist_title: { zh: "入圍名單公告", en: "Shortlist Announcement" },
       section_shortlist_desc: {
         zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。",
         en: "List of shortlisted entries. Official winners will follow a separate announcement."
       },
       section_shortlist_show: { zh: "否", en: "否" },
+      section_shortlist_order: { zh: "5", en: "5" },
       shortlist_show_dept: { zh: "是", en: "是" },
       shortlist_show_name: { zh: "是", en: "是" },
       shortlist_show_sso: { zh: "是", en: "是" },
       shortlist_mask_sso: { zh: "是", en: "是" },
       shortlist_show_slogan_zh: { zh: "是", en: "是" },
       shortlist_show_slogan_en: { zh: "是", en: "是" },
+      section_winners_title: { zh: "得獎公告", en: "Winners Announcement" },
+      section_winners_desc: {
+        zh: "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。",
+        en: "Congratulations to the winners, and thank you to everyone who submitted an entry."
+      },
+      section_winners_show: { zh: "否", en: "否" },
+      section_winners_order: { zh: "6", en: "6" },
+      winners_show_award: { zh: "是", en: "是" },
+      winners_show_dept: { zh: "是", en: "是" },
+      winners_show_name: { zh: "是", en: "是" },
+      winners_show_sso: { zh: "是", en: "是" },
+      winners_mask_sso: { zh: "是", en: "是" },
+      winners_show_slogan_zh: { zh: "是", en: "是" },
+      winners_show_slogan_en: { zh: "是", en: "是" },
       section_timeline_title: { zh: "活動推展重要時程", en: "Campaign Timeline" },
       section_timeline_desc: {
         zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。",
         en: "Key milestones and tentative schedule. Submit your entries before the deadline!"
       },
       section_timeline_show: { zh: "是", en: "是" },
+      section_timeline_order: { zh: "2", en: "2" },
       section_faq_title: { zh: "常見問答", en: "Frequently Asked Questions" },
       section_faq_desc: {
         zh: "關於百年院慶標語徵選活動之常見問題整理",
         en: "Answers to common questions regarding the slogan campaign."
       },
       section_faq_show: { zh: "是", en: "是" },
+      section_faq_order: { zh: "4", en: "4" },
+      section_rules_order: { zh: "3", en: "3" },
 
       dialog_title: {
         zh: "中央研究院百周年標語徵選活動辦法",
@@ -138,6 +158,21 @@
 
     shortlist: [
       {
+        dept_zh: "",
+        dept_en: "",
+        name_zh: "",
+        name_en: "",
+        sso: "",
+        slogan_zh: "",
+        slogan_en: "",
+        show: false
+      }
+    ],
+
+    winners: [
+      {
+        award_zh: "",
+        award_en: "",
         dept_zh: "",
         dept_en: "",
         name_zh: "",
@@ -552,6 +587,23 @@
         }));
       }
 
+      // 7. 得獎公告
+      const winnersRows = await fetchSheetJson("得獎公告", ["順序", "獎項 (中)"]);
+      if (winnersRows.length > 0) {
+        liveData.winners = winnersRows.map(row => ({
+          award_zh: row[1] || "",
+          award_en: row[2] || row[1] || "",
+          dept_zh: row[3] || "",
+          dept_en: row[4] || row[3] || "",
+          name_zh: row[5] || "",
+          name_en: row[6] || row[5] || "",
+          sso: row[7] || "",
+          slogan_zh: row[8] || "",
+          slogan_en: row[9] || "",
+          show: row[10] !== "否"
+        }));
+      }
+
       saveCacheData(liveData);
       renderPage(currentLang);
       updateSyncBadge("success", currentLang === "zh" ? "雲端試算表已連線" : "Synced with Google Sheet");
@@ -583,18 +635,17 @@
     if (brandTitleEl && s.brand_title) brandTitleEl.textContent = isEn ? s.brand_title.en : s.brand_title.zh;
     if (brandSubEl && s.brand_subtitle) brandSubEl.textContent = isEn ? s.brand_subtitle.en : s.brand_subtitle.zh;
 
-    // 3. 導覽選單項目
-    const navLinks = document.querySelectorAll(".nav-links a.nav-link");
-    const navKeys = ["nav_hero", "nav_highlights", "nav_timeline", "nav_rules", "nav_faq", "nav_shortlist"];
-    navLinks.forEach((link, idx) => {
-      const k = navKeys[idx];
+    // 3. 導覽選單項目（依 data-navkey 對應，不依賴 DOM 順序，重新排序後仍正確）
+    const navLinks = document.querySelectorAll(".nav-links a.nav-link[data-navkey]");
+    navLinks.forEach(link => {
+      const k = link.dataset.navkey;
       if (k && s[k]) link.textContent = isEn ? s[k].en : s[k].zh;
     });
 
     // 抽屜選單
-    const drawerLinks = document.querySelectorAll(".drawer-links a.drawer-link");
-    drawerLinks.forEach((link, idx) => {
-      const k = navKeys[idx];
+    const drawerLinks = document.querySelectorAll(".drawer-links a.drawer-link[data-navkey]");
+    drawerLinks.forEach(link => {
+      const k = link.dataset.navkey;
       if (k && s[k]) link.textContent = isEn ? s[k].en : s[k].zh;
     });
 
@@ -683,8 +734,14 @@
     // 9. 入圍名單公告渲染
     renderShortlist(lang);
 
-    // 10. Footer 內容
+    // 10. 得獎公告渲染
+    renderWinners(lang);
+
+    // 11. Footer 內容
     renderFooter(lang);
+
+    // 12. 依試算表設定的「順序」重新排列區塊與對應選單項目
+    applySectionOrder();
 
     // 更新語系開關按鈕狀態
     updateLangSwitchUI(lang);
@@ -716,7 +773,7 @@
   function renderNews(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
-    applySectionToggle("#highlights", 1, s.section_highlights_show);
+    applySectionToggle("#highlights", "nav_highlights", s.section_highlights_show);
     const headerTitle = document.querySelector("#highlights .section-title");
     const headerDesc = document.querySelector("#highlights .section-desc");
     if (headerTitle && s.section_highlights_title) headerTitle.textContent = isEn ? s.section_highlights_title.en : s.section_highlights_title.zh;
@@ -729,7 +786,7 @@
       .filter(n => n.show)
       .map((n, idx) => {
         const title = isEn ? n.title_en : n.title_zh;
-        const date = isEn ? n.date_en : n.date_zh;
+        const date = ((isEn ? n.date_en : n.date_zh) || "").trim();
         const content = isEn ? n.content_en : n.content_zh;
         return `
           <div class="faq-item news-item ${idx === 0 ? "open" : ""}">
@@ -752,7 +809,7 @@
   function renderTimeline(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
-    applySectionToggle("#timeline", 2, s.section_timeline_show);
+    applySectionToggle("#timeline", "nav_timeline", s.section_timeline_show);
     const headerTitle = document.querySelector("#timeline .section-title");
     const headerDesc = document.querySelector("#timeline .section-desc");
     if (headerTitle && s.section_timeline_title) headerTitle.textContent = isEn ? s.section_timeline_title.en : s.section_timeline_title.zh;
@@ -829,24 +886,89 @@
   }
 
   // 切換整個區塊（連同對應的導覽選單項目）的顯示/隱藏
-  // sectionSelector：區塊的 CSS selector；navIdx：對應 navKeys 陣列中的索引；showSetting：settings 裡的顯示欄位物件（{zh, en}）
-  function applySectionToggle(sectionSelector, navIdx, showSetting) {
+  // sectionSelector：區塊的 CSS selector；navKey：對應的 nav_* 設定鍵（用 data-navkey 查找元素，不依賴 DOM 順序）；showSetting：settings 裡的顯示欄位物件（{zh, en}）
+  function applySectionToggle(sectionSelector, navKey, showSetting) {
     const show = !(showSetting && (showSetting.zh === "否" || showSetting.en === "否"));
 
     const section = document.querySelector(sectionSelector);
     if (section) section.hidden = !show;
 
-    const navLink = document.querySelectorAll(".nav-links a.nav-link")[navIdx];
+    const navLink = document.querySelector(`.nav-links a.nav-link[data-navkey="${navKey}"]`);
     const navLi = navLink && navLink.closest("li");
     if (navLi) navLi.hidden = !show;
 
-    const drawerLink = document.querySelectorAll(".drawer-links a.drawer-link")[navIdx];
+    const drawerLink = document.querySelector(`.drawer-links a.drawer-link[data-navkey="${navKey}"]`);
     const drawerLi = drawerLink && drawerLink.closest("li");
     if (drawerLi) drawerLi.hidden = !show;
 
-    const footerLink = document.querySelectorAll(".footer-quicklink")[navIdx];
+    const footerLink = document.querySelector(`.footer-quicklink[data-navkey="${navKey}"]`);
     const footerLi = footerLink && footerLink.closest("li");
     if (footerLi) footerLi.hidden = !show;
+  }
+
+  // 依試算表的「順序」設定，重新排列首頁區塊（主視覺之後、頁尾之前）與對應的導覽選單項目。
+  // 「詳細辦法」只有導覽項目、沒有實體區塊（點擊會開彈窗），所以只影響選單排序。
+  function applySectionOrder() {
+    const s = liveData.settings;
+    const parseOrder = (setting, fallback) => {
+      const n = setting && parseFloat(setting.zh);
+      return Number.isFinite(n) ? n : fallback;
+    };
+
+    const orderMap = {
+      nav_highlights: parseOrder(s.section_highlights_order, 1),
+      nav_timeline: parseOrder(s.section_timeline_order, 2),
+      nav_rules: parseOrder(s.section_rules_order, 3),
+      nav_faq: parseOrder(s.section_faq_order, 4),
+      nav_shortlist: parseOrder(s.section_shortlist_order, 5),
+      nav_winners: parseOrder(s.section_winners_order, 6)
+    };
+
+    // 1. 重新排列 <main> 內的實體區塊。做法：算出「完整」子元素順序陣列（hero 固定第一，
+    //    可排序區塊依 orderMap 排序接在後面），一次用 append(...) 套用，避免逐一 appendChild
+    //    時和未參與排序的既有子節點互相干擾、順序跑掉。
+    const main = document.getElementById("main-content");
+    const sectionIdByKey = {
+      nav_highlights: "highlights",
+      nav_timeline: "timeline",
+      nav_shortlist: "shortlist",
+      nav_winners: "winners",
+      nav_faq: "faq"
+    };
+    if (main) {
+      const heroEl = document.getElementById("hero-top");
+      const movableEls = Object.keys(sectionIdByKey)
+        .map(navKey => ({ navKey, order: orderMap[navKey], el: document.getElementById(sectionIdByKey[navKey]) }))
+        .filter(item => item.el)
+        .sort((a, b) => a.order - b.order)
+        .map(item => item.el);
+      const known = new Set([heroEl, ...movableEls]);
+      const others = Array.from(main.children).filter(el => !known.has(el));
+      main.append(...(heroEl ? [heroEl] : []), ...movableEls, ...others);
+    }
+
+    // 2. 同樣的邏輯重新排列導覽選單／抽屜選單／頁尾快速連結：
+    //    「活動首頁」固定第一，可排序項目依 orderMap 排序，其餘未參與排序的項目（例如頁尾的
+    //    院外官網連結）維持在最後，一次用 append(...) 套用。
+    ["ul.nav-links", "ul.drawer-links", "ul.footer-list"].forEach(listSelector => {
+      const list = document.querySelector(listSelector);
+      if (!list) return;
+      const allItems = Array.from(list.children);
+      const heroLi = allItems.find(li => li.querySelector('[data-navkey="nav_hero"]'));
+      const movableLis = allItems
+        .filter(li => {
+          const dn = li.querySelector("[data-navkey]");
+          return dn && dn.dataset.navkey !== "nav_hero";
+        })
+        .sort((a, b) => {
+          const ka = a.querySelector("[data-navkey]").dataset.navkey;
+          const kb = b.querySelector("[data-navkey]").dataset.navkey;
+          return (orderMap[ka] ?? 99) - (orderMap[kb] ?? 99);
+        });
+      const known = new Set([heroLi, ...movableLis]);
+      const others = allItems.filter(li => !known.has(li));
+      list.append(...(heroLi ? [heroLi] : []), ...movableLis, ...others);
+    });
   }
 
   // 套用主視覺圖片（若試算表提供的網址與目前 src 不同，移除 <picture> 內的 <source> 以確保實際顯示新圖）
@@ -888,10 +1010,9 @@
     const quickLinksTitle = document.getElementById("footerQuickLinksTitle");
     if (quickLinksTitle && s.footer_quicklinks_title) quickLinksTitle.textContent = isEn ? s.footer_quicklinks_title.en : s.footer_quicklinks_title.zh;
 
-    const quickLinks = document.querySelectorAll(".footer-quicklink");
-    const quickLinkKeys = ["nav_hero", "nav_highlights", "nav_timeline", "nav_rules", "nav_faq", "nav_shortlist"];
-    quickLinks.forEach((link, idx) => {
-      const k = quickLinkKeys[idx];
+    const quickLinks = document.querySelectorAll(".footer-quicklink[data-navkey]");
+    quickLinks.forEach(link => {
+      const k = link.dataset.navkey;
       if (k && s[k]) link.textContent = isEn ? s[k].en : s[k].zh;
     });
     const officialLink = document.querySelector(".footer-official-link");
@@ -929,7 +1050,7 @@
   function renderFaq(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
-    applySectionToggle("#faq", 4, s.section_faq_show);
+    applySectionToggle("#faq", "nav_faq", s.section_faq_show);
     const headerTitle = document.querySelector("#faq .section-title");
     const headerDesc = document.querySelector("#faq .section-desc");
     if (headerTitle && s.section_faq_title) headerTitle.textContent = isEn ? s.section_faq_title.en : s.section_faq_title.zh;
@@ -970,7 +1091,7 @@
   function renderShortlist(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
-    applySectionToggle("#shortlist", 5, s.section_shortlist_show);
+    applySectionToggle("#shortlist", "nav_shortlist", s.section_shortlist_show);
 
     const headerTitle = document.querySelector("#shortlist .section-title");
     const headerDesc = document.querySelector("#shortlist .section-desc");
@@ -1015,6 +1136,70 @@
         const sso = maskSsoOn ? maskSso(r.sso) : r.sso;
         return `
           <tr>
+            <td class="col-dept">${dept || ""}</td>
+            <td class="col-name">${name || ""}</td>
+            <td class="col-sso">${sso || ""}</td>
+            <td class="col-zh">${r.slogan_zh || ""}</td>
+            <td class="col-en">${r.slogan_en || ""}</td>
+          </tr>
+        `;
+      })
+      .join("");
+  }
+
+  // 渲染「得獎公告」表格
+  function renderWinners(lang) {
+    const isEn = lang === "en";
+    const s = liveData.settings;
+    applySectionToggle("#winners", "nav_winners", s.section_winners_show);
+
+    const headerTitle = document.querySelector("#winners .section-title");
+    const headerDesc = document.querySelector("#winners .section-desc");
+    if (headerTitle && s.section_winners_title) headerTitle.textContent = isEn ? s.section_winners_title.en : s.section_winners_title.zh;
+    if (headerDesc && s.section_winners_desc) headerDesc.textContent = isEn ? s.section_winners_desc.en : s.section_winners_desc.zh;
+
+    const table = document.getElementById("winnersTable");
+    const tbody = document.getElementById("winnersTableBody");
+    const emptyMsg = document.getElementById("winnersEmpty");
+    if (!table || !tbody) return;
+
+    // 欄位開關
+    const showAward = !(s.winners_show_award && s.winners_show_award.zh === "否");
+    const showDept = !(s.winners_show_dept && s.winners_show_dept.zh === "否");
+    const showName = !(s.winners_show_name && s.winners_show_name.zh === "否");
+    const showSso = !(s.winners_show_sso && s.winners_show_sso.zh === "否");
+    const maskSsoOn = !(s.winners_mask_sso && s.winners_mask_sso.zh === "否");
+    const showZh = !(s.winners_show_slogan_zh && s.winners_show_slogan_zh.zh === "否");
+    const showEn = !(s.winners_show_slogan_en && s.winners_show_slogan_en.zh === "否");
+
+    table.classList.toggle("hide-award", !showAward);
+    table.classList.toggle("hide-dept", !showDept);
+    table.classList.toggle("hide-name", !showName);
+    table.classList.toggle("hide-sso", !showSso);
+    table.classList.toggle("hide-zh", !showZh);
+    table.classList.toggle("hide-en", !showEn);
+
+    const rows = (liveData.winners || []).filter(r => r.show && (r.name_zh || r.name_en || r.slogan_zh));
+
+    if (rows.length === 0) {
+      tbody.innerHTML = "";
+      table.hidden = true;
+      if (emptyMsg) emptyMsg.hidden = false;
+      return;
+    }
+
+    table.hidden = false;
+    if (emptyMsg) emptyMsg.hidden = true;
+
+    tbody.innerHTML = rows
+      .map(r => {
+        const award = isEn ? r.award_en : r.award_zh;
+        const dept = isEn ? r.dept_en : r.dept_zh;
+        const name = isEn ? r.name_en : r.name_zh;
+        const sso = maskSsoOn ? maskSso(r.sso) : r.sso;
+        return `
+          <tr>
+            <td class="col-award">${award ? `<span class="award-pill">${award}</span>` : ""}</td>
             <td class="col-dept">${dept || ""}</td>
             <td class="col-name">${name || ""}</td>
             <td class="col-sso">${sso || ""}</td>
