@@ -1,0 +1,10 @@
+# Temporary & test files
+*_test.txt
+scratch/
+.tempmediaStorage/
+.DS_Store
+Thumbs.db
+
+# Exclude internal references & draft materials (不要上傳相關資料與草稿)
+相關資料與圖/
+GPT做的網站但我不太滿意/

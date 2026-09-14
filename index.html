@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#670b15" />
+  <meta name="description" content="中央研究院百周年標語徵選活動（Academia Sinica Centennial Slogan Campaign，1928 — 2028）。以一句話，凝鍊百年學術精神，開展下一個世紀。" />
+  <meta property="og:title" content="中央研究院百周年標語徵選" />
+  <meta property="og:description" content="以一句話，凝鍊百年學術精神，開展下一個世紀。歡迎全體同仁踴躍投稿！" />
+  <meta property="og:image" content="assets/hero-desktop.png" />
+  <title>中央研究院百周年標語徵選 | 1928 — 2028</title>
+
+  <!-- Google Fonts: Noto Serif TC & Cinzel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Noto+Serif+TC:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ========================================================
+       CONFIG & THEME VARIABLES
+       ======================================================== */
+    :root {
+      --wine-dark: #500a11;
+      --wine-primary: #6c0e18;
+      --wine-bright: #8a1724;
+      --wine-light: #ad2736;
+      --gold-dark: #7a541c;
+      --gold-primary: #a7772c;
+      --gold-bright: #c89547;
+      --gold-light: #e5be7a;
+      --gold-pale: #fbf1de;
+      --gold-gradient: linear-gradient(135deg, #d4a75a 0%, #9e6f28 50%, #dfba76 100%);
+      --gold-border: linear-gradient(135deg, #e8c887, #9b6c23, #f5dfa8);
+      --wine-gradient: linear-gradient(135deg, #8a1724 0%, #600c14 100%);
+      --bg-cream: #faf6ef;
+      --bg-card: #ffffff;
+      --bg-parchment: #f6f0e4;
+      --text-main: #2c221e;
+      --text-muted: #6e6057;
+      --text-light: #9a8c82;
+      --border-soft: rgba(167, 119, 44, 0.22);
+      --border-hover: rgba(167, 119, 44, 0.48);
+      --shadow-sm: 0 4px 12px rgba(78, 38, 16, 0.07);
+      --shadow-md: 0 10px 30px rgba(78, 38, 16, 0.12);
+      --shadow-lg: 0 20px 50px rgba(78, 38, 16, 0.18);
+      --shadow-wine: 0 10px 28px rgba(108, 14, 24, 0.38);
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      --font-serif-tc: "Noto Serif TC", "Songti TC", "PMingLiU", "MingLiU", serif;
+      --font-serif-en: "Cinzel", "Playfair Display", Georgia, serif;
+    }
+
+    /* CSS Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: var(--font-serif-tc);
+      line-height: 1.8;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Subtle parchment noise background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 100;
+      background-image: radial-gradient(#6c0e18 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Skip Link for Accessibility */
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 16px;
+      background: var(--wine-primary);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      z-index: 9999;
+      font-weight: 600;
+      transition: top 0.2s ease;
+    }
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    /* ========================================================
+       TOP UTILITY / BRAND BAR
+       ======================================================== */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      background: rgba(250, 246, 239, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-soft);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 10px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .nav-brand-logo {
+      height: 38px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-brand-text {
+      display: flex;
+      flex-direction: column;
+      border-left: 1.5px solid var(--gold-bright);
+      padding-left: 12px;
+    }
+
+    .nav-brand-title {
+      font-size: clamp(0.9rem, 3.2vw, 1.05rem);
+      font-weight: 700;
+      color: var(--wine-primary);
+      letter-spacing: 0.1em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .nav-brand-subtitle {
+      font-size: 0.68rem;
+      font-family: var(--font-serif-en);
+      color: var(--gold-dark);
+      letter-spacing: 0.16em;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      position: relative;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--gold-bright);
+      transition: all 0.25s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover {
+      color: var(--wine-bright);
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-right-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 38px;
+      background: var(--wine-gradient);
+      color: #ffffff;
+      padding: 0 20px;
+      border-radius: var(--radius-full);
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--gold-light);
+      box-shadow: 0 4px 14px rgba(108, 14, 24, 0.25);
+      transition: all 0.25s ease;
+      box-sizing: border-box;
+      line-height: 1;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-wine);
+      border-color: #ffffff;
+    }
+
+    /* Language Switcher Button (Desktop Header) */
+    .lang-switch-wrap {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .lang-switch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      height: 38px;
+      padding: 3px 5px;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--gold-primary);
+      background: #ffffff;
+      color: var(--text-main);
+      font-family: var(--font-serif-tc);
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      box-shadow: 0 2px 8px rgba(120, 80, 40, 0.08);
+      box-sizing: border-box;
+      line-height: 1;
+    }
+
+    .lang-switch-btn:hover {
+      border-color: var(--wine-primary);
+      box-shadow: 0 4px 12px rgba(108, 14, 24, 0.15);
+    }
+
+    .lang-opt {
+      cursor: pointer;
+      padding: 5px 9px;
+      transition: all 0.2s ease;
+      border-radius: var(--radius-full);
+      color: var(--text-muted);
+      line-height: 1;
+      display: inline-block;
+    }
+
+    .lang-opt.active {
+      background: var(--wine-primary);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 2px 6px rgba(108, 14, 24, 0.25);
+    }
+
+    .lang-divider {
+      display: none;
+    }
+
+    /* Mobile Drawer Language Switcher */
+    .drawer-lang-wrap {
+      margin-bottom: 24px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .drawer-lang-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-soft);
+      background: #fcf9f4;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .drawer-lang-btn.active {
+      background: var(--wine-primary);
+      color: #ffffff;
+      border-color: var(--wine-primary);
+      box-shadow: 0 4px 12px rgba(108, 14, 24, 0.25);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      align-items: center;
+      justify-content: center;
+      color: var(--wine-primary);
+      font-size: 1.35rem;
+    }
+
+    /* ========================================================
+       HERO SECTION (DESKTOP FIDELITY + FLUID ADAPTATION)
+       ======================================================== */
+    .hero-section {
+      position: relative;
+      background-color: #faf7f2;
+      background-image: 
+        radial-gradient(circle at 18% 30%, rgba(255, 255, 255, 0.9) 0%, rgba(247, 243, 236, 0.6) 60%),
+        linear-gradient(180deg, #faf7f1 0%, #f4ede0 100%);
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-soft);
+      width: 100%;
+    }
+
+    /* Desktop Viewport Wrapper: Holds the Secretariat's design poster with 100% full width */
+    .hero-desktop-stage {
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      position: relative;
+      aspect-ratio: 1672 / 806;
+      display: block;
+    }
+
+    .hero-poster-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* Hotspot Interactive Layer: Placed over the buttons in the poster */
+    .hero-hotspots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    /* Coordinates computed precisely from 1672x941 reference:
+       Button 1 (我要投稿): left: 52.2%, top: 62.1%, width: 14.3%, height: 7.2%
+       Button 2 (徵選辦法): left: 68.0%, top: 62.1%, width: 14.5%, height: 7.2%
+    */
+    .hero-hotspot-btn {
+      position: absolute;
+      pointer-events: auto;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif-tc);
+      font-size: clamp(0.95rem, 1.45vw, 1.35rem);
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      transition: all 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      outline: none;
+    }
+
+    .hero-btn-submit-desktop {
+      left: 52.2%;
+      top: 56.0%;
+      width: 14.4%;
+      height: 7.8%;
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(138, 23, 36, 0.95), rgba(96, 12, 20, 0.95));
+      border: 1.5px solid #d4a75a;
+      box-shadow: 0 8px 24px rgba(108, 14, 24, 0.45), inset 0 0 10px rgba(255, 220, 150, 0.2);
+    }
+
+    .hero-btn-submit-desktop:hover, .hero-btn-submit-desktop:focus-visible {
+      transform: translateY(-3px) scale(1.025);
+      background: linear-gradient(135deg, #9e1a2b, #6b0c16);
+      border-color: #ffd98a;
+      box-shadow: 0 14px 34px rgba(108, 14, 24, 0.55), 0 0 20px rgba(212, 167, 90, 0.5);
+    }
+
+    .hero-btn-rules-desktop {
+      left: 68.0%;
+      top: 56.0%;
+      width: 14.6%;
+      height: 7.8%;
+      color: #382921;
+      background: rgba(255, 253, 248, 0.92);
+      border: 1.5px solid #c89547;
+      box-shadow: 0 6px 20px rgba(120, 80, 40, 0.18);
+    }
+
+    .hero-btn-rules-desktop:hover, .hero-btn-rules-desktop:focus-visible {
+      transform: translateY(-3px) scale(1.025);
+      background: #ffffff;
+      color: var(--wine-primary);
+      border-color: var(--wine-primary);
+      box-shadow: 0 12px 28px rgba(120, 80, 40, 0.25);
+    }
+
+    .hero-btn-arrow {
+      margin-left: 8px;
+      font-size: 1.15em;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .hero-hotspot-btn:hover .hero-btn-arrow {
+      transform: translateX(4px);
+    }
+
+    /* Visual Pulse Ripple for "我要投稿" */
+    .btn-pulse-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: var(--radius-full);
+      border: 2px solid rgba(212, 167, 90, 0.6);
+      pointer-events: none;
+      animation: pulseGlow 2.5s infinite ease-out;
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        transform: scale(0.98);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.04);
+        opacity: 0.3;
+      }
+      100% {
+        transform: scale(1.08);
+        opacity: 0;
+      }
+    }
+
+    /* ========================================================
+       RESPONSIVE MOBILE / TABLET HERO (ELEGANT AERIAL CAMPUS BACKDROP)
+       ======================================================== */
+    .hero-mobile-layout {
+      display: none; /* Shown on screens <= 1024px */
+      position: relative;
+      padding: 34px 20px 42px;
+      text-align: center;
+      background-color: #faf6ef;
+      background-image: 
+        linear-gradient(180deg, 
+          rgba(254, 252, 248, 0.94) 0%, 
+          rgba(254, 252, 248, 0.84) 45%, 
+          rgba(254, 252, 248, 0.92) 80%, 
+          #faf6ef 100%),
+        url('assets/campus-aerial.jpg');
+      background-size: cover;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      border-bottom: 1px solid var(--border-soft);
+      overflow: hidden;
+    }
+
+    .hero-mobile-layout::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 160px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(212, 167, 90, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .mobile-visual-wrap {
+      position: relative;
+      margin: 0 auto 10px;
+      max-width: 140px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .mobile-100-img {
+      width: 100%;
+      height: auto;
+      max-height: 96px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      filter: drop-shadow(0 6px 16px rgba(108, 14, 24, 0.15));
+      animation: gentleFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .mobile-content-wrap {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .mobile-title-main {
+      font-size: clamp(1.95rem, 6.8vw, 2.4rem);
+      font-weight: 900;
+      color: var(--wine-primary);
+      letter-spacing: 0.1em;
+      line-height: 1.18;
+      margin-bottom: 4px;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    .mobile-title-sub {
+      font-size: clamp(1.5rem, 5.4vw, 2rem);
+      font-weight: 800;
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.1em;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 1px 2px rgba(78, 38, 16, 0.12));
+    }
+
+    .mobile-lead-quote {
+      font-size: clamp(0.95rem, 3.4vw, 1.06rem);
+      color: var(--text-main);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      margin: 0 auto 22px;
+      padding: 0 8px;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.85);
+    }
+
+    .mobile-actions-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 310px;
+      margin: 0 auto;
+    }
+
+    .btn-m-action {
+      width: 100%;
+      min-height: 50px;
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .btn-m-submit {
+      background: var(--wine-gradient);
+      color: #ffffff;
+      border: 1.5px solid var(--gold-light);
+      box-shadow: 0 6px 20px rgba(108, 14, 24, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    }
+    .btn-m-submit:active {
+      transform: scale(0.97);
+    }
+
+    .btn-m-rules {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--wine-primary);
+      border: 1.5px solid var(--gold-bright);
+      box-shadow: 0 4px 14px rgba(78, 38, 16, 0.1);
+    }
+    .btn-m-rules:active {
+      transform: scale(0.97);
+    }
+
+    .btn-m-pulse {
+      position: absolute;
+      inset: -3px;
+      border-radius: var(--radius-full);
+      border: 2px solid rgba(229, 190, 122, 0.6);
+      animation: pulseGlow 2.5s infinite ease-out;
+      pointer-events: none;
+    }
+
+
+    /* Scroll Prompt Indicator below Desktop stage */
+    .scroll-hint-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px 0 20px;
+      background: linear-gradient(180deg, transparent, rgba(246, 240, 228, 0.6));
+      color: var(--gold-dark);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+    }
+
+    .scroll-hint-bar a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--border-soft);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .scroll-hint-bar a:hover {
+      background: #ffffff;
+      color: var(--wine-primary);
+      border-color: var(--gold-bright);
+      transform: translateY(2px);
+    }
+
+    .scroll-chevron {
+      animation: bounceDown 1.8s infinite;
+      display: inline-block;
+    }
+
+    @keyframes bounceDown {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(5px); }
+      60% { transform: translateY(3px); }
+    }
+
+    /* ========================================================
+       CONTENT SECTION 1: HIGHLIGHT CARDS (3 大核心要點)
+       ======================================================== */
+    .highlights-section {
+      padding: 70px 24px;
+      background: #ffffff;
+      position: relative;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-kicker {
+      font-family: var(--font-serif-en);
+      color: var(--gold-primary);
+      font-size: 0.88rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.8vw, 2.6rem);
+      font-weight: 800;
+      color: var(--wine-primary);
+      letter-spacing: 0.08em;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 16px;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--gold-gradient);
+      border-radius: 2px;
+    }
+
+    .section-desc {
+      margin-top: 14px;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 680px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .highlight-card {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 34px 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .highlight-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gold-gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .highlight-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-bright);
+      background: #ffffff;
+    }
+
+    .highlight-card:hover::before {
+      opacity: 1;
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-pale);
+      color: var(--gold-dark);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(167, 119, 44, 0.28);
+      margin-bottom: 18px;
+      align-self: flex-start;
+      letter-spacing: 0.05em;
+    }
+
+    .card-title {
+      font-size: 1.42rem;
+      font-weight: 700;
+      color: var(--wine-primary);
+      letter-spacing: 0.04em;
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+
+    .card-body {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.8;
+      flex-grow: 1;
+    }
+
+    .card-list {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .card-list li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+    }
+
+    .card-list li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--gold-bright);
+      font-size: 0.85rem;
+    }
+
+    /* ========================================================
+       CONTENT SECTION 2: TIMELINE (活動時程規劃)
+       ======================================================== */
+    .timeline-section {
+      padding: 80px 24px;
+      background: var(--bg-parchment);
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .timeline-wrap {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1080px;
+      margin: 50px auto 0;
+      gap: 24px;
+      position: relative;
+    }
+
+    /* Horizontal connection bar */
+    .timeline-wrap::before {
+      content: "";
+      position: absolute;
+      top: 42px;
+      left: 10%;
+      right: 10%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-primary), var(--wine-primary));
+      z-index: 1;
+      opacity: 0.35;
+    }
+
+    .timeline-step {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .step-circle {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 3px solid var(--gold-bright);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      box-shadow: 0 6px 20px rgba(120, 70, 30, 0.12);
+      margin-bottom: 14px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
+    .step-circle-main {
+      font-family: var(--font-serif-tc);
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--wine-primary);
+      letter-spacing: 0.04em;
+    }
+
+    .step-circle-sub {
+      font-family: var(--font-serif-en);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    .step-content-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .step-status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      border: 1.5px solid var(--gold-primary);
+      background: #ffffff;
+      color: var(--wine-primary);
+      box-shadow: 0 2px 8px rgba(120, 80, 40, 0.08);
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    .timeline-step.active .step-circle {
+      background: var(--wine-gradient);
+      border-color: #ffd98a;
+      box-shadow: var(--shadow-wine);
+      transform: scale(1.06);
+    }
+
+    .timeline-step.active .step-circle-main {
+      color: #ffffff;
+    }
+
+    .timeline-step.active .step-circle-sub {
+      color: #ffd98a;
+    }
+
+    .timeline-step.active .step-status-pill {
+      background: var(--wine-primary);
+      color: #ffffff;
+      border-color: var(--wine-primary);
+      box-shadow: 0 4px 12px rgba(108, 14, 24, 0.25);
+    }
+
+    .step-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--wine-primary);
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+      line-height: 1.35;
+    }
+
+    .step-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      padding: 0 4px;
+    }
+
+    /* ========================================================
+       CONTENT SECTION 3: DETAILED RULES & SPECS
+       ======================================================== */
+    .rules-section {
+      padding: 80px 24px;
+      background: #ffffff;
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .rules-card-box {
+      background: var(--bg-cream);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 36px 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .rules-box-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--wine-primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1.5px solid rgba(167, 119, 44, 0.25);
+      padding-bottom: 12px;
+    }
+
+    .rules-box-title::before {
+      content: "§";
+      color: var(--gold-primary);
+      font-family: var(--font-serif-en);
+      font-size: 1.4em;
+    }
+
+    .spec-item {
+      margin-bottom: 22px;
+    }
+
+    .spec-label {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .spec-pill {
+      font-size: 0.78rem;
+      padding: 2px 10px;
+      border-radius: var(--radius-full);
+      background: var(--gold-pale);
+      color: var(--gold-dark);
+      font-weight: 700;
+    }
+
+    .spec-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .notice-callout {
+      background: rgba(138, 23, 36, 0.05);
+      border-left: 4px solid var(--wine-primary);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 16px 20px;
+      margin-top: 24px;
+      font-size: 0.92rem;
+      color: var(--text-main);
+      line-height: 1.75;
+    }
+
+    .notice-callout strong {
+      color: var(--wine-primary);
+    }
+
+    /* ========================================================
+       CONTENT SECTION 4: FAQ (常見問答 手風琴)
+       ======================================================== */
+    .faq-section {
+      padding: 80px 24px;
+      background: var(--bg-cream);
+      border-top: 1px solid var(--border-soft);
+    }
+
+    .faq-container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .faq-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .faq-item {
+      background: #ffffff;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--gold-bright);
+    }
+
+    .faq-question {
+      width: 100%;
+      text-align: left;
+      padding: 20px 24px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--wine-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      background: none;
+    }
+
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gold-pale);
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--wine-primary);
+      color: #ffffff;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease-out, padding 0.25s ease;
+      background: #ffffff;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.8;
+      padding: 0 24px;
+    }
+
+    .faq-item.open .faq-answer {
+      padding: 0 24px 22px;
+      max-height: 300px;
+    }
+
+    /* ========================================================
+       CALL TO ACTION BANNER (BOTTOM OF PAGE)
+       ======================================================== */
+    .cta-banner-section {
+      padding: 90px 24px;
+      background: linear-gradient(135deg, #500a11 0%, #76121d 60%, #46080e 100%);
+      color: #ffffff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-top: 2px solid var(--gold-bright);
+    }
+
+    .cta-banner-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(212, 167, 90, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-banner-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-badge {
+      display: inline-block;
+      font-family: var(--font-serif-en);
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .cta-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      margin-bottom: 18px;
+      line-height: 1.3;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+
+    .cta-title span {
+      background: var(--gold-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cta-desc {
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.8;
+    }
+
+    .cta-btn-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #d4a75a, #9e6f28);
+      color: #2c1208;
+      padding: 16px 42px;
+      border-radius: var(--radius-full);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      border: 2px solid #fff2c6;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      transition: all 0.28s ease;
+    }
+
+    .cta-btn-main:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 16px 40px rgba(212, 167, 90, 0.45);
+      background: linear-gradient(135deg, #e5bf76, #af7d33);
+    }
+
+    .cta-btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      padding: 15px 36px;
+      border-radius: var(--radius-full);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .cta-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    /* ========================================================
+       FOOTER
+       ======================================================== */
+    .site-footer {
+      background: #241a17;
+      color: #c4b7ad;
+      padding: 60px 24px 36px;
+      border-top: 1px solid rgba(167, 119, 44, 0.3);
+      font-size: 0.92rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-brand-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+
+    .footer-brand-en {
+      font-family: var(--font-serif-en);
+      font-size: 0.82rem;
+      letter-spacing: 0.2em;
+      color: var(--gold-bright);
+      margin-bottom: 16px;
+    }
+
+    .footer-desc {
+      line-height: 1.8;
+      font-size: 0.9rem;
+      color: #9e8e83;
+    }
+
+    .footer-col-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    .footer-col-title::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 28px;
+      height: 2px;
+      background: var(--gold-bright);
+    }
+
+    .footer-list {
+      list-style: none;
+      line-height: 2;
+    }
+
+    .footer-list a:hover {
+      color: var(--gold-light);
+      text-decoration: underline;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 28px auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: #827267;
+    }
+
+    .footer-form-note {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(212, 167, 90, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      color: #dfba76;
+    }
+
+    /* ========================================================
+       MODAL DIALOG (徵選辦法 POPUP)
+       ======================================================== */
+    .rules-dialog {
+      width: min(900px, calc(100vw - 32px));
+      max-height: 88vh;
+      border: 1.5px solid var(--gold-bright);
+      border-radius: var(--radius-lg);
+      background: #fffdfa;
+      color: var(--text-main);
+      box-shadow: 0 25px 80px rgba(44, 20, 10, 0.4);
+      padding: 0;
+      margin: auto;
+      overflow: hidden;
+    }
+
+    .rules-dialog::backdrop {
+      background: rgba(36, 20, 15, 0.65);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .dialog-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: linear-gradient(180deg, #faf4e8 0%, #f4ebd9 100%);
+      padding: 22px 30px;
+      border-bottom: 1.5px solid rgba(167, 119, 44, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .dialog-header-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--wine-primary);
+      letter-spacing: 0.08em;
+    }
+
+    .dialog-close-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      color: var(--wine-primary);
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dialog-close-btn:hover {
+      background: var(--wine-primary);
+      color: #ffffff;
+      transform: rotate(90deg);
+    }
+
+    .dialog-content {
+      padding: 30px 32px 40px;
+      overflow-y: auto;
+      max-height: calc(88vh - 160px);
+      line-height: 1.85;
+    }
+
+    .dialog-content h3 {
+      font-size: 1.25rem;
+      color: var(--wine-primary);
+      margin: 28px 0 12px;
+      padding-left: 12px;
+      border-left: 3.5px solid var(--gold-bright);
+    }
+
+    .dialog-content h3:first-of-type {
+      margin-top: 0;
+    }
+
+    .dialog-content ul {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .dialog-content li {
+      margin-bottom: 8px;
+    }
+
+    .dialog-footer {
+      position: sticky;
+      bottom: 0;
+      z-index: 10;
+      background: #fdfaf4;
+      padding: 18px 30px;
+      border-top: 1px solid var(--border-soft);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* ========================================================
+       FLOATING STICKY CTA (ON MOBILE)
+       ======================================================== */
+    .mobile-floating-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      background: rgba(255, 253, 248, 0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-top: 1.5px solid var(--gold-bright);
+      padding: 12px 20px;
+      box-shadow: 0 -8px 24px rgba(44, 20, 10, 0.12);
+      transform: translateY(120%);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .mobile-floating-bar.visible {
+      transform: translateY(0);
+    }
+
+    .floating-bar-inner {
+      display: flex;
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ========================================================
+       MEDIA QUERIES (RESPONSIVE BREAKPOINTS)
+       ======================================================== */
+
+    /* Small Desktops & Laptops (<= 1200px) */
+    @media (max-width: 1200px) {
+      .highlight-grid {
+        gap: 20px;
+      }
+      .rules-grid {
+        grid-template-columns: 1fr;
+      }
+      .footer-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* Tablet & Below (<= 1024px) */
+    @media (max-width: 1024px) {
+      .nav-container {
+        padding: 8px 14px;
+        gap: 8px;
+      }
+      .nav-brand {
+        gap: 8px;
+        min-width: 0;
+        flex: 1;
+      }
+      .nav-brand-logo {
+        height: 32px;
+        flex-shrink: 0;
+      }
+      .nav-brand-text {
+        padding-left: 8px;
+        min-width: 0;
+      }
+      .nav-brand-title {
+        font-size: clamp(0.78rem, 3vw, 0.95rem);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .nav-brand-subtitle {
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+      }
+      .nav-right-group {
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      /* Hide desktop stage and switch to tailored mobile/tablet layout */
+      .hero-desktop-stage {
+        display: none;
+      }
+      .hero-mobile-layout {
+        display: block;
+      }
+      .scroll-hint-bar {
+        display: none;
+      }
+      .timeline-wrap {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px 20px;
+      }
+      .timeline-wrap::before {
+        display: none;
+      }
+      .highlight-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-toggle {
+        display: flex;
+      }
+      .mobile-floating-bar {
+        display: block;
+      }
+    }
+
+    /* Small Tablet & Phone (<= 768px) */
+    @media (max-width: 768px) {
+      .nav-cta {
+        display: none;
+      }
+      .timeline-wrap {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .timeline-step {
+        flex-direction: row;
+        text-align: left;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .step-circle {
+        margin-bottom: 0;
+        width: 72px;
+        height: 72px;
+        flex-shrink: 0;
+      }
+      .step-content-wrap {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
+      .cta-btn-wrap {
+        flex-direction: column;
+        width: 100%;
+      }
+      .cta-btn-main, .cta-btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+      .dialog-header {
+        padding: 16px 20px;
+      }
+      .dialog-content {
+        padding: 20px;
+      }
+      .dialog-footer {
+        padding: 14px 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-brand-subtitle {
+        display: none;
+      }
+    }
+
+    /* Mobile Nav Drawer when opened */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(36, 20, 15, 0.6);
+      backdrop-filter: blur(4px);
+    }
+    .mobile-drawer.open {
+      display: block;
+    }
+    .drawer-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(320px, 85vw);
+      background: #ffffff;
+      padding: 30px 24px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+    }
+    .drawer-close {
+      align-self: flex-end;
+      font-size: 1.8rem;
+      color: var(--wine-primary);
+      margin-bottom: 24px;
+    }
+    .drawer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .drawer-links a {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--wine-primary);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Accessibility Skip Link -->
+  <a class="skip-link" href="#main-content">跳至主要內容</a>
+
+  <!-- ========================================================
+       TOP BRAND & NAVIGATION BAR
+       ======================================================== -->
+  <header class="site-nav" id="top-nav">
+    <div class="nav-container">
+      <a href="#top" class="nav-brand" aria-label="中央研究院百周年標語徵選首頁">
+        <img src="assets/sinica-logo.png" alt="中央研究院標誌" class="nav-brand-logo" />
+        <div class="nav-brand-text">
+          <span class="nav-brand-title">中央研究院 百周年院慶</span>
+          <span class="nav-brand-subtitle">1928 — 2028 · CENTENNIAL</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav aria-label="全站主要導覽">
+        <ul class="nav-links">
+          <li><a href="#hero-top" class="nav-link">活動首頁</a></li>
+          <li><a href="#highlights" class="nav-link">徵選重點</a></li>
+          <li><a href="#timeline" class="nav-link">重要時程</a></li>
+          <li><a href="#rules" class="nav-link" data-action="open-rules">詳細辦法</a></li>
+          <li><a href="#faq" class="nav-link">常見問題</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Action Group -->
+      <div class="nav-right-group">
+        <!-- CTA Button in Header -->
+        <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="nav-cta" id="headerCtaBtn" title="點擊前往 Google Form 填寫徵選標語">
+          <span>我要投稿</span>
+          <span aria-hidden="true">›</span>
+        </a>
+
+        <!-- Language Switcher in Header -->
+        <div class="lang-switch-wrap">
+          <button class="lang-switch-btn" type="button" aria-label="切換語系 / Switch Language">
+            <span class="lang-opt active" data-action="switch-lang" data-lang="zh">中</span>
+            <span class="lang-divider">/</span>
+            <span class="lang-opt" data-action="switch-lang" data-lang="en">EN</span>
+          </button>
+        </div>
+
+        <!-- Mobile Hamburger Button -->
+        <button class="mobile-menu-toggle" id="menuToggleBtn" type="button" aria-label="開啟導覽選單" aria-expanded="false">
+          ☰
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="drawer-panel">
+      <button class="drawer-close" id="drawerCloseBtn" type="button" aria-label="關閉選單">×</button>
+      
+      <!-- Drawer Language Switcher -->
+      <div class="drawer-lang-wrap">
+        <button class="drawer-lang-btn active" type="button" data-action="switch-lang" data-lang="zh">繁體中文</button>
+        <button class="drawer-lang-btn" type="button" data-action="switch-lang" data-lang="en">English</button>
+      </div>
+
+      <ul class="drawer-links">
+        <li><a href="#hero-top" class="drawer-link">首頁視覺</a></li>
+        <li><a href="#highlights" class="drawer-link">活動重點</a></li>
+        <li><a href="#timeline" class="drawer-link">時程規劃</a></li>
+        <li><a href="#rules" class="drawer-link" data-action="open-rules">徵選辦法</a></li>
+        <li><a href="#faq" class="drawer-link">常見問答</a></li>
+      </ul>
+      <div style="margin-top: auto; padding-top: 24px;">
+        <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="drawerSubmitBtn">
+          前往投稿表單 ›
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <!-- ========================================================
+         HERO SECTION:
+         - Desktop: Exact fidelity to Secretariat's GPT design image with aligned interactive hotspots
+         - Tablet/Mobile: Flowing responsive layout
+         ======================================================== -->
+    <section class="hero-section" id="hero-top" aria-label="中央研究院百周年標語徵選 主視覺">
+      <!-- 1. DESKTOP STAGE (>= 1025px) -->
+      <div class="hero-desktop-stage">
+        <picture>
+          <source srcset="assets/hero-desktop.webp" type="image/webp" />
+          <img 
+            src="assets/hero-desktop.png" 
+            alt="中央研究院百周年標語徵選：以一句話，凝鍊百年學術精神，開展下一個世紀。1928-2028。" 
+            class="hero-poster-img"
+            width="1672"
+            height="806"
+          />
+        </picture>
+
+        <!-- Precision Hotspots Over Desktop Buttons -->
+        <div class="hero-hotspots">
+          <!-- Primary CTA Button: 我要投稿 (Opens Google Form) -->
+          <a 
+            href="https://forms.gle/MJkYBRTb5NpWaSAZ6" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="hero-hotspot-btn hero-btn-submit-desktop"
+            id="desktopSubmitBtn"
+            aria-label="我要投稿，將在新視窗開啟 Google 表單"
+          >
+            <span class="btn-pulse-ring"></span>
+            <span>我要投稿</span>
+            <span class="hero-btn-arrow">›</span>
+          </a>
+
+          <!-- Secondary CTA Button: 徵選辦法 (Opens Modal Dialog) -->
+          <button 
+            type="button" 
+            class="hero-hotspot-btn hero-btn-rules-desktop"
+            id="desktopRulesBtn"
+            data-action="open-rules"
+            aria-label="查看詳細徵選辦法"
+          >
+            <span>徵選辦法</span>
+            <span class="hero-btn-arrow">›</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. MOBILE / TABLET RESPONSIVE LAYOUT (< 1025px) -->
+      <div class="hero-mobile-layout">
+        <!-- 100 Centenary Emblem -->
+        <div class="mobile-visual-wrap">
+          <picture>
+            <source srcset="assets/centennial-100.webp" type="image/webp" />
+            <img 
+              src="assets/centennial-100.png" 
+              alt="中央研究院百周年 100 紀念徽飾" 
+              class="mobile-100-img"
+              width="790"
+              height="610"
+            />
+          </picture>
+        </div>
+
+        <div class="mobile-content-wrap">
+          <h1 class="mobile-title-main">中央研究院</h1>
+          <div class="mobile-title-sub">百周年標語徵選</div>
+          <p class="mobile-lead-quote">
+            以一句話，凝鍊百年學術精神，開展下一個世紀
+          </p>
+
+          <!-- Action Buttons: 我要投稿 & 徵選辦法 (Stacked / 換行) -->
+          <div class="mobile-actions-stack">
+            <a 
+              href="https://forms.gle/MJkYBRTb5NpWaSAZ6" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="btn-m-action btn-m-submit"
+              id="mobileSubmitBtn"
+              aria-label="我要投稿，前往 Google 表單"
+            >
+              <span class="btn-m-pulse"></span>
+              <span>我要投稿</span>
+              <span class="hero-btn-arrow">›</span>
+            </a>
+
+            <button 
+              type="button" 
+              class="btn-m-action btn-m-rules"
+              data-action="open-rules"
+              id="mobileRulesBtn"
+              aria-label="查看詳細徵選辦法"
+            >
+              <span>徵選辦法</span>
+              <span class="hero-btn-arrow">›</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Scroll Prompt Indicator -->
+      <div class="scroll-hint-bar">
+        <a href="#highlights">
+          <span>向下探索活動詳情</span>
+          <span class="scroll-chevron">⌄</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 1: 3 HIGHLIGHTS CARDS (徵選重點速覽)
+         ======================================================== -->
+    <section class="highlights-section" id="highlights">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-kicker">HIGHLIGHTS</span>
+          <h2 class="section-title">活動三大核心重點</h2>
+          <p class="section-desc">中央研究院將邁向建院百周年，誠摯邀請全體同仁一同用文字銘刻學術榮光，開展世紀新頁。</p>
+        </div>
+
+        <div class="highlight-grid">
+          <!-- Card 1: 參加對象 -->
+          <article class="highlight-card">
+            <div class="card-badge">✦ 參加資格</div>
+            <h3 class="card-title">本院全體現職同仁</h3>
+            <p class="card-body">
+              本徵選活動專屬中研院同仁參與。全流程（線上投稿與後續網路票選）皆以院內身分確認機制進行，防止外網誤投，凝聚全院共識。
+            </p>
+            <ul class="card-list">
+              <li>本院現職研究、技術、行政及助理同仁</li>
+              <li>每位同仁限投稿 1 組作品</li>
+              <li>以專屬身分驗證，確保公平與正確性</li>
+            </ul>
+          </article>
+
+          <!-- Card 2: 規格要求 -->
+          <article class="highlight-card">
+            <div class="card-badge">✦ 徵件規格</div>
+            <h3 class="card-title">中英雙語 + 理念說明</h3>
+            <p class="card-body">
+              投稿作品須包含中文標語與英文標語，兩者核心精神須緊密呼應、精準傳達，並附上設計理念。
+            </p>
+            <ul class="card-list">
+              <li><strong>中文標語</strong>：20 字以內（數字/字母均計1字）</li>
+              <li><strong>英文標語</strong>：15 個字詞（Words）以內</li>
+              <li><strong>理念說明</strong>：300 字以內設計理念涵義</li>
+            </ul>
+          </article>
+
+          <!-- Card 3: 優先入圍機制 -->
+          <article class="highlight-card">
+            <div class="card-badge">✦ 入圍機制</div>
+            <h3 class="card-title">秒級時間戳記與全院票選</h3>
+            <p class="card-body">
+              系統精確記錄投稿時間至秒。若有標語內容完全相同者，以較早送出投稿者為優先入圍依據；初審入圍後將舉辦全院同仁線上票選！
+            </p>
+            <ul class="card-list">
+              <li>秒級時間戳記，先投先贏機制</li>
+              <li>評審審查全面遮蔽個資，客觀公正</li>
+              <li>全院同仁票選，每人 1 票選出代表作</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 2: TIMELINE (活動時程規劃)
+         ======================================================== -->
+    <section class="timeline-section" id="timeline">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-kicker">TIMELINE SCHEDULE</span>
+          <h2 class="section-title">活動推展重要時程</h2>
+          <p class="section-desc">標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。</p>
+        </div>
+
+        <div class="timeline-wrap">
+          <!-- Step 1 -->
+          <div class="timeline-step active">
+            <div class="step-circle">
+              <span class="step-month">10月</span>
+              <span class="step-tag">上線</span>
+            </div>
+            <h3 class="step-title">線上徵稿啟動</h3>
+            <p class="step-desc">開放同仁線上登入投稿，提出百周年標語與創作理念。</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="timeline-step">
+            <div class="step-circle">
+              <span class="step-month">10月</span>
+              <span class="step-tag">下旬</span>
+            </div>
+            <h3 class="step-title">專家初評會議</h3>
+            <p class="step-desc">評審委員個資遮蔽雙盲審查，選出入圍代表作品。</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="timeline-step">
+            <div class="step-circle">
+              <span class="step-month">11月</span>
+              <span class="step-tag">中旬</span>
+            </div>
+            <h3 class="step-title">全院線上票選</h3>
+            <p class="step-desc">展示入圍標語，全院同仁透過單一帳號線上票選。</p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="timeline-step">
+            <div class="step-circle">
+              <span class="step-month">12月</span>
+              <span class="step-tag">上旬</span>
+            </div>
+            <h3 class="step-title">籌委決審複評</h3>
+            <p class="step-desc">綜合票選結果與專家意見，由籌備委員會進行決選。</p>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="timeline-step">
+            <div class="step-circle">
+              <span class="step-month">12/24</span>
+              <span class="step-tag">前</span>
+            </div>
+            <h3 class="step-title">院網正式公告</h3>
+            <p class="step-desc">於中央研究院官方網站正式公布得獎名單與得獎標語。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 3: RULES & SPECIFICATIONS DETAILS
+         ======================================================== -->
+    <section class="rules-section" id="rules">
+      <div class="section-container">
+        <div class="section-header">
+          <span class="section-kicker">REGULATIONS & CRITERIA</span>
+          <h2 class="section-title">詳細徵選辦法與規範</h2>
+          <p class="section-desc">請詳細參閱投稿規定，確保作品符合評選標準。</p>
+        </div>
+
+        <div class="rules-grid">
+          <!-- Left: Detailed Rules -->
+          <div class="rules-card-box">
+            <h3 class="rules-box-title">標語規格要求</h3>
+
+            <div class="spec-item">
+              <div class="spec-label">
+                <span>中文標語規格</span>
+                <span class="spec-pill">上限 20 字</span>
+              </div>
+              <p class="spec-desc">
+                以 20 字以內為限。作品內之英文字母、數字均以 1 字計算，標點符號不計入。文詞應簡潔有力、響亮易記、展現學術卓越與宏觀願景。
+              </p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-label">
+                <span>英文標語規格</span>
+                <span class="spec-pill">上限 15 字詞 (Words)</span>
+              </div>
+              <p class="spec-desc">
+                以 15 個英文單詞（Words）以內為限。須忠實傳達中文標語之核心意涵，兩者並列為一組作品進行投稿。
+              </p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-label">
+                <span>創作理念說明</span>
+                <span class="spec-pill">上限 300 字</span>
+              </div>
+              <p class="spec-desc">
+                須附上設計理念與涵義說明，闡述如何呼應百年歷史傳承、當代學術精神與未來世紀展望。
+              </p>
+            </div>
+
+            <div class="notice-callout">
+              <strong>重要具結提醒：</strong>投稿人須保證作品為原創且未曾公開發表、未曾於其他競賽獲獎或侵害他人著作權。送出表單前須勾選「同意著作權聲明與原創具結」。
+            </div>
+          </div>
+
+          <!-- Right: Submission & Evaluation Rules -->
+          <div class="rules-card-box">
+            <h3 class="rules-box-title">評審與投稿流程</h3>
+
+            <div class="spec-item">
+              <div class="spec-label">
+                <span>投稿件數限制</span>
+                <span class="spec-pill">每人限 1 件</span>
+              </div>
+              <p class="spec-desc">
+                每位同仁限提交 1 組（包含中、英文標語及理念）。送出後請確認資料無誤。
+              </p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-label">
+                <span>秒級時間優先原則</span>
+                <span class="spec-pill">優先入圍依據</span>
+              </div>
+              <p class="spec-desc">
+                系統紀錄送出時間至秒。若遇標語文字內容完全相同之情形，以系統紀錄較早完成投稿送出者為優先入圍依據。
+              </p>
+            </div>
+
+            <div class="spec-item">
+              <div class="spec-label">
+                <span>雙盲審查機制</span>
+                <span class="spec-pill">公平公正</span>
+              </div>
+              <p class="spec-desc">
+                評審委員進行線上初審與複審時，系統全面隱藏投稿人之姓名及服務單位/所中心，恪遵公平客觀原則。
+              </p>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+              <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" style="display: inline-flex; width: auto; padding: 14px 38px;">
+                立即前往 Google 表單投稿 ›
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 4: FAQ (常見問題)
+         ======================================================== -->
+    <section class="faq-section" id="faq">
+      <div class="faq-container">
+        <div class="section-header">
+          <span class="section-kicker">QUESTIONS & ANSWERS</span>
+          <h2 class="section-title">常見問答</h2>
+          <p class="section-desc">關於百年院慶標語徵選活動之常見問題整理</p>
+        </div>
+
+        <div class="faq-accordion" id="faqAccordion">
+          <!-- FAQ 1 -->
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Q1. 誰具備本次標語徵選的參加資格？</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              本徵選活動對象以中央研究院現職同仁為限（包含研究人員、技術人員、行政同仁、約聘僱人員及研究助理等）。投稿及投票流程皆採院內身分確認機制辦理，以維護活動公正性。
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Q2. 可以只投中文標語，或只投英文標語嗎？</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              不可以。依徵選辦法規定，參賽作品須「同時包含中文標語及英文標語」，兩者意涵須互相呼應並精準傳達，並列為一組作品進行投稿。
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Q3. 標語字數如何計算？包含標點符號嗎？</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              中文標語以 20 字以內為限（文字、數字及英文字母均以 1 字計算，純標點符號不計入）。英文標語以 15 個單詞（Words）為限。另外創作理念以 300 字以內為限。
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Q4. 如果有兩位以上同仁投了完全相同的標語，該如何判定？</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              系統後台具備精確至「秒」之時間戳記功能。若發生標語內容完全相同之情形，將以系統紀錄較早完成投稿送出者為優先入圍依據。因此建議同仁把握時間，及早投稿！
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Q5. 一個人可以投稿多件標語作品嗎？</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              為求嚴謹與精煉，每位同仁限投稿 1 件（組）作品。請同仁在送出表單前審慎推敲、確認內容。
+            </div>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Q6. 評選流程與得獎名單何時公布？</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              徵稿截止後，預計於 10 月下旬辦理專家初選；11 月中旬辦理全院同仁線上票選；12 月上旬由百年院慶籌備委員會辦理複審決選；預計於 12 月 24 日前於中研院官方網站正式公告得獎名單。
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         SECTION 5: BOTTOM CALL TO ACTION
+         ======================================================== -->
+    <section class="cta-banner-section">
+      <div class="cta-banner-inner">
+        <span class="cta-badge">ACADEMIA SINICA CENTENNIAL</span>
+        <h2 class="cta-title">以一句話，<span>共創中研百年新章</span></h2>
+        <p class="cta-desc">
+          凝聚百年學術淬鍊，啟發未來世代探索。誠摯邀請全體中研同仁揮灑文采、踴躍投稿！
+        </p>
+        <div class="cta-btn-wrap">
+          <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="cta-btn-main" id="bottomCtaSubmitBtn">
+            <span>立即前往投稿</span>
+            <span aria-hidden="true">›</span>
+          </a>
+          <button type="button" class="cta-btn-secondary" data-action="open-rules">
+            <span>閱讀徵選簡章</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================
+       SITE FOOTER
+       ======================================================== -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <div class="footer-brand-title">中央研究院 百周年院慶標語徵選</div>
+        <div class="footer-brand-en">ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN</div>
+        <p class="footer-desc">
+          指導主辦：中央研究院 百年院慶籌備委員會<br />
+          執行單位：中央研究院 秘書處<br />
+          技術協同：中央研究院 資訊服務處
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-col-title">快速連結</div>
+        <ul class="footer-list">
+          <li><a href="#hero-top">回首頁主視覺</a></li>
+          <li><a href="#highlights">活動三大重點</a></li>
+          <li><a href="#timeline">徵選期程表</a></li>
+          <li><a href="#rules" data-action="open-rules">詳細徵選辦法</a></li>
+          <li><a href="#faq">常見問答 (FAQ)</a></li>
+          <li><a href="https://www.sinica.edu.tw" target="_blank" rel="noopener noreferrer">中央研究院官網 ↗</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-title">主辦聯絡資訊</div>
+        <p class="footer-desc" style="line-height: 1.8;">
+          院區地址：115201 臺北市南港區研究院路二段128號<br />
+          主辦窗口：中央研究院 秘書處<br />
+          活動簡章與徵選相關諮詢，敬請透過院內分機洽詢。
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        © 2026 Academia Sinica 中央研究院. All Rights Reserved.
+      </div>
+      <div class="footer-form-note">
+        ✦ 投稿 Google 表單連結：<code style="color: #ffffff;">https://forms.gle/MJkYBRTb5NpWaSAZ6</code>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================
+       MODAL DIALOG: 詳細徵選辦法 POPUP
+       ======================================================== -->
+  <dialog class="rules-dialog" id="rulesDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-header">
+      <h2 class="dialog-header-title" id="dialogTitle">中央研究院百周年標語徵選活動辦法</h2>
+      <button type="button" class="dialog-close-btn" id="dialogCloseBtn" aria-label="關閉彈出視窗">×</button>
+    </div>
+
+    <div class="dialog-content">
+      <div style="background: #fdf6e9; border: 1px solid #d4a75a; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.92rem; color: #6c4718;">
+        <strong>活動提示：</strong>本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。
+      </div>
+
+      <h3>一、活動宗旨與目標</h3>
+      <p>
+        中央研究院將於 2028 年邁入建院百周年（1928 — 2028）。為傳承學術奠基精神、展現卓越研究能量並勾勒未來新世紀願景，特舉辦「中央研究院百周年標語（Slogan）公開徵選活動」，期能藉由全院同仁的智慧與文采，凝聚跨世代之中研精神。
+      </p>
+
+      <h3>二、參加對象與資格</h3>
+      <ul>
+        <li>參加對象限中央研究院全體現職同仁（含研究人員、技術人員、行政人員、約聘僱人員及研究助理）。</li>
+        <li>全流程（投稿與後續網路票選）皆以院內身分確認機制進行，每位同仁限投稿 1 件作品。</li>
+      </ul>
+
+      <h3>三、徵選作品規格標準</h3>
+      <ul>
+        <li><strong>雙語要求</strong>：每件作品須同時包含「中文標語」及「英文標語」，兩者意涵須互相呼應，並列為一組作品投稿。</li>
+        <li><strong>中文標語</strong>：以 <strong>20 字以內</strong>為限（英文字母、數字均以 1 字計算，標點符號不計入）。文詞以簡潔有力、響亮易記為佳。</li>
+        <li><strong>英文標語</strong>：以 <strong>15 個字詞（Words）以內</strong>為限，須忠實傳達中文標語之核心意涵。</li>
+        <li><strong>創作理念</strong>：須附上設計理念與涵義說明，以 <strong>300 字以內</strong>為限。</li>
+        <li><strong>原創具結</strong>：送出前須勾選同意「著作權聲明與原創具結」，保證作品確屬本人原創且未曾公開發表或獲獎。</li>
+      </ul>
+
+      <h3>四、評選程序與秒級優先原則</h3>
+      <ul>
+        <li><strong>秒級時間戳記</strong>：系統具備記錄至「秒」之時間戳記功能；若遇標語內容完全相同者，以系統紀錄較早完成投稿送出者為優先入圍依據。</li>
+        <li><strong>初審（專家評審）</strong>：評審介面上全面隱藏投稿人之姓名與服務單位，進行雙盲客觀評審，選出初選入圍作品。</li>
+        <li><strong>全院線上票選</strong>：公開初審入圍標語作品與理念，由全院同仁進行線上投票，每位同仁限投 1 票。</li>
+        <li><strong>決審（複評）</strong>：由百年院慶籌備委員會綜合票選數據與專業意見進行決選，並依核定公告得獎名單。</li>
+      </ul>
+
+      <h3>五、活動預定時程</h3>
+      <ul>
+        <li>10 月：線上徵稿開始</li>
+        <li>10 月下旬：專家初選評審</li>
+        <li>11 月中旬：全院同仁線上票選</li>
+        <li>12 月上旬：籌備委員會決選複評</li>
+        <li>12 月 24 日前：院網正式公告得獎名單</li>
+      </ul>
+
+      <h3>六、著作權與其他事項</h3>
+      <p>
+        得獎作品之著作財產權依主辦單位規定讓與或授權中央研究院運用於百年院慶相關宣傳、出版、文宣、影音及官方活動中。主辦單位保有活動辦法之最終解釋與修訂權利。
+      </p>
+    </div>
+
+    <div class="dialog-footer">
+      <button type="button" class="btn-mobile btn-mobile-secondary" id="dialogCancelBtn" style="width: auto; min-height: 44px; padding: 8px 24px; font-size: 0.95rem;">
+        關閉視窗
+      </button>
+      <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="dialogSubmitBtn" style="width: auto; min-height: 44px; padding: 8px 26px; font-size: 0.95rem;">
+        前往表單投稿 ›
+      </a>
+    </div>
+  </dialog>
+
+  <!-- ========================================================
+       MOBILE FLOATING BOTTOM ACTION BAR (RWD STICKY CTA)
+       ======================================================== -->
+  <div class="mobile-floating-bar" id="mobileFloatingBar" aria-label="手機端快速操作列">
+    <div class="floating-bar-inner">
+      <button type="button" class="btn-mobile btn-mobile-secondary" data-action="open-rules" id="floatingRulesBtn" style="flex: 1; min-height: 46px; font-size: 0.95rem;">
+        徵選辦法
+      </button>
+      <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="floatingSubmitBtn" style="flex: 1.4; min-height: 46px; font-size: 0.95rem;">
+        我要投稿 ›
+      </a>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       CLIENT-SIDE JAVASCRIPT
+       ======================================================== -->
+  <script>
+    /**
+     * CENTRAL CONFIGURATION
+     * Anyone can easily modify the target Google Form URL here:
+     */
+    const GOOGLE_FORM_URL = "https://forms.gle/MJkYBRTb5NpWaSAZ6";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Sync all submit buttons to the configured Google Form URL
+      const submitButtons = [
+        document.getElementById("headerCtaBtn"),
+        document.getElementById("desktopSubmitBtn"),
+        document.getElementById("mobileSubmitBtn"),
+        document.getElementById("bottomCtaSubmitBtn"),
+      ];
+      submitButtons.forEach((btn) => {
+        if (btn) btn.href = GOOGLE_FORM_URL;
+      });
+
+      // 2. Rules Modal Dialog Controller
+      const rulesDialog = document.getElementById("rulesDialog");
+      const openRulesButtons = document.querySelectorAll('[data-action="open-rules"]');
+      const closeDialogBtn = document.getElementById("dialogCloseBtn");
+      const cancelDialogBtn = document.getElementById("dialogCancelBtn");
+
+      function openModal() {
+        if (rulesDialog && typeof rulesDialog.showModal === "function") {
+          rulesDialog.showModal();
+        }
+      }
+
+      function closeModal() {
+        if (rulesDialog && typeof rulesDialog.close === "function") {
+          rulesDialog.close();
+        }
+      }
+
+      openRulesButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          openModal();
+        });
+      });
+
+      if (closeDialogBtn) closeDialogBtn.addEventListener("click", closeModal);
+      if (cancelDialogBtn) cancelDialogBtn.addEventListener("click", closeModal);
+
+      // Close modal on backdrop click
+      if (rulesDialog) {
+        rulesDialog.addEventListener("click", (e) => {
+          if (e.target === rulesDialog) {
+            closeModal();
+          }
+        });
+      }
+
+      // 3. Mobile Navigation Drawer Controller
+      const menuToggleBtn = document.getElementById("menuToggleBtn");
+      const mobileDrawer = document.getElementById("mobileDrawer");
+      const drawerCloseBtn = document.getElementById("drawerCloseBtn");
+      const drawerLinks = document.querySelectorAll(".drawer-link");
+
+      function toggleDrawer(open) {
+        if (!mobileDrawer) return;
+        if (open) {
+          mobileDrawer.classList.add("open");
+          mobileDrawer.setAttribute("aria-hidden", "false");
+          if (menuToggleBtn) menuToggleBtn.setAttribute("aria-expanded", "true");
+        } else {
+          mobileDrawer.classList.remove("open");
+          mobileDrawer.setAttribute("aria-hidden", "true");
+          if (menuToggleBtn) menuToggleBtn.setAttribute("aria-expanded", "false");
+        }
+      }
+
+      if (menuToggleBtn) {
+        menuToggleBtn.addEventListener("click", () => toggleDrawer(true));
+      }
+      if (drawerCloseBtn) {
+        drawerCloseBtn.addEventListener("click", () => toggleDrawer(false));
+      }
+      if (mobileDrawer) {
+        mobileDrawer.addEventListener("click", (e) => {
+          if (e.target === mobileDrawer) toggleDrawer(false);
+        });
+      }
+      drawerLinks.forEach((link) => {
+        link.addEventListener("click", () => toggleDrawer(false));
+      });
+
+      // 4. FAQ Accordion Controller
+      const faqItems = document.querySelectorAll(".faq-item");
+      faqItems.forEach((item) => {
+        const questionBtn = item.querySelector(".faq-question");
+        if (questionBtn) {
+          questionBtn.addEventListener("click", () => {
+            const isOpen = item.classList.contains("open");
+            // Optionally close others
+            faqItems.forEach((other) => other.classList.remove("open"));
+            if (!isOpen) {
+              item.classList.add("open");
+            }
+          });
+        }
+      });
+
+      // 5. Mobile Floating Bar Scroll Observer
+      const heroSection = document.getElementById("hero-top");
+      const mobileFloatingBar = document.getElementById("mobileFloatingBar");
+
+      if (heroSection && mobileFloatingBar && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              // If hero is NOT intersecting (user scrolled past), show floating bar
+              if (!entry.isIntersecting) {
+                mobileFloatingBar.classList.add("visible");
+              } else {
+                mobileFloatingBar.classList.remove("visible");
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        observer.observe(heroSection);
+      }
+    });
+  </script>
+
+  <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
+  <script src="assets/cms.js?v=5"></script>
+</body>
+</html>
