@@ -50,7 +50,7 @@
         en: "assets/campus-aerial.jpg"
       },
       hero_main_title: { zh: "中央研究院", en: "Academia Sinica" },
-      hero_sub_title: { zh: "百周年標語徵選", en: "Centennial Slogan Campaign" },
+      hero_sub_title: { zh: "百年標語徵選", en: "Centennial Slogan Campaign" },
       hero_quote: {
         zh: "以一句話，凝鍊百年學術精神，開展下一個世紀",
         en: "In a single phrase, embody a century of scholarship and inspire the future"
