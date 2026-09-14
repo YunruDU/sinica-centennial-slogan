@@ -2,7 +2,7 @@
  * 中央研究院百周年標語徵選網 - Google 試算表自動化建立與初始化腳本
  * 使用方法：
  * 在 Google 試算表中點選「擴充功能」->「Apps Script」，將本程式碼貼上並點擊「執行 (Run)」
- * 即可自動建立 5 個格式優美、色彩典雅、附帶說明與中英資料的工作表。
+ * 即可自動建立 6 個格式優美、色彩典雅、附帶說明與中英資料的工作表。
  */
 
 function setupCentennialSloganSheets() {
@@ -15,10 +15,11 @@ function setupCentennialSloganSheets() {
     ["brand_title", "導覽列機構主標題", "中央研究院 百周年院慶", "Academia Sinica Centennial", "頂部導覽列左側主字"],
     ["brand_subtitle", "導覽列機構副標題", "1928 — 2028 · CENTENNIAL", "1928 — 2028 · CENTENNIAL", "頂部導覽列副字"],
     ["nav_hero", "導覽項目 1", "活動首頁", "Home", "導覽選單"],
-    ["nav_highlights", "導覽項目 2", "徵選重點", "Highlights", "導覽選單"],
+    ["nav_highlights", "導覽項目 2", "最新消息", "Latest News", "導覽選單"],
     ["nav_timeline", "導覽項目 3", "重要時程", "Timeline", "導覽選單"],
     ["nav_rules", "導覽項目 4", "詳細辦法", "Guidelines", "導覽選單"],
     ["nav_faq", "導覽項目 5", "常見問題", "FAQ", "導覽選單"],
+    ["nav_shortlist", "導覽項目 6", "入圍名單", "Shortlist", "導覽選單"],
     ["nav_submit_btn", "導覽列投稿按鈕文字", "我要投稿", "Submit Now", "頂部與導覽按鈕"],
     ["submit_form_url", "我要投稿 Google 表單連結", "https://forms.gle/MJkYBRTb5NpWaSAZ6", "https://forms.gle/MJkYBRTb5NpWaSAZ6", "點擊「我要投稿」前往的表單（中英文可不同網址）"],
     ["hero_desktop_img", "桌機主視覺圖片 URL", "assets/hero-desktop.png", "assets/hero-desktop.png", "可填寫本機路徑或外部圖片 URL (1672x806)"],
@@ -29,30 +30,57 @@ function setupCentennialSloganSheets() {
     ["hero_quote", "主視覺精神標語句", "以一句話，凝鍊百年學術精神，開展下一個世紀", "In a single phrase, embody a century of scholarship and inspire the future", "標語徵選核心精神"],
     ["hero_btn_submit", "主按鈕文字", "我要投稿", "Submit Now", "首頁主行動按鈕"],
     ["hero_btn_rules", "次按鈕文字", "徵選辦法", "Guidelines", "點擊開啟詳細辦法彈窗"],
-    ["cta_banner_title", "頁尾行動呼籲大標", "一句標語，見證世紀學術榮光", "A Slogan to Mark a Century of Scholarship", "頁尾深酒紅呼籲橫條大字"],
-    ["cta_banner_desc", "頁尾行動呼籲說明", "歡迎中央研究院全體同仁、學生、校友及關心中研院發展之海內外朋友踴躍投稿，共同銘刻百周年里程碑！", "We warmly invite all colleagues, students, alumni, and friends worldwide to submit slogans and commemorate our centennial!", "頁尾呼籲說明"],
-    ["cta_banner_btn", "頁尾投稿按鈕文字", "即刻線上投稿 ›", "Submit Online Now ›", "頁尾按鈕"],
-    ["organizer_name", "主辦單位名稱", "中央研究院 秘書處", "Secretariat, Academia Sinica", "頁尾主辦單位"],
-    ["contact_email", "聯絡電子信箱", "centennial@gate.sinica.edu.tw", "centennial@gate.sinica.edu.tw", "聯絡信箱"],
-    ["contact_phone", "聯絡電話", "02-2789-9400", "+886-2-2789-9400", "聯絡電話"]
-  ], [160, 220, 320, 360, 280], "#500a11");
+    ["organizer_name", "主辦單位名稱", "中央研究院 秘書處", "Secretariat, Academia Sinica", "頁尾聯絡資訊：主辦窗口"],
+    ["contact_email", "聯絡電子信箱", "centennial@gate.sinica.edu.tw", "centennial@gate.sinica.edu.tw", "頁尾聯絡資訊：信箱"],
+    ["contact_phone", "聯絡電話", "02-2789-9400", "+886-2-2789-9400", "頁尾聯絡資訊：電話"],
+    ["section_highlights_title", "「最新消息」區塊標題", "最新消息", "Latest News", "首頁第1區塊大標"],
+    ["section_highlights_desc", "「最新消息」區塊說明", "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。", "Latest announcements and updates about the centennial slogan campaign.", "首頁第1區塊副標"],
+    ["section_highlights_show", "是否顯示「最新消息」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
+    ["section_timeline_title", "「重要時程」區塊標題", "活動推展重要時程", "Campaign Timeline", "首頁第2區塊大標"],
+    ["section_timeline_desc", "「重要時程」區塊說明", "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。", "Key milestones and tentative schedule. Submit your entries before the deadline!", "首頁第2區塊副標"],
+    ["section_timeline_show", "是否顯示「重要時程」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
+    ["section_faq_title", "「常見問答」區塊標題", "常見問答", "Frequently Asked Questions", "首頁第4區塊大標"],
+    ["section_faq_desc", "「常見問答」區塊說明", "關於百年院慶標語徵選活動之常見問題整理", "Answers to common questions regarding the slogan campaign.", "首頁第4區塊副標"],
+    ["section_faq_show", "是否顯示「常見問答」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
+    ["section_shortlist_title", "「入圍名單公告」區塊標題", "入圍名單公告", "Shortlist Announcement", "首頁入圍名單區塊大標"],
+    ["section_shortlist_desc", "「入圍名單公告」區塊說明", "初選入圍作品名單，正式得獎結果請以官方公告為準。", "List of shortlisted entries. Official winners will follow a separate announcement.", "首頁入圍名單區塊副標"],
+    ["section_shortlist_show", "是否顯示「入圍名單公告」整個區塊", "否", "否", "初選結果出爐前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"],
+    ["shortlist_show_dept", "入圍名單是否顯示「所別」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["shortlist_show_name", "入圍名單是否顯示「姓名」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["shortlist_show_sso", "入圍名單是否顯示「SSO」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["shortlist_mask_sso", "入圍名單「SSO」欄是否遮蔽顯示", "是", "是", "填「是」只顯示帳號前2碼＋星號；填「否」完整顯示帳號"],
+    ["shortlist_show_slogan_zh", "入圍名單是否顯示「中文標語」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["shortlist_show_slogan_en", "入圍名單是否顯示「英文標語」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["dialog_title", "徵選辦法彈窗標題", "中央研究院百周年標語徵選活動辦法", "Academia Sinica Centennial Slogan Campaign — Guidelines", "彈窗頂部標題"],
+    ["dialog_notice", "彈窗內活動提示文字", "本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。", "This page follows the Secretariat's requirements. Submissions link to a Google Form; official results follow the organizer's latest announcements.", "彈窗內黃色提示框文字"],
+    ["dialog_close_btn", "彈窗關閉按鈕文字", "關閉視窗", "Close", "彈窗底部按鈕"],
+    ["dialog_submit_btn", "彈窗投稿按鈕文字", "前往表單投稿 ›", "Submit Now ›", "彈窗底部按鈕"],
+    ["footer_brand_title", "頁尾機構主標題", "中央研究院 百周年院慶標語徵選", "Academia Sinica Centennial Slogan Campaign", "Footer 左欄大字"],
+    ["footer_brand_en", "頁尾機構英文小標", "ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN", "ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN", "Footer 左欄英文小字"],
+    ["footer_desc", "頁尾主辦/執行/技術單位說明", "指導主辦：中央研究院 百年院慶籌備委員會\n執行單位：中央研究院 秘書處\n技術協同：中央研究院 資訊服務處", "Supervised by: Academia Sinica Centennial Committee\nOrganized by: Secretariat, Academia Sinica\nTechnical Support: Office of Information Technology, Academia Sinica", "多行請用 Alt+Enter 換行"],
+    ["footer_quicklinks_title", "頁尾「快速連結」欄標題", "快速連結", "Quick Links", "Footer 中欄標題"],
+    ["footer_contact_title", "頁尾「主辦聯絡資訊」欄標題", "主辦聯絡資訊", "Contact Information", "Footer 右欄標題"],
+    ["footer_address", "頁尾院區地址", "院區地址：115201 臺北市南港區研究院路二段128號", "Address: No. 128, Sec. 2, Academia Rd., Nangang Dist., Taipei 115201", "Footer 右欄地址"],
+    ["footer_official_link_text", "頁尾「中研院官網」連結文字", "中央研究院官網 ↗", "Academia Sinica Official Site ↗", "Footer 快速連結第6項（連結網址固定為院網）"],
+    ["footer_copyright", "頁尾版權宣告", "© 2026 Academia Sinica 中央研究院. All Rights Reserved.", "© 2026 Academia Sinica. All Rights Reserved.", "Footer 最底部"],
+    ["footer_form_note_label", "頁尾投稿表單提示文字", "✦ 投稿 Google 表單連結：", "✦ Submission Google Form:", "Footer 最底部，網址自動帶入 submit_form_url"]
+  ], [200, 260, 340, 380, 300], "#500a11");
 
-  // 2. 活動重點與獎勵
-  createOrUpdateSheet(ss, "活動重點與獎勵", [
-    ["順序", "重點標題 (中)", "重點標題 (英)", "副標籤 (中)", "副標籤 (英)", "內容說明 (中)", "內容說明 (英)", "亮點數值 / 獎金", "圖示代碼", "是否顯示"],
-    ["1", "百年榮耀·學術傳承", "Century of Honor & Heritage", "1928 — 2028", "1928 — 2028", "回顧一世紀篳路藍縷，以文字淬鍊學術追求與自由探究之精神，開創前瞻未來。", "Reflecting on a century of academic pursuit and free inquiry to forge an inspiring future.", "100 YEARS", "history", "是"],
-    ["2", "全民參與·共創經典", "Open to All · Co-Create History", "院內外各界", "Worldwide Participation", "廣邀全院同仁、學術先進、學子及社會大眾踴躍發想，入選作品將成為百年院慶代表標語。", "Inviting all members, scholars, students, and the public to contribute to the official centennial slogan.", "GLOBAL", "users", "是"],
-    ["3", "豐厚獎勵·榮譽肯定", "Generous Awards & Recognition", "總獎金高達數萬元", "Prestigious Cash Prizes", "設置首獎、優等獎、佳作及入選獎，頒發高額獎金與中研院百年院慶專屬紀念證書。", "Grand Prize, Excellence Awards, and Merit Awards with cash prizes and official centennial certificates.", "NT$ 30,000", "trophy", "是"]
-  ], [60, 180, 240, 130, 180, 320, 360, 140, 100, 90], "#6c0e18");
+  // 2. 最新消息（手風琴展開/收合，筆數不固定，新增列即可增加消息）
+  createOrUpdateSheet(ss, "最新消息", [
+    ["順序", "消息標題 (中)", "消息標題 (英)", "發布日期 (中，選填)", "發布日期 (英，選填)", "消息內容 (中)", "消息內容 (英)", "是否顯示"],
+    ["1", "百年院慶標語徵選活動正式啟動", "Centennial Slogan Campaign Officially Launched", "2026年10月01日", "Oct 01, 2026", "中央研究院百年院慶標語公開徵選活動正式開放線上投稿，歡迎全體同仁踴躍參與，共同銘刻百年學術榮光。", "The Academia Sinica Centennial Slogan Campaign is now open for online submissions. All colleagues are warmly invited to participate.", "是"]
+  ], [60, 260, 320, 160, 160, 400, 440, 90], "#6c0e18");
 
   // 3. 重要時程
+  // 欄位 K/L/M/N（圖示大字/小字）為選填：控制時程「圓圈徽章」內顯示的文字。留空則自動依序套用預設樣式。
   createOrUpdateSheet(ss, "重要時程", [
-    ["順序", "階段名稱 (中)", "階段名稱 (英)", "時程區間 (中)", "時程區間 (英)", "階段說明 (中)", "階段說明 (英)", "狀態標籤 (中)", "狀態標籤 (英)", "是否顯示"],
-    ["1", "線上徵件啟動", "Submissions Open", "2026年10月01日", "Oct 01, 2026", "開放線上 Google 表單徵件系統，歡迎全球各界踴躍投件。", "Online submission portal opens. All entries welcomed worldwide.", "進行中", "In Progress", "是"],
-    ["2", "徵件截止", "Submissions Deadline", "2026年10月31日 23:59", "Oct 31, 2026 23:59", "截止線上收件，逾期恕不受理。請把握時間送出您的創意！", "Deadline for all online submissions. Late submissions will not be accepted.", "即將截止", "Approaching", "是"],
-    ["3", "專業評審遴選", "Judging & Selection", "2026年11月", "November 2026", "由院慶籌備委員會及各領域專家學者組成評審小組進行匿名審查。", "Expert panel evaluates all qualified entries anonymously.", "審查中", "Pending", "是"],
-    ["4", "獲選結果公布", "Winners Announced", "2026年12月", "December 2026", "於中研院官網及百年院慶專頁正式揭曉獲選標語與得獎名單。", "Official announcement of winning slogans on Academia Sinica website.", "即將揭曉", "Upcoming", "是"]
-  ], [60, 160, 180, 180, 180, 300, 340, 110, 110, 90], "#7a541c");
+    ["順序", "階段名稱 (中)", "階段名稱 (英)", "時程區間 (中)", "時程區間 (英)", "階段說明 (中)", "階段說明 (英)", "狀態標籤 (中)", "狀態標籤 (英)", "是否顯示", "圓圈徽章大字 (中，選填)", "圓圈徽章大字 (英，選填)", "圓圈徽章小字 (中，選填)", "圓圈徽章小字 (英，選填)"],
+    ["1", "線上徵件啟動", "Submissions Open", "2026年10月01日", "Oct 01, 2026", "開放線上 Google 表單徵件系統，歡迎全球各界踴躍投件。", "Online submission portal opens. All entries welcomed worldwide.", "進行中", "In Progress", "是", "10月", "OCT", "01日", "01"],
+    ["2", "徵件截止", "Submissions Deadline", "2026年10月31日 23:59", "Oct 31, 2026 23:59", "截止線上收件，逾期恕不受理。請把握時間送出您的創意！", "Deadline for all online submissions. Late submissions will not be accepted.", "即將截止", "Approaching", "是", "10月", "OCT", "31日", "31"],
+    ["3", "專業評審遴選", "Judging & Selection", "2026年11月", "November 2026", "由院慶籌備委員會及各領域專家學者組成評審小組進行匿名審查。", "Expert panel evaluates all qualified entries anonymously.", "審查中", "Pending", "是", "11月", "NOV", "初審", "2026"],
+    ["4", "獲選結果公布", "Winners Announced", "2026年12月", "December 2026", "於中研院官網及百年院慶專頁正式揭曉獲選標語與得獎名單。", "Official announcement of winning slogans on Academia Sinica website.", "即將揭曉", "Upcoming", "是", "12月", "DEC", "揭曉", "2026"]
+  ], [60, 160, 180, 180, 180, 300, 340, 110, 110, 90, 140, 140, 140, 140], "#7a541c");
 
   // 4. 徵選辦法彈窗
   createOrUpdateSheet(ss, "徵選辦法彈窗", [
@@ -72,11 +100,25 @@ function setupCentennialSloganSheets() {
     ["FAQ", "2", "可以用英文或中英混合投稿嗎？", "Can I submit in English or bilingual?", "可以！歡迎以繁體中文、英文投件，亦可提供中英文對應版本。", "Yes! Entries in Traditional Chinese, English, or bilingual pairings are all warmly welcomed.", "faq", "是"],
     ["FAQ", "3", "不是中研院員工或學生也可以參加嗎？", "Can the general public participate?", "可以！本活動面向全球公開徵件，凡關心中研院的朋友皆可共襄盛舉。", "Yes! The campaign is open to everyone worldwide who supports Academia Sinica.", "faq", "是"],
     ["FAQ", "4", "得獎標語會如何使用？", "How will winning slogans be used?", "獲選之標語將廣泛應用於中研院百周年各項慶祝活動、出版品、文宣品及國際學術交流場合。", "Winning slogans will be featured in centennial publications, events, banners, and media.", "faq", "是"],
+    ["FAQ", "5", "投稿與投票是否需要以本院 SSO 帳號登入？", "Do I need to log in with my institute SSO account to submit or vote?", "依規劃，投稿與後續網路票選皆須以中央研究院 SSO 帳號登入驗證，以確認身分並自動帶入基本資料，同時防止外部誤投。", "Both submission and voting require login with an Academia Sinica SSO account to verify identity, auto-fill basic information, and prevent external voting.", "faq", "是"],
+    ["FAQ", "6", "評審過程會看到我的姓名和服務單位嗎？", "Will judges see my name and department during review?", "不會。評審委員於線上評分介面完全看不到投稿人姓名及服務單位/所中心資訊，以雙盲方式確保評選公平客觀。", "No. Judges cannot see the submitter's name or department in the scoring interface, ensuring a fair, double-blind review.", "faq", "是"],
+    ["FAQ", "7", "網路票選要怎麼進行？可以投很多次嗎？", "How does the online voting work? Can I vote more than once?", "初選入圍名單公告後，將開放同仁以 SSO 帳號進行網路票選，每一帳號於票選期間僅能投票 1 次，不開放重複投票。", "After the shortlist is announced, colleagues may vote online with their SSO account. Each account may vote only once during the voting period.", "faq", "是"],
+    ["FAQ", "8", "標語投稿後可以修改內容嗎？", "Can I edit my slogan after submitting?", "投稿送出前請務必確認內容無誤；系統將以正式送出時間作為時間戳記依據，故請於送出前仔細確認後再送出。", "Please review your entry carefully before submitting, as the system timestamps your entry at the moment of submission.", "faq", "是"],
+    ["FAQ", "9", "得獎名單什麼時候公布？會公布在哪裡？", "When and where will the winners be announced?", "預計12月上旬進行複評，並於12月24日前透過中央研究院官方網站及本活動網頁正式公告得獎名單。", "The final review is expected in early December, with winners officially announced on the Academia Sinica website and this campaign page before December 24.", "faq", "是"],
+    ["FAQ", "10", "這個網頁未來會不會換網址？", "Will this page's URL change in the future?", "待百年院慶專屬網站建置完成後，本活動網頁將配合移轉至百年院慶專屬網站項下，屆時將提供新的連結。", "Once the dedicated centennial website is complete, this campaign page will migrate under it, and a new link will be provided.", "faq", "是"],
     ["Footer連結", "1", "中央研究院官方網站", "Academia Sinica Official Website", "https://www.sinica.edu.tw", "https://www.sinica.edu.tw", "web", "是"],
     ["Footer連結", "2", "院況介紹與歷史", "About Academia Sinica", "https://www.sinica.edu.tw/about", "https://www.sinica.edu.tw/about", "info", "是"],
     ["Footer連結", "3", "中研院 Facebook", "AS Facebook Page", "https://www.facebook.com/sinicaedu", "https://www.facebook.com/sinicaedu", "facebook", "是"],
     ["Footer連結", "4", "中研院 YouTube 頻道", "AS YouTube Channel", "https://www.youtube.com/@AcademiaSinica", "https://www.youtube.com/@AcademiaSinica", "youtube", "是"]
   ], [110, 60, 240, 260, 360, 380, 110, 90], "#2c221e");
+
+  // 6. 入圍名單公告
+  // SSO 欄位預設遮蔽顯示（保留前 2 碼＋星號），可透過「全站與主視覺」分頁的 shortlist_mask_sso 關閉遮蔽。
+  // 整個區塊預設隱藏（section_shortlist_show = 否），初選結果出爐後再改為「是」公開。
+  createOrUpdateSheet(ss, "入圍名單公告", [
+    ["順序", "所別 (中)", "所別 (英)", "姓名 (中)", "姓名 (英)", "SSO帳號", "中文標語", "英文標語", "是否顯示"],
+    ["1", "範例：資訊服務處", "e.g. Office of Information Technology", "王小明", "Wang Xiao-Ming", "wxm1234", "範例標語：以一句話，凝鍊百年學術精神", "Example: A century of scholarship in a single phrase", "否"]
+  ], [60, 180, 260, 120, 160, 140, 320, 360, 90], "#500a11");
 }
 
 function createOrUpdateSheet(ss, sheetName, data, colWidths, headerColor) {

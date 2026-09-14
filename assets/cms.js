@@ -7,7 +7,7 @@
   "use strict";
 
   const GOOGLE_SHEET_ID = "10cFGVyCSQqGEPjWw7LBs1xs9hevCXWpUfoV2DhU8qYU";
-  const CACHE_KEY = "as_slogan_cms_data_v4";
+  const CACHE_KEY = "as_slogan_cms_data_v6";
 
   // ========================================================
   // 1. 預設雙語完整資料（Instantaneous Local Fallback）
@@ -28,10 +28,11 @@
         en: "1928 — 2028 · CENTENNIAL"
       },
       nav_hero: { zh: "活動首頁", en: "Home" },
-      nav_highlights: { zh: "徵選重點", en: "Highlights" },
+      nav_highlights: { zh: "最新消息", en: "Latest News" },
       nav_timeline: { zh: "重要時程", en: "Timeline" },
       nav_rules: { zh: "詳細辦法", en: "Guidelines" },
       nav_faq: { zh: "常見問題", en: "FAQ" },
+      nav_shortlist: { zh: "入圍名單", en: "Shortlist" },
       nav_submit_btn: { zh: "我要投稿", en: "Submit Now" },
       submit_form_url: {
         zh: "https://forms.gle/MJkYBRTb5NpWaSAZ6",
@@ -57,56 +58,94 @@
       },
       hero_btn_submit: { zh: "我要投稿", en: "Submit Now" },
       hero_btn_rules: { zh: "徵選辦法", en: "Guidelines" },
-      cta_banner_title: {
-        zh: "一句標語，見證世紀學術榮光",
-        en: "A Slogan to Mark a Century of Scholarship"
-      },
-      cta_banner_desc: {
-        zh: "歡迎中央研究院全體同仁、學生、校友及關心中研院發展之海內外朋友踴躍投稿，共同銘刻百周年里程碑！",
-        en: "We warmly invite all colleagues, students, alumni, and friends worldwide to submit slogans and commemorate our centennial!"
-      },
-      cta_banner_btn: { zh: "即刻線上投稿 ›", en: "Submit Online Now ›" },
       organizer_name: { zh: "中央研究院 秘書處", en: "Secretariat, Academia Sinica" },
       contact_email: { zh: "centennial@gate.sinica.edu.tw", en: "centennial@gate.sinica.edu.tw" },
-      contact_phone: { zh: "02-2789-9400", en: "+886-2-2789-9400" }
+      contact_phone: { zh: "02-2789-9400", en: "+886-2-2789-9400" },
+
+      section_highlights_title: { zh: "最新消息", en: "Latest News" },
+      section_highlights_desc: {
+        zh: "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。",
+        en: "Latest announcements and updates about the centennial slogan campaign."
+      },
+      section_highlights_show: { zh: "是", en: "是" },
+      section_shortlist_title: { zh: "入圍名單公告", en: "Shortlist Announcement" },
+      section_shortlist_desc: {
+        zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。",
+        en: "List of shortlisted entries. Official winners will follow a separate announcement."
+      },
+      section_shortlist_show: { zh: "否", en: "否" },
+      shortlist_show_dept: { zh: "是", en: "是" },
+      shortlist_show_name: { zh: "是", en: "是" },
+      shortlist_show_sso: { zh: "是", en: "是" },
+      shortlist_mask_sso: { zh: "是", en: "是" },
+      shortlist_show_slogan_zh: { zh: "是", en: "是" },
+      shortlist_show_slogan_en: { zh: "是", en: "是" },
+      section_timeline_title: { zh: "活動推展重要時程", en: "Campaign Timeline" },
+      section_timeline_desc: {
+        zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。",
+        en: "Key milestones and tentative schedule. Submit your entries before the deadline!"
+      },
+      section_timeline_show: { zh: "是", en: "是" },
+      section_faq_title: { zh: "常見問答", en: "Frequently Asked Questions" },
+      section_faq_desc: {
+        zh: "關於百年院慶標語徵選活動之常見問題整理",
+        en: "Answers to common questions regarding the slogan campaign."
+      },
+      section_faq_show: { zh: "是", en: "是" },
+
+      dialog_title: {
+        zh: "中央研究院百周年標語徵選活動辦法",
+        en: "Academia Sinica Centennial Slogan Campaign — Guidelines"
+      },
+      dialog_notice: {
+        zh: "本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。",
+        en: "This page follows the Secretariat's requirements. Submissions link to a Google Form; official results follow the organizer's latest announcements."
+      },
+      dialog_close_btn: { zh: "關閉視窗", en: "Close" },
+      dialog_submit_btn: { zh: "前往表單投稿 ›", en: "Submit Now ›" },
+
+      footer_brand_title: { zh: "中央研究院 百周年院慶標語徵選", en: "Academia Sinica Centennial Slogan Campaign" },
+      footer_brand_en: { zh: "ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN", en: "ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN" },
+      footer_desc: {
+        zh: "指導主辦：中央研究院 百年院慶籌備委員會\n執行單位：中央研究院 秘書處\n技術協同：中央研究院 資訊服務處",
+        en: "Supervised by: Academia Sinica Centennial Committee\nOrganized by: Secretariat, Academia Sinica\nTechnical Support: Office of Information Technology, Academia Sinica"
+      },
+      footer_quicklinks_title: { zh: "快速連結", en: "Quick Links" },
+      footer_contact_title: { zh: "主辦聯絡資訊", en: "Contact Information" },
+      footer_address: {
+        zh: "院區地址：115201 臺北市南港區研究院路二段128號",
+        en: "Address: No. 128, Sec. 2, Academia Rd., Nangang Dist., Taipei 115201"
+      },
+      footer_official_link_text: { zh: "中央研究院官網 ↗", en: "Academia Sinica Official Site ↗" },
+      footer_copyright: {
+        zh: "© 2026 Academia Sinica 中央研究院. All Rights Reserved.",
+        en: "© 2026 Academia Sinica. All Rights Reserved."
+      },
+      footer_form_note_label: { zh: "✦ 投稿 Google 表單連結：", en: "✦ Submission Google Form:" }
     },
 
-    highlights: [
+    news: [
       {
-        title_zh: "百年榮耀·學術傳承",
-        title_en: "Century of Honor & Heritage",
-        badge_zh: "✦ 跨越一世紀",
-        badge_en: "✦ 100 Years",
-        desc_zh: "回顧一世紀篳路藍縷，以文字淬鍊學術追求與自由探究之精神，開創前瞻未來。",
-        desc_en: "Reflecting on a century of academic pursuit and free inquiry to forge an inspiring future.",
-        items_zh: ["回首一世紀自由探求精神", "傳承厚重學術與科研使命", "引領前瞻新世紀願景"],
-        items_en: ["Century of scholarly pursuit", "Legacy of groundbreaking research", "Leading the future forward"],
-        num: "100 YEARS",
+        title_zh: "百年院慶標語徵選活動正式啟動",
+        title_en: "Centennial Slogan Campaign Officially Launched",
+        date_zh: "2026年10月01日",
+        date_en: "Oct 01, 2026",
+        content_zh: "中央研究院百年院慶標語公開徵選活動正式開放線上投稿，歡迎全體同仁踴躍參與，共同銘刻百年學術榮光。",
+        content_en: "The Academia Sinica Centennial Slogan Campaign is now open for online submissions. All colleagues are warmly invited to participate.",
         show: true
-      },
+      }
+    ],
+
+    shortlist: [
       {
-        title_zh: "全民參與·共創經典",
-        title_en: "Open to All · Co-Create History",
-        badge_zh: "✦ 全球廣徵",
-        badge_en: "✦ Global Call",
-        desc_zh: "廣邀全院同仁、學術先進、學子及社會大眾踴躍發想，入選作品將成為百年院慶代表標語。",
-        desc_en: "Inviting all members, scholars, students, and the public to contribute to the official centennial slogan.",
-        items_zh: ["歡迎全球各界踴躍投件", "一人最高可投稿 3 組標語", "雙盲公正評選與全院共響"],
-        items_en: ["Open to scholars & public globally", "Submit up to 3 slogans per entrant", "Anonymous & fair review"],
-        num: "GLOBAL",
-        show: true
-      },
-      {
-        title_zh: "豐厚獎勵·榮譽肯定",
-        title_en: "Generous Awards & Recognition",
-        badge_zh: "✦ 總獎金數萬",
-        badge_en: "✦ Top Honors",
-        desc_zh: "設置首獎、優等獎、佳作及入選獎，頒發高額獎金與中研院百年院慶專屬紀念證書。",
-        desc_en: "Grand Prize, Excellence Awards, and Merit Awards with cash prizes and official centennial certificates.",
-        items_zh: ["首獎高達新臺幣 30,000 元", "專屬百周年紀念獎座與證書", "獲選作品將廣泛應用於院慶宣傳"],
-        items_en: ["Top prize up to NT$ 30,000", "Exclusive centennial trophy & certificate", "Featured across centenary media"],
-        num: "NT$ 30,000",
-        show: true
+        dept_zh: "",
+        dept_en: "",
+        name_zh: "",
+        name_en: "",
+        sso: "",
+        slogan_zh: "",
+        slogan_en: "",
+        show: false
       }
     ],
 
@@ -242,6 +281,48 @@
         a_zh: "獲選之標語將廣泛應用於中研院百周年各項慶祝活動、出版品、文宣品及國際學術交流場合。",
         a_en: "Winning slogans will be featured in centennial publications, events, banners, and media.",
         show: true
+      },
+      {
+        q_zh: "Q5. 投稿與投票是否需要以本院 SSO 帳號登入？",
+        q_en: "Q5. Do I need to log in with my institute SSO account to submit or vote?",
+        a_zh: "依規劃，投稿與後續網路票選皆須以中央研究院 SSO 帳號登入驗證，以確認身分並自動帶入基本資料，同時防止外部誤投。",
+        a_en: "Both submission and voting require login with an Academia Sinica SSO account to verify identity, auto-fill basic information, and prevent external voting.",
+        show: true
+      },
+      {
+        q_zh: "Q6. 評審過程會看到我的姓名和服務單位嗎？",
+        q_en: "Q6. Will judges see my name and department during review?",
+        a_zh: "不會。評審委員於線上評分介面完全看不到投稿人姓名及服務單位/所中心資訊，以雙盲方式確保評選公平客觀。",
+        a_en: "No. Judges cannot see the submitter's name or department in the scoring interface, ensuring a fair, double-blind review.",
+        show: true
+      },
+      {
+        q_zh: "Q7. 網路票選要怎麼進行？可以投很多次嗎？",
+        q_en: "Q7. How does the online voting work? Can I vote more than once?",
+        a_zh: "初選入圍名單公告後，將開放同仁以 SSO 帳號進行網路票選，每一帳號於票選期間僅能投票 1 次，不開放重複投票。",
+        a_en: "After the shortlist is announced, colleagues may vote online with their SSO account. Each account may vote only once during the voting period.",
+        show: true
+      },
+      {
+        q_zh: "Q8. 標語投稿後可以修改內容嗎？",
+        q_en: "Q8. Can I edit my slogan after submitting?",
+        a_zh: "投稿送出前請務必確認內容無誤；系統將以正式送出時間作為時間戳記依據，故請於送出前仔細確認後再送出。",
+        a_en: "Please review your entry carefully before submitting, as the system timestamps your entry at the moment of submission.",
+        show: true
+      },
+      {
+        q_zh: "Q9. 得獎名單什麼時候公布？會公布在哪裡？",
+        q_en: "Q9. When and where will the winners be announced?",
+        a_zh: "預計12月上旬進行複評，並於12月24日前透過中央研究院官方網站及本活動網頁正式公告得獎名單。",
+        a_en: "The final review is expected in early December, with winners officially announced on the Academia Sinica website and this campaign page before December 24.",
+        show: true
+      },
+      {
+        q_zh: "Q10. 這個網頁未來會不會換網址？",
+        q_en: "Q10. Will this page's URL change in the future?",
+        a_zh: "待百年院慶專屬網站建置完成後，本活動網頁將配合移轉至百年院慶專屬網站項下，屆時將提供新的連結。",
+        a_en: "Once the dedicated centennial website is complete, this campaign page will migrate under it, and a new link will be provided.",
+        show: true
       }
     ],
 
@@ -305,7 +386,10 @@
   // ========================================================
   // 3. Google 試算表即時連線 API 讀取
   // ========================================================
-  async function fetchSheetJson(sheetName) {
+  // expectedHeaders：[A欄標題, B欄標題]。Google 的 gviz 端點在分頁名稱不存在時，
+  // 不會回傳錯誤，而是靜默 fallback 回試算表第一個分頁的內容——曾實際造成資料錯亂。
+  // 因此這裡強制核對回傳的標題列，不符合就視為「分頁不存在」回傳空陣列，交由呼叫端 fallback 回預設內容，避免再次汙染畫面。
+  async function fetchSheetJson(sheetName, expectedHeaders) {
     const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?headers=1&tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
     const resp = await fetch(url);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
@@ -314,6 +398,16 @@
     if (!match) throw new Error("Invalid GViz format");
     const json = JSON.parse(match[1]);
     if (!json.table || !json.table.rows) return [];
+
+    if (Array.isArray(expectedHeaders) && expectedHeaders.length > 0) {
+      const cols = json.table.cols || [];
+      const headerMismatch = expectedHeaders.some((expected, idx) => (cols[idx] && cols[idx].label) !== expected);
+      if (headerMismatch) {
+        console.warn(`[Google Sheets CMS] 分頁「${sheetName}」尚不存在或欄位標題不符，暫時略過並使用預設內容。`);
+        return [];
+      }
+    }
+
     return json.table.rows.map(r =>
       (r.c || []).map(cell => {
         if (!cell) return "";
@@ -329,7 +423,7 @@
     updateSyncBadge("loading", currentLang === "zh" ? "同步雲端資料中..." : "Syncing Google Sheets...");
     try {
       // 1. 全站與主視覺
-      const settingsRows = await fetchSheetJson("全站與主視覺");
+      const settingsRows = await fetchSheetJson("全站與主視覺", ["設定項目代碼 (Key)", "項目說明 (Description)"]);
       settingsRows.forEach(row => {
         const key = row[0];
         const zh = row[2];
@@ -341,27 +435,26 @@
         }
       });
 
-      // 2. 活動重點與獎勵
-      const highlightRows = await fetchSheetJson("活動重點與獎勵");
-      if (highlightRows.length > 0) {
-        liveData.highlights = highlightRows.map(row => ({
+      // 2. 最新消息
+      const newsRows = await fetchSheetJson("最新消息", ["順序", "消息標題 (中)"]);
+      if (newsRows.length > 0) {
+        liveData.news = newsRows.map(row => ({
           title_zh: row[1] || "",
           title_en: row[2] || row[1] || "",
-          badge_zh: row[3] || "",
-          badge_en: row[4] || row[3] || "",
-          desc_zh: row[5] || "",
-          desc_en: row[6] || row[5] || "",
-          items_zh: (row[5] || "").split("\n").filter(Boolean),
-          items_en: (row[6] || row[5] || "").split("\n").filter(Boolean),
-          num: row[7] || "",
-          show: row[9] !== "否"
+          date_zh: row[3] || "",
+          date_en: row[4] || row[3] || "",
+          content_zh: row[5] || "",
+          content_en: row[6] || row[5] || "",
+          show: row[7] !== "否"
         }));
       }
 
       // 3. 重要時程
-      const timelineRows = await fetchSheetJson("重要時程");
+      // 欄位 K/L/M/N（索引10-13，選填）：「圖示大字(中)/(英)」「圖示小字(中)/(英)」，
+      // 用來控制時程圓圈徽章顯示的文字。留空則自動 fallback 為預設四階段樣式。
+      const timelineRows = await fetchSheetJson("重要時程", ["順序", "階段名稱 (中)"]);
       if (timelineRows.length > 0) {
-        liveData.timeline = timelineRows.map((row, idx) => {
+        timelineRows.forEach((row, idx) => {
           let circleMainZh = "10月";
           let circleSubZh = "01日";
           let circleMainEn = "OCT";
@@ -381,27 +474,32 @@
             circleMainEn = "DEC"; circleSubEn = "2026";
           }
 
-          return {
-            circle_main_zh: circleMainZh,
-            circle_sub_zh: circleSubZh,
-            circle_main_en: circleMainEn,
-            circle_sub_en: circleSubEn,
-            title_zh: row[1] || "",
-            title_en: row[2] || row[1] || "",
-            date_zh: row[3] || "",
-            date_en: row[4] || row[3] || "",
-            desc_zh: row[5] || "",
-            desc_en: row[6] || row[5] || "",
-            status_zh: row[7] || "",
-            status_en: row[8] || row[7] || "",
-            active: idx === 0,
-            show: row[9] !== "否"
-          };
+          row.__circleMainZh = circleMainZh;
+          row.__circleSubZh = circleSubZh;
+          row.__circleMainEn = circleMainEn;
+          row.__circleSubEn = circleSubEn;
         });
+
+        liveData.timeline = timelineRows.map((row, idx) => ({
+          circle_main_zh: row[10] || row.__circleMainZh,
+          circle_sub_zh: row[12] || row.__circleSubZh,
+          circle_main_en: row[11] || row.__circleMainEn,
+          circle_sub_en: row[13] || row.__circleSubEn,
+          title_zh: row[1] || "",
+          title_en: row[2] || row[1] || "",
+          date_zh: row[3] || "",
+          date_en: row[4] || row[3] || "",
+          desc_zh: row[5] || "",
+          desc_en: row[6] || row[5] || "",
+          status_zh: row[7] || "",
+          status_en: row[8] || row[7] || "",
+          active: idx === 0,
+          show: row[9] !== "否"
+        }));
       }
 
       // 4. 徵選辦法彈窗
-      const rulesRows = await fetchSheetJson("徵選辦法彈窗");
+      const rulesRows = await fetchSheetJson("徵選辦法彈窗", ["順序", "章節名稱 (中)"]);
       if (rulesRows.length > 0) {
         liveData.rules = rulesRows.map(row => ({
           title_zh: row[1] || "",
@@ -413,7 +511,7 @@
       }
 
       // 5. 常見問題與Footer
-      const faqFooterRows = await fetchSheetJson("常見問題與Footer");
+      const faqFooterRows = await fetchSheetJson("常見問題與Footer", ["類別", "順序"]);
       const faqs = [];
       const footers = [];
       faqFooterRows.forEach(row => {
@@ -438,6 +536,21 @@
       });
       if (faqs.length > 0) liveData.faq = faqs;
       if (footers.length > 0) liveData.footerLinks = footers;
+
+      // 6. 入圍名單公告
+      const shortlistRows = await fetchSheetJson("入圍名單公告", ["順序", "所別 (中)"]);
+      if (shortlistRows.length > 0) {
+        liveData.shortlist = shortlistRows.map(row => ({
+          dept_zh: row[1] || "",
+          dept_en: row[2] || row[1] || "",
+          name_zh: row[3] || "",
+          name_en: row[4] || row[3] || "",
+          sso: row[5] || "",
+          slogan_zh: row[6] || "",
+          slogan_en: row[7] || "",
+          show: row[8] !== "否"
+        }));
+      }
 
       saveCacheData(liveData);
       renderPage(currentLang);
@@ -472,7 +585,7 @@
 
     // 3. 導覽選單項目
     const navLinks = document.querySelectorAll(".nav-links a.nav-link");
-    const navKeys = ["nav_hero", "nav_highlights", "nav_timeline", "nav_rules", "nav_faq"];
+    const navKeys = ["nav_hero", "nav_highlights", "nav_timeline", "nav_rules", "nav_faq", "nav_shortlist"];
     navLinks.forEach((link, idx) => {
       const k = navKeys[idx];
       if (k && s[k]) link.textContent = isEn ? s[k].en : s[k].zh;
@@ -488,14 +601,15 @@
     // 4. 我要投稿超連結 (所有按鈕同步更新 URL 與文字)
     const formUrl = s.submit_form_url ? (isEn ? s.submit_form_url.en : s.submit_form_url.zh) : "https://forms.gle/MJkYBRTb5NpWaSAZ6";
     const submitBtnText = s.hero_btn_submit ? (isEn ? s.hero_btn_submit.en : s.hero_btn_submit.zh) : (isEn ? "Submit Now" : "我要投稿");
+    const navSubmitBtnText = s.nav_submit_btn ? (isEn ? s.nav_submit_btn.en : s.nav_submit_btn.zh) : (isEn ? "Submit Now" : "我要投稿");
     const rulesBtnText = s.hero_btn_rules ? (isEn ? s.hero_btn_rules.en : s.hero_btn_rules.zh) : (isEn ? "Guidelines" : "徵選辦法");
 
-    // Header CTA
+    // Header CTA (導覽列投稿按鈕，套用 nav_submit_btn)
     const headerCta = document.getElementById("headerCtaBtn");
     if (headerCta) {
       headerCta.href = formUrl;
       const span = headerCta.querySelector("span:first-child");
-      if (span) span.textContent = submitBtnText;
+      if (span) span.textContent = navSubmitBtnText;
     }
 
     // Desktop Hero Buttons
@@ -531,37 +645,31 @@
       if (span) span.textContent = rulesBtnText;
     }
 
-    // Drawer Submit Button
+    // Drawer Submit Button (導覽抽屜，套用 nav_submit_btn)
     const drawerSubmit = document.getElementById("drawerSubmitBtn");
     if (drawerSubmit) {
       drawerSubmit.href = formUrl;
-      drawerSubmit.textContent = isEn ? "Submit Online Now ›" : "前往投稿表單 ›";
+      drawerSubmit.textContent = `${navSubmitBtnText} ›`;
     }
 
-    // Mobile Floating Bar
+    // Mobile Floating Bar (常駐列，套用 hero_btn_submit)
     const floatingSubmit = document.getElementById("floatingSubmitBtn");
     const floatingRules = document.getElementById("floatingRulesBtn");
     if (floatingSubmit) {
       floatingSubmit.href = formUrl;
-      floatingSubmit.textContent = isEn ? "Submit Now ›" : "我要投稿 ›";
+      floatingSubmit.textContent = `${submitBtnText} ›`;
     }
     if (floatingRules) {
       floatingRules.textContent = isEn ? "Guidelines" : "徵選辦法";
     }
-
-    // 4.5. 徵選規範區塊標題 (Section 3)
-    const rulesSectionTitle = document.querySelector("#rules .section-title");
-    const rulesSectionDesc = document.querySelector("#rules .section-desc");
-    if (rulesSectionTitle) rulesSectionTitle.textContent = isEn ? "Regulations & Specifications" : "詳細徵選辦法與規範";
-    if (rulesSectionDesc) rulesSectionDesc.textContent = isEn ? "Please review submission guidelines carefully to ensure compliance." : "請詳細參閱投稿規定，確保作品符合評選標準。";
 
     // 4.6. 主視覺圖片（可由試算表 hero_desktop_img / hero_mobile_logo / hero_mobile_campus 覆寫）
     applyPictureImage(document.querySelector(".hero-poster-img"), s.hero_desktop_img && (isEn ? s.hero_desktop_img.en : s.hero_desktop_img.zh));
     applyPictureImage(document.querySelector(".mobile-100-img"), s.hero_mobile_logo && (isEn ? s.hero_mobile_logo.en : s.hero_mobile_logo.zh));
     applyMobileCampusBg(s.hero_mobile_campus && (isEn ? s.hero_mobile_campus.en : s.hero_mobile_campus.zh));
 
-    // 5. Highlights 區塊渲染
-    renderHighlights(lang);
+    // 5. 最新消息區塊渲染
+    renderNews(lang);
 
     // 6. Timeline 時程渲染
     renderTimeline(lang);
@@ -572,74 +680,83 @@
     // 8. FAQ 問答渲染
     renderFaq(lang);
 
-    // 9. 頁尾 CTA Banner
-    const ctaTitle = document.querySelector(".cta-banner-title");
-    const ctaDesc = document.querySelector(".cta-banner-desc");
-    const ctaBtn = document.querySelector(".cta-banner-section .btn-glow-gold");
-    if (ctaTitle && s.cta_banner_title) ctaTitle.textContent = isEn ? s.cta_banner_title.en : s.cta_banner_title.zh;
-    if (ctaDesc && s.cta_banner_desc) ctaDesc.textContent = isEn ? s.cta_banner_desc.en : s.cta_banner_desc.zh;
-    if (ctaBtn) {
-      ctaBtn.href = formUrl;
-      const span = ctaBtn.querySelector("span:first-child");
-      if (span && s.cta_banner_btn) span.textContent = isEn ? s.cta_banner_btn.en : s.cta_banner_btn.zh;
-    }
+    // 9. 入圍名單公告渲染
+    renderShortlist(lang);
 
-    // 10. Footer 聯絡資訊
-    const orgName = document.querySelector(".footer-org-name");
-    const contactEmail = document.querySelector(".footer-contact a[href^='mailto:']");
-    const contactPhone = document.querySelector(".footer-contact .footer-phone");
-    if (orgName && s.organizer_name) orgName.textContent = isEn ? s.organizer_name.en : s.organizer_name.zh;
-    if (contactEmail && s.contact_email) {
-      const mail = isEn ? s.contact_email.en : s.contact_email.zh;
-      contactEmail.href = `mailto:${mail}`;
-      contactEmail.textContent = mail;
-    }
-    if (contactPhone && s.contact_phone) {
-      contactPhone.textContent = isEn ? s.contact_phone.en : s.contact_phone.zh;
-    }
+    // 10. Footer 內容
+    renderFooter(lang);
 
     // 更新語系開關按鈕狀態
     updateLangSwitchUI(lang);
   }
 
-  // 渲染 Highlights 卡片
-  function renderHighlights(lang) {
+  // 手風琴展開/收合共用綁定邏輯（FAQ、最新消息皆使用）
+  function bindAccordion(container, itemClass) {
+    container.querySelectorAll(`.${itemClass}`).forEach(item => {
+      const btn = item.querySelector(".faq-question");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          const isOpen = item.classList.contains("open");
+          container.querySelectorAll(`.${itemClass}`).forEach(other => {
+            other.classList.remove("open");
+            const icon = other.querySelector(".faq-icon");
+            if (icon) icon.textContent = "+";
+          });
+          if (!isOpen) {
+            item.classList.add("open");
+            const icon = item.querySelector(".faq-icon");
+            if (icon) icon.textContent = "×";
+          }
+        });
+      }
+    });
+  }
+
+  // 渲染「最新消息」手風琴（原「活動三大核心重點」區塊）
+  function renderNews(lang) {
     const isEn = lang === "en";
+    const s = liveData.settings;
+    applySectionToggle("#highlights", 1, s.section_highlights_show);
     const headerTitle = document.querySelector("#highlights .section-title");
     const headerDesc = document.querySelector("#highlights .section-desc");
-    if (headerTitle) headerTitle.textContent = isEn ? "Three Campaign Highlights" : "活動三大核心重點";
-    if (headerDesc) headerDesc.textContent = isEn ? "Academia Sinica celebrates its centenary. Join us in shaping our legacy." : "中央研究院將邁向建院百周年，誠摯邀請全體同仁一同用文字銘刻學術榮光，開展世紀新頁。";
+    if (headerTitle && s.section_highlights_title) headerTitle.textContent = isEn ? s.section_highlights_title.en : s.section_highlights_title.zh;
+    if (headerDesc && s.section_highlights_desc) headerDesc.textContent = isEn ? s.section_highlights_desc.en : s.section_highlights_desc.zh;
 
-    const container = document.querySelector(".highlight-grid");
-    if (!container || !liveData.highlights) return;
+    const accordion = document.getElementById("newsAccordion");
+    if (!accordion || !liveData.news) return;
 
-    container.innerHTML = liveData.highlights
-      .filter(h => h.show)
-      .map(h => {
-        const title = isEn ? h.title_en : h.title_zh;
-        const badge = isEn ? h.badge_en : h.badge_zh;
-        const desc = isEn ? h.desc_en : h.desc_zh;
-        const items = isEn ? h.items_en : h.items_zh;
-        const listHtml = Array.isArray(items) ? items.map(it => `<li>${it}</li>`).join("") : "";
+    accordion.innerHTML = liveData.news
+      .filter(n => n.show)
+      .map((n, idx) => {
+        const title = isEn ? n.title_en : n.title_zh;
+        const date = isEn ? n.date_en : n.date_zh;
+        const content = isEn ? n.content_en : n.content_zh;
         return `
-          <article class="highlight-card">
-            <div class="card-badge">${badge || (isEn ? "✦ FEATURE" : "✦ 重點")}</div>
-            <h3 class="card-title">${title}</h3>
-            <p class="card-body">${desc}</p>
-            ${listHtml ? `<ul class="card-list">${listHtml}</ul>` : ""}
-          </article>
+          <div class="faq-item news-item ${idx === 0 ? "open" : ""}">
+            <button class="faq-question" type="button" aria-expanded="${idx === 0 ? "true" : "false"}">
+              <span>${date ? `<span class="news-date">${date}</span>` : ""}${title}</span>
+              <span class="faq-icon">${idx === 0 ? "×" : "+"}</span>
+            </button>
+            <div class="faq-answer"><div class="faq-answer-inner">
+              ${content}
+            </div></div>
+          </div>
         `;
       })
       .join("");
+
+    bindAccordion(accordion, "news-item");
   }
 
   // 渲染 Timeline 時程
   function renderTimeline(lang) {
     const isEn = lang === "en";
+    const s = liveData.settings;
+    applySectionToggle("#timeline", 2, s.section_timeline_show);
     const headerTitle = document.querySelector("#timeline .section-title");
     const headerDesc = document.querySelector("#timeline .section-desc");
-    if (headerTitle) headerTitle.textContent = isEn ? "Campaign Timeline" : "活動推展重要時程";
-    if (headerDesc) headerDesc.textContent = isEn ? "Key milestones and tentative schedule. Submit your entries before the deadline!" : "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。";
+    if (headerTitle && s.section_timeline_title) headerTitle.textContent = isEn ? s.section_timeline_title.en : s.section_timeline_title.zh;
+    if (headerDesc && s.section_timeline_desc) headerDesc.textContent = isEn ? s.section_timeline_desc.en : s.section_timeline_desc.zh;
 
     const wrap = document.querySelector(".timeline-wrap");
     if (!wrap || !liveData.timeline) return;
@@ -672,10 +789,17 @@
   // 渲染 徵選辦法彈窗
   function renderRules(lang) {
     const isEn = lang === "en";
-    const dialogTitle = document.querySelector(".dialog-header-title");
-    if (dialogTitle) dialogTitle.textContent = isEn ? "Academia Sinica Centennial Slogan Campaign — Guidelines" : "中央研究院百周年院慶標語公開徵選辦法";
+    const s = liveData.settings;
 
-    const dialogBody = document.querySelector(".dialog-content");
+    const dialogTitle = document.querySelector(".dialog-header-title");
+    if (dialogTitle && s.dialog_title) dialogTitle.textContent = isEn ? s.dialog_title.en : s.dialog_title.zh;
+
+    const dialogNoticeText = document.querySelector(".dialog-notice-text");
+    if (dialogNoticeText && s.dialog_notice) dialogNoticeText.textContent = isEn ? s.dialog_notice.en : s.dialog_notice.zh;
+    const dialogNoticeLabel = document.querySelector(".dialog-notice-label");
+    if (dialogNoticeLabel) dialogNoticeLabel.textContent = isEn ? "Notice:" : "活動提示：";
+
+    const dialogBody = document.querySelector(".dialog-rules-list");
     const formUrl = liveData.settings.submit_form_url ? (isEn ? liveData.settings.submit_form_url.en : liveData.settings.submit_form_url.zh) : "https://forms.gle/MJkYBRTb5NpWaSAZ6";
 
     if (dialogBody && liveData.rules) {
@@ -695,36 +819,34 @@
     }
 
     const closeBtnText = document.getElementById("dialogCancelBtn");
-    if (closeBtnText) closeBtnText.textContent = isEn ? "Close" : "關閉視窗";
+    if (closeBtnText) closeBtnText.textContent = s.dialog_close_btn ? (isEn ? s.dialog_close_btn.en : s.dialog_close_btn.zh) : (isEn ? "Close" : "關閉視窗");
 
     const dialogSubmitBtn = document.getElementById("dialogSubmitBtn");
     if (dialogSubmitBtn) {
       dialogSubmitBtn.href = formUrl;
-      dialogSubmitBtn.textContent = isEn ? "Submit Now ›" : "前往表單投稿 ›";
+      dialogSubmitBtn.textContent = s.dialog_submit_btn ? (isEn ? s.dialog_submit_btn.en : s.dialog_submit_btn.zh) : (isEn ? "Submit Now ›" : "前往表單投稿 ›");
     }
+  }
 
-    // 首頁「詳細徵選辦法與規範」區塊，同樣以試算表「徵選辦法彈窗」資料驅動
-    const rulesGrid = document.querySelector("#rules .rules-grid");
-    if (rulesGrid && liveData.rules) {
-      const cardsHtml = liveData.rules
-        .filter(r => r.show)
-        .map(r => {
-          const title = isEn ? r.title_en : r.title_zh;
-          const content = isEn ? r.content_en : r.content_zh;
-          const lines = (content || "").split("\n").filter(Boolean);
-          const bodyHtml = lines.map(line => `<p class="spec-desc" style="margin-bottom: 10px;">${line}</p>`).join("");
-          return `<div class="rules-card-box"><h3 class="rules-box-title">${title}</h3>${bodyHtml}</div>`;
-        })
-        .join("");
-      const ctaText = isEn ? "Submit via Google Form ›" : "立即前往 Google 表單投稿 ›";
-      rulesGrid.innerHTML = cardsHtml + `
-        <div style="grid-column: 1 / -1; text-align: center; margin-top: 10px;">
-          <a href="${formUrl}" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" style="display: inline-flex; width: auto; padding: 14px 38px;">
-            ${ctaText}
-          </a>
-        </div>
-      `;
-    }
+  // 切換整個區塊（連同對應的導覽選單項目）的顯示/隱藏
+  // sectionSelector：區塊的 CSS selector；navIdx：對應 navKeys 陣列中的索引；showSetting：settings 裡的顯示欄位物件（{zh, en}）
+  function applySectionToggle(sectionSelector, navIdx, showSetting) {
+    const show = !(showSetting && (showSetting.zh === "否" || showSetting.en === "否"));
+
+    const section = document.querySelector(sectionSelector);
+    if (section) section.hidden = !show;
+
+    const navLink = document.querySelectorAll(".nav-links a.nav-link")[navIdx];
+    const navLi = navLink && navLink.closest("li");
+    if (navLi) navLi.hidden = !show;
+
+    const drawerLink = document.querySelectorAll(".drawer-links a.drawer-link")[navIdx];
+    const drawerLi = drawerLink && drawerLink.closest("li");
+    if (drawerLi) drawerLi.hidden = !show;
+
+    const footerLink = document.querySelectorAll(".footer-quicklink")[navIdx];
+    const footerLi = footerLink && footerLink.closest("li");
+    if (footerLi) footerLi.hidden = !show;
   }
 
   // 套用主視覺圖片（若試算表提供的網址與目前 src 不同，移除 <picture> 內的 <source> 以確保實際顯示新圖）
@@ -747,13 +869,71 @@
       "linear-gradient(180deg, rgba(254, 252, 248, 0.94) 0%, rgba(254, 252, 248, 0.84) 45%, rgba(254, 252, 248, 0.92) 80%, #faf6ef 100%), url('" + url + "')";
   }
 
+  // 渲染 Footer 頁尾
+  function renderFooter(lang) {
+    const isEn = lang === "en";
+    const s = liveData.settings;
+
+    const brandTitle = document.querySelector(".footer-brand-title");
+    const brandEn = document.querySelector(".footer-brand-en");
+    if (brandTitle && s.footer_brand_title) brandTitle.textContent = isEn ? s.footer_brand_title.en : s.footer_brand_title.zh;
+    if (brandEn && s.footer_brand_en) brandEn.textContent = isEn ? s.footer_brand_en.en : s.footer_brand_en.zh;
+
+    const descMain = document.querySelector(".footer-desc-main");
+    if (descMain && s.footer_desc) {
+      const text = isEn ? s.footer_desc.en : s.footer_desc.zh;
+      descMain.innerHTML = text.split("\n").filter(Boolean).map(line => line).join("<br />");
+    }
+
+    const quickLinksTitle = document.getElementById("footerQuickLinksTitle");
+    if (quickLinksTitle && s.footer_quicklinks_title) quickLinksTitle.textContent = isEn ? s.footer_quicklinks_title.en : s.footer_quicklinks_title.zh;
+
+    const quickLinks = document.querySelectorAll(".footer-quicklink");
+    const quickLinkKeys = ["nav_hero", "nav_highlights", "nav_timeline", "nav_rules", "nav_faq", "nav_shortlist"];
+    quickLinks.forEach((link, idx) => {
+      const k = quickLinkKeys[idx];
+      if (k && s[k]) link.textContent = isEn ? s[k].en : s[k].zh;
+    });
+    const officialLink = document.querySelector(".footer-official-link");
+    if (officialLink && s.footer_official_link_text) officialLink.textContent = isEn ? s.footer_official_link_text.en : s.footer_official_link_text.zh;
+
+    const contactTitle = document.getElementById("footerContactTitle");
+    if (contactTitle && s.footer_contact_title) contactTitle.textContent = isEn ? s.footer_contact_title.en : s.footer_contact_title.zh;
+
+    const address = document.querySelector(".footer-address");
+    if (address && s.footer_address) address.textContent = isEn ? s.footer_address.en : s.footer_address.zh;
+
+    const orgName = document.querySelector(".footer-org-name");
+    const contactEmail = document.querySelector(".footer-contact-email");
+    const contactPhone = document.querySelector(".footer-contact-phone");
+    if (orgName && s.organizer_name) orgName.textContent = isEn ? s.organizer_name.en : s.organizer_name.zh;
+    if (contactEmail && s.contact_email) {
+      const mail = isEn ? s.contact_email.en : s.contact_email.zh;
+      contactEmail.href = `mailto:${mail}`;
+      contactEmail.textContent = mail;
+    }
+    if (contactPhone && s.contact_phone) {
+      contactPhone.textContent = isEn ? s.contact_phone.en : s.contact_phone.zh;
+    }
+
+    const copyright = document.querySelector(".footer-copyright");
+    if (copyright && s.footer_copyright) copyright.textContent = isEn ? s.footer_copyright.en : s.footer_copyright.zh;
+
+    const formNoteLabel = document.querySelector(".footer-form-note-label");
+    const formNoteUrl = document.querySelector(".footer-form-note-url");
+    if (formNoteLabel && s.footer_form_note_label) formNoteLabel.textContent = isEn ? s.footer_form_note_label.en : s.footer_form_note_label.zh;
+    if (formNoteUrl && s.submit_form_url) formNoteUrl.textContent = isEn ? s.submit_form_url.en : s.submit_form_url.zh;
+  }
+
   // 渲染 FAQ 常見問題
   function renderFaq(lang) {
     const isEn = lang === "en";
+    const s = liveData.settings;
+    applySectionToggle("#faq", 4, s.section_faq_show);
     const headerTitle = document.querySelector("#faq .section-title");
     const headerDesc = document.querySelector("#faq .section-desc");
-    if (headerTitle) headerTitle.textContent = isEn ? "Frequently Asked Questions" : "常見問答";
-    if (headerDesc) headerDesc.textContent = isEn ? "Answers to common questions regarding the slogan campaign." : "關於百年院慶標語徵選活動之常見問題整理";
+    if (headerTitle && s.section_faq_title) headerTitle.textContent = isEn ? s.section_faq_title.en : s.section_faq_title.zh;
+    if (headerDesc && s.section_faq_desc) headerDesc.textContent = isEn ? s.section_faq_desc.en : s.section_faq_desc.zh;
 
     const accordion = document.getElementById("faqAccordion");
     if (!accordion || !liveData.faq) return;
@@ -769,33 +949,81 @@
               <span>${q}</span>
               <span class="faq-icon">${idx === 0 ? "×" : "+"}</span>
             </button>
-            <div class="faq-answer">
+            <div class="faq-answer"><div class="faq-answer-inner">
               ${a}
-            </div>
+            </div></div>
           </div>
         `;
       })
       .join("");
 
-    // 重新綁定手風琴展開收合
-    accordion.querySelectorAll(".faq-item").forEach(item => {
-      const btn = item.querySelector(".faq-question");
-      if (btn) {
-        btn.addEventListener("click", () => {
-          const isOpen = item.classList.contains("open");
-          accordion.querySelectorAll(".faq-item").forEach(other => {
-            other.classList.remove("open");
-            const icon = other.querySelector(".faq-icon");
-            if (icon) icon.textContent = "+";
-          });
-          if (!isOpen) {
-            item.classList.add("open");
-            const icon = item.querySelector(".faq-icon");
-            if (icon) icon.textContent = "×";
-          }
-        });
-      }
-    });
+    bindAccordion(accordion, "faq-item");
+  }
+
+  // 遮蔽 SSO 帳號：保留前 2 碼，其餘以全形星號取代
+  function maskSso(sso) {
+    if (!sso) return "";
+    return sso.slice(0, 2) + "＊＊＊＊";
+  }
+
+  // 渲染「入圍名單公告」表格
+  function renderShortlist(lang) {
+    const isEn = lang === "en";
+    const s = liveData.settings;
+    applySectionToggle("#shortlist", 5, s.section_shortlist_show);
+
+    const headerTitle = document.querySelector("#shortlist .section-title");
+    const headerDesc = document.querySelector("#shortlist .section-desc");
+    if (headerTitle && s.section_shortlist_title) headerTitle.textContent = isEn ? s.section_shortlist_title.en : s.section_shortlist_title.zh;
+    if (headerDesc && s.section_shortlist_desc) headerDesc.textContent = isEn ? s.section_shortlist_desc.en : s.section_shortlist_desc.zh;
+
+    const table = document.getElementById("shortlistTable");
+    const tbody = document.getElementById("shortlistTableBody");
+    const emptyMsg = document.getElementById("shortlistEmpty");
+    if (!table || !tbody) return;
+
+    // 欄位開關
+    const showDept = !(s.shortlist_show_dept && s.shortlist_show_dept.zh === "否");
+    const showName = !(s.shortlist_show_name && s.shortlist_show_name.zh === "否");
+    const showSso = !(s.shortlist_show_sso && s.shortlist_show_sso.zh === "否");
+    const maskSsoOn = !(s.shortlist_mask_sso && s.shortlist_mask_sso.zh === "否");
+    const showZh = !(s.shortlist_show_slogan_zh && s.shortlist_show_slogan_zh.zh === "否");
+    const showEn = !(s.shortlist_show_slogan_en && s.shortlist_show_slogan_en.zh === "否");
+
+    table.classList.toggle("hide-dept", !showDept);
+    table.classList.toggle("hide-name", !showName);
+    table.classList.toggle("hide-sso", !showSso);
+    table.classList.toggle("hide-zh", !showZh);
+    table.classList.toggle("hide-en", !showEn);
+
+    const rows = (liveData.shortlist || []).filter(r => r.show && (r.name_zh || r.name_en || r.slogan_zh));
+
+    if (rows.length === 0) {
+      tbody.innerHTML = "";
+      table.hidden = true;
+      if (emptyMsg) emptyMsg.hidden = false;
+      return;
+    }
+
+    table.hidden = false;
+    if (emptyMsg) emptyMsg.hidden = true;
+
+    tbody.innerHTML = rows
+      .map(r => {
+        const dept = isEn ? r.dept_en : r.dept_zh;
+        const name = isEn ? r.name_en : r.name_zh;
+        const sso = maskSsoOn ? maskSso(r.sso) : r.sso;
+        return `
+          <tr>
+            <td class="col-dept">${dept || ""}</td>
+            <td class="col-name">${name || ""}</td>
+            <td class="col-sso">${sso || ""}</td>
+            <td class="col-zh">${r.slogan_zh || ""}</td>
+            <td class="col-en">${r.slogan_en || ""}</td>
+          </tr>
+        `;
+      })
+      .join("");
   }
 
   // 更新語系切換按鈕狀態

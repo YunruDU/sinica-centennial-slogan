@@ -743,97 +743,72 @@
       margin-right: auto;
     }
 
-    .highlight-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-    }
-
-    .highlight-card {
-      background: var(--bg-cream);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-md);
-      padding: 34px 28px;
-      position: relative;
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .highlight-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--gold-gradient);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .highlight-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--gold-bright);
+    /* ========================================================
+       SHORTLIST ANNOUNCEMENT TABLE (入圍名單公告)
+       ======================================================== */
+    .shortlist-section {
+      padding: 70px 24px;
       background: #ffffff;
     }
 
-    .highlight-card:hover::before {
-      opacity: 1;
+    .shortlist-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
     }
 
-    .card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--gold-pale);
-      color: var(--gold-dark);
-      font-size: 0.82rem;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      border: 1px solid rgba(167, 119, 44, 0.28);
-      margin-bottom: 18px;
-      align-self: flex-start;
-      letter-spacing: 0.05em;
+    .shortlist-table {
+      width: 100%;
+      min-width: 640px;
+      border-collapse: collapse;
+      font-size: 0.95rem;
     }
 
-    .card-title {
-      font-size: 1.42rem;
+    .shortlist-table thead th {
+      background: var(--wine-gradient);
+      color: #ffffff;
       font-weight: 700;
-      color: var(--wine-primary);
+      text-align: left;
+      padding: 14px 18px;
       letter-spacing: 0.04em;
-      margin-bottom: 14px;
-      line-height: 1.35;
+      white-space: nowrap;
     }
 
-    .card-body {
+    .shortlist-table tbody td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border-soft);
+      color: var(--text-main);
+      vertical-align: top;
+    }
+
+    .shortlist-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .shortlist-table tbody tr:nth-child(even) {
+      background: var(--bg-cream);
+    }
+
+    .shortlist-table .col-sso {
+      font-family: var(--font-serif-en);
       color: var(--text-muted);
-      font-size: 0.98rem;
-      line-height: 1.8;
-      flex-grow: 1;
+      letter-spacing: 0.04em;
     }
 
-    .card-list {
-      list-style: none;
-      margin-top: 12px;
+    .shortlist-table.hide-dept .col-dept,
+    .shortlist-table.hide-name .col-name,
+    .shortlist-table.hide-sso .col-sso,
+    .shortlist-table.hide-zh .col-zh,
+    .shortlist-table.hide-en .col-en {
+      display: none;
     }
 
-    .card-list li {
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 8px;
-    }
-
-    .card-list li::before {
-      content: "✦";
-      position: absolute;
-      left: 0;
-      color: var(--gold-bright);
-      font-size: 0.85rem;
+    .shortlist-empty {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--text-muted);
+      font-size: 1rem;
     }
 
     /* ========================================================
@@ -978,92 +953,6 @@
     }
 
     /* ========================================================
-       CONTENT SECTION 3: DETAILED RULES & SPECS
-       ======================================================== */
-    .rules-section {
-      padding: 80px 24px;
-      background: #ffffff;
-    }
-
-    .rules-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 32px;
-      align-items: start;
-    }
-
-    .rules-card-box {
-      background: var(--bg-cream);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius-md);
-      padding: 36px 32px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .rules-box-title {
-      font-size: 1.45rem;
-      font-weight: 800;
-      color: var(--wine-primary);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1.5px solid rgba(167, 119, 44, 0.25);
-      padding-bottom: 12px;
-    }
-
-    .rules-box-title::before {
-      content: "§";
-      color: var(--gold-primary);
-      font-family: var(--font-serif-en);
-      font-size: 1.4em;
-    }
-
-    .spec-item {
-      margin-bottom: 22px;
-    }
-
-    .spec-label {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-    }
-
-    .spec-pill {
-      font-size: 0.78rem;
-      padding: 2px 10px;
-      border-radius: var(--radius-full);
-      background: var(--gold-pale);
-      color: var(--gold-dark);
-      font-weight: 700;
-    }
-
-    .spec-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    .notice-callout {
-      background: rgba(138, 23, 36, 0.05);
-      border-left: 4px solid var(--wine-primary);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      padding: 16px 20px;
-      margin-top: 24px;
-      font-size: 0.92rem;
-      color: var(--text-main);
-      line-height: 1.75;
-    }
-
-    .notice-callout strong {
-      color: var(--wine-primary);
-    }
-
-    /* ========================================================
        CONTENT SECTION 4: FAQ (常見問答 手風琴)
        ======================================================== */
     .faq-section {
@@ -1133,10 +1022,15 @@
     }
 
     .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease-out, padding 0.25s ease;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease;
       background: #ffffff;
+    }
+
+    .faq-answer-inner {
+      overflow: hidden;
+      min-height: 0;
       color: var(--text-muted);
       font-size: 0.98rem;
       line-height: 1.8;
@@ -1144,121 +1038,11 @@
     }
 
     .faq-item.open .faq-answer {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-item.open .faq-answer-inner {
       padding: 0 24px 22px;
-      max-height: 300px;
-    }
-
-    /* ========================================================
-       CALL TO ACTION BANNER (BOTTOM OF PAGE)
-       ======================================================== */
-    .cta-banner-section {
-      padding: 90px 24px;
-      background: linear-gradient(135deg, #500a11 0%, #76121d 60%, #46080e 100%);
-      color: #ffffff;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      border-top: 2px solid var(--gold-bright);
-    }
-
-    .cta-banner-section::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, rgba(212, 167, 90, 0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cta-banner-inner {
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 2;
-    }
-
-    .cta-badge {
-      display: inline-block;
-      font-family: var(--font-serif-en);
-      font-size: 0.85rem;
-      letter-spacing: 0.25em;
-      color: var(--gold-light);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-    }
-
-    .cta-title {
-      font-size: clamp(2rem, 4.5vw, 3rem);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      margin-bottom: 18px;
-      line-height: 1.3;
-      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    }
-
-    .cta-title span {
-      background: var(--gold-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .cta-desc {
-      font-size: 1.15rem;
-      color: rgba(255, 255, 255, 0.88);
-      max-width: 620px;
-      margin: 0 auto 36px;
-      line-height: 1.8;
-    }
-
-    .cta-btn-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .cta-btn-main {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      background: linear-gradient(135deg, #d4a75a, #9e6f28);
-      color: #2c1208;
-      padding: 16px 42px;
-      border-radius: var(--radius-full);
-      font-size: 1.25rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      border: 2px solid #fff2c6;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-      transition: all 0.28s ease;
-    }
-
-    .cta-btn-main:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 16px 40px rgba(212, 167, 90, 0.45);
-      background: linear-gradient(135deg, #e5bf76, #af7d33);
-    }
-
-    .cta-btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(8px);
-      color: #ffffff;
-      padding: 15px 36px;
-      border-radius: var(--radius-full);
-      font-size: 1.15rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      border: 1.5px solid rgba(255, 255, 255, 0.4);
-      transition: all 0.25s ease;
-    }
-
-    .cta-btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.25);
-      border-color: #ffffff;
-      transform: translateY(-3px);
     }
 
     /* ========================================================
@@ -1491,17 +1275,101 @@
     }
 
     /* ========================================================
+       SHARED MOBILE/DIALOG BUTTON (抽屜投稿按鈕、彈窗按鈕、常駐列按鈕共用)
+       ======================================================== */
+    .btn-mobile {
+      width: 100%;
+      min-height: 50px;
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+      white-space: nowrap;
+      cursor: pointer;
+      box-sizing: border-box;
+    }
+
+    .btn-mobile-primary {
+      background: var(--wine-gradient);
+      color: #ffffff;
+      border: 1.5px solid var(--gold-light);
+      box-shadow: 0 6px 20px rgba(108, 14, 24, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-mobile-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-mobile-secondary {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--wine-primary);
+      border: 1.5px solid var(--gold-bright);
+      box-shadow: 0 4px 14px rgba(78, 38, 16, 0.1);
+    }
+
+    .btn-mobile-secondary:active {
+      transform: scale(0.97);
+    }
+
+    /* ========================================================
+       BACK TO TOP BUTTON
+       ======================================================== */
+    .back-to-top {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 95;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--wine-gradient);
+      color: #ffffff;
+      border: 1.5px solid var(--gold-light);
+      box-shadow: 0 6px 18px rgba(108, 14, 24, 0.32);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+    }
+
+    .back-to-top svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 26px rgba(108, 14, 24, 0.42);
+      border-color: #ffffff;
+    }
+
+    /* ========================================================
        MEDIA QUERIES (RESPONSIVE BREAKPOINTS)
        ======================================================== */
 
     /* Small Desktops & Laptops (<= 1200px) */
     @media (max-width: 1200px) {
-      .highlight-grid {
-        gap: 20px;
-      }
-      .rules-grid {
-        grid-template-columns: 1fr;
-      }
       .footer-container {
         grid-template-columns: 1fr 1fr;
       }
@@ -1557,9 +1425,6 @@
       .timeline-wrap::before {
         display: none;
       }
-      .highlight-grid {
-        grid-template-columns: 1fr;
-      }
       .nav-links {
         display: none;
       }
@@ -1568,6 +1433,12 @@
       }
       .mobile-floating-bar {
         display: block;
+      }
+      .back-to-top {
+        right: 16px;
+        bottom: 92px;
+        width: 44px;
+        height: 44px;
       }
     }
 
@@ -1598,14 +1469,6 @@
       }
       .footer-container {
         grid-template-columns: 1fr;
-      }
-      .cta-btn-wrap {
-        flex-direction: column;
-        width: 100%;
-      }
-      .cta-btn-main, .cta-btn-secondary {
-        width: 100%;
-        justify-content: center;
       }
       .dialog-header {
         padding: 16px 20px;
@@ -1693,6 +1556,7 @@
           <li><a href="#timeline" class="nav-link">重要時程</a></li>
           <li><a href="#rules" class="nav-link" data-action="open-rules">詳細辦法</a></li>
           <li><a href="#faq" class="nav-link">常見問題</a></li>
+          <li><a href="#shortlist" class="nav-link">入圍名單</a></li>
         </ul>
       </nav>
 
@@ -1738,6 +1602,7 @@
         <li><a href="#timeline" class="drawer-link">時程規劃</a></li>
         <li><a href="#rules" class="drawer-link" data-action="open-rules">徵選辦法</a></li>
         <li><a href="#faq" class="drawer-link">常見問答</a></li>
+        <li><a href="#shortlist" class="drawer-link">入圍名單</a></li>
       </ul>
       <div style="margin-top: auto; padding-top: 24px;">
         <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="drawerSubmitBtn">
@@ -1864,54 +1729,12 @@
     <section class="highlights-section" id="highlights">
       <div class="section-container">
         <div class="section-header">
-          <span class="section-kicker">HIGHLIGHTS</span>
-          <h2 class="section-title">活動三大核心重點</h2>
-          <p class="section-desc">中央研究院將邁向建院百周年，誠摯邀請全體同仁一同用文字銘刻學術榮光，開展世紀新頁。</p>
+          <span class="section-kicker">LATEST NEWS</span>
+          <h2 class="section-title">最新消息</h2>
+          <p class="section-desc">百年院慶標語徵選活動相關最新公告與更新，請隨時留意。</p>
         </div>
 
-        <div class="highlight-grid">
-          <!-- Card 1: 參加對象 -->
-          <article class="highlight-card">
-            <div class="card-badge">✦ 參加資格</div>
-            <h3 class="card-title">本院全體現職同仁</h3>
-            <p class="card-body">
-              本徵選活動專屬中研院同仁參與。全流程（線上投稿與後續網路票選）皆以院內身分確認機制進行，防止外網誤投，凝聚全院共識。
-            </p>
-            <ul class="card-list">
-              <li>本院現職研究、技術、行政及助理同仁</li>
-              <li>每位同仁限投稿 1 組作品</li>
-              <li>以專屬身分驗證，確保公平與正確性</li>
-            </ul>
-          </article>
-
-          <!-- Card 2: 規格要求 -->
-          <article class="highlight-card">
-            <div class="card-badge">✦ 徵件規格</div>
-            <h3 class="card-title">中英雙語 + 理念說明</h3>
-            <p class="card-body">
-              投稿作品須包含中文標語與英文標語，兩者核心精神須緊密呼應、精準傳達，並附上設計理念。
-            </p>
-            <ul class="card-list">
-              <li><strong>中文標語</strong>：20 字以內（數字/字母均計1字）</li>
-              <li><strong>英文標語</strong>：15 個字詞（Words）以內</li>
-              <li><strong>理念說明</strong>：300 字以內設計理念涵義</li>
-            </ul>
-          </article>
-
-          <!-- Card 3: 優先入圍機制 -->
-          <article class="highlight-card">
-            <div class="card-badge">✦ 入圍機制</div>
-            <h3 class="card-title">秒級時間戳記與全院票選</h3>
-            <p class="card-body">
-              系統精確記錄投稿時間至秒。若有標語內容完全相同者，以較早送出投稿者為優先入圍依據；初審入圍後將舉辦全院同仁線上票選！
-            </p>
-            <ul class="card-list">
-              <li>秒級時間戳記，先投先贏機制</li>
-              <li>評審審查全面遮蔽個資，客觀公正</li>
-              <li>全院同仁票選，每人 1 票選出代表作</li>
-            </ul>
-          </article>
-        </div>
+        <div class="faq-accordion" id="newsAccordion"></div>
       </div>
     </section>
 
@@ -1981,96 +1804,30 @@
     </section>
 
     <!-- ========================================================
-         SECTION 3: RULES & SPECIFICATIONS DETAILS
+         SECTION: SHORTLIST ANNOUNCEMENT (入圍名單公告)
          ======================================================== -->
-    <section class="rules-section" id="rules">
+    <section class="shortlist-section" id="shortlist" hidden>
       <div class="section-container">
         <div class="section-header">
-          <span class="section-kicker">REGULATIONS & CRITERIA</span>
-          <h2 class="section-title">詳細徵選辦法與規範</h2>
-          <p class="section-desc">請詳細參閱投稿規定，確保作品符合評選標準。</p>
+          <span class="section-kicker">SHORTLIST ANNOUNCEMENT</span>
+          <h2 class="section-title">入圍名單公告</h2>
+          <p class="section-desc">初選入圍作品名單，正式得獎結果請以官方公告為準。</p>
         </div>
 
-        <div class="rules-grid">
-          <!-- Left: Detailed Rules -->
-          <div class="rules-card-box">
-            <h3 class="rules-box-title">標語規格要求</h3>
-
-            <div class="spec-item">
-              <div class="spec-label">
-                <span>中文標語規格</span>
-                <span class="spec-pill">上限 20 字</span>
-              </div>
-              <p class="spec-desc">
-                以 20 字以內為限。作品內之英文字母、數字均以 1 字計算，標點符號不計入。文詞應簡潔有力、響亮易記、展現學術卓越與宏觀願景。
-              </p>
-            </div>
-
-            <div class="spec-item">
-              <div class="spec-label">
-                <span>英文標語規格</span>
-                <span class="spec-pill">上限 15 字詞 (Words)</span>
-              </div>
-              <p class="spec-desc">
-                以 15 個英文單詞（Words）以內為限。須忠實傳達中文標語之核心意涵，兩者並列為一組作品進行投稿。
-              </p>
-            </div>
-
-            <div class="spec-item">
-              <div class="spec-label">
-                <span>創作理念說明</span>
-                <span class="spec-pill">上限 300 字</span>
-              </div>
-              <p class="spec-desc">
-                須附上設計理念與涵義說明，闡述如何呼應百年歷史傳承、當代學術精神與未來世紀展望。
-              </p>
-            </div>
-
-            <div class="notice-callout">
-              <strong>重要具結提醒：</strong>投稿人須保證作品為原創且未曾公開發表、未曾於其他競賽獲獎或侵害他人著作權。送出表單前須勾選「同意著作權聲明與原創具結」。
-            </div>
-          </div>
-
-          <!-- Right: Submission & Evaluation Rules -->
-          <div class="rules-card-box">
-            <h3 class="rules-box-title">評審與投稿流程</h3>
-
-            <div class="spec-item">
-              <div class="spec-label">
-                <span>投稿件數限制</span>
-                <span class="spec-pill">每人限 1 件</span>
-              </div>
-              <p class="spec-desc">
-                每位同仁限提交 1 組（包含中、英文標語及理念）。送出後請確認資料無誤。
-              </p>
-            </div>
-
-            <div class="spec-item">
-              <div class="spec-label">
-                <span>秒級時間優先原則</span>
-                <span class="spec-pill">優先入圍依據</span>
-              </div>
-              <p class="spec-desc">
-                系統紀錄送出時間至秒。若遇標語文字內容完全相同之情形，以系統紀錄較早完成投稿送出者為優先入圍依據。
-              </p>
-            </div>
-
-            <div class="spec-item">
-              <div class="spec-label">
-                <span>雙盲審查機制</span>
-                <span class="spec-pill">公平公正</span>
-              </div>
-              <p class="spec-desc">
-                評審委員進行線上初審與複審時，系統全面隱藏投稿人之姓名及服務單位/所中心，恪遵公平客觀原則。
-              </p>
-            </div>
-
-            <div style="margin-top: 30px; text-align: center;">
-              <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" style="display: inline-flex; width: auto; padding: 14px 38px;">
-                立即前往 Google 表單投稿 ›
-              </a>
-            </div>
-          </div>
+        <div class="shortlist-table-wrap">
+          <table class="shortlist-table" id="shortlistTable">
+            <thead>
+              <tr>
+                <th class="col-dept">所別</th>
+                <th class="col-name">姓名</th>
+                <th class="col-sso">SSO</th>
+                <th class="col-zh">中文標語</th>
+                <th class="col-en">英文標語</th>
+              </tr>
+            </thead>
+            <tbody id="shortlistTableBody"></tbody>
+          </table>
+          <p class="shortlist-empty" id="shortlistEmpty" hidden>入圍名單尚未公布，敬請期待。</p>
         </div>
       </div>
     </section>
@@ -2156,27 +1913,6 @@
       </div>
     </section>
 
-    <!-- ========================================================
-         SECTION 5: BOTTOM CALL TO ACTION
-         ======================================================== -->
-    <section class="cta-banner-section">
-      <div class="cta-banner-inner">
-        <span class="cta-badge">ACADEMIA SINICA CENTENNIAL</span>
-        <h2 class="cta-title">以一句話，<span>共創中研百年新章</span></h2>
-        <p class="cta-desc">
-          凝聚百年學術淬鍊，啟發未來世代探索。誠摯邀請全體中研同仁揮灑文采、踴躍投稿！
-        </p>
-        <div class="cta-btn-wrap">
-          <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="cta-btn-main" id="bottomCtaSubmitBtn">
-            <span>立即前往投稿</span>
-            <span aria-hidden="true">›</span>
-          </a>
-          <button type="button" class="cta-btn-secondary" data-action="open-rules">
-            <span>閱讀徵選簡章</span>
-          </button>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- ========================================================
@@ -2187,7 +1923,7 @@
       <div>
         <div class="footer-brand-title">中央研究院 百周年院慶標語徵選</div>
         <div class="footer-brand-en">ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN</div>
-        <p class="footer-desc">
+        <p class="footer-desc footer-desc-main">
           指導主辦：中央研究院 百年院慶籌備委員會<br />
           執行單位：中央研究院 秘書處<br />
           技術協同：中央研究院 資訊服務處
@@ -2195,33 +1931,37 @@
       </div>
 
       <div>
-        <div class="footer-col-title">快速連結</div>
+        <div class="footer-col-title" id="footerQuickLinksTitle">快速連結</div>
         <ul class="footer-list">
-          <li><a href="#hero-top">回首頁主視覺</a></li>
-          <li><a href="#highlights">活動三大重點</a></li>
-          <li><a href="#timeline">徵選期程表</a></li>
-          <li><a href="#rules" data-action="open-rules">詳細徵選辦法</a></li>
-          <li><a href="#faq">常見問答 (FAQ)</a></li>
-          <li><a href="https://www.sinica.edu.tw" target="_blank" rel="noopener noreferrer">中央研究院官網 ↗</a></li>
+          <li><a href="#hero-top" class="footer-quicklink">回首頁主視覺</a></li>
+          <li><a href="#highlights" class="footer-quicklink">活動三大重點</a></li>
+          <li><a href="#timeline" class="footer-quicklink">徵選期程表</a></li>
+          <li><a href="#rules" data-action="open-rules" class="footer-quicklink">詳細徵選辦法</a></li>
+          <li><a href="#faq" class="footer-quicklink">常見問答 (FAQ)</a></li>
+          <li><a href="#shortlist" class="footer-quicklink">入圍名單公告</a></li>
+          <li><a href="https://www.sinica.edu.tw" target="_blank" rel="noopener noreferrer" class="footer-official-link">中央研究院官網 ↗</a></li>
         </ul>
       </div>
 
       <div>
-        <div class="footer-col-title">主辦聯絡資訊</div>
-        <p class="footer-desc" style="line-height: 1.8;">
-          院區地址：115201 臺北市南港區研究院路二段128號<br />
-          主辦窗口：中央研究院 秘書處<br />
-          活動簡章與徵選相關諮詢，敬請透過院內分機洽詢。
+        <div class="footer-col-title" id="footerContactTitle">主辦聯絡資訊</div>
+        <p class="footer-desc footer-address" style="line-height: 1.8;">
+          院區地址：115201 臺北市南港區研究院路二段128號
+        </p>
+        <p class="footer-desc footer-contact-line" style="line-height: 1.8;">
+          主辦窗口：<span class="footer-org-name">中央研究院 秘書處</span><br />
+          聯絡信箱：<a class="footer-contact-email" href="mailto:centennial@gate.sinica.edu.tw">centennial@gate.sinica.edu.tw</a><br />
+          聯絡電話：<span class="footer-contact-phone">02-2789-9400</span>
         </p>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <div>
+      <div class="footer-copyright">
         © 2026 Academia Sinica 中央研究院. All Rights Reserved.
       </div>
       <div class="footer-form-note">
-        ✦ 投稿 Google 表單連結：<code style="color: #ffffff;">https://forms.gle/MJkYBRTb5NpWaSAZ6</code>
+        <span class="footer-form-note-label">✦ 投稿 Google 表單連結：</span><code style="color: #ffffff;" class="footer-form-note-url">https://forms.gle/MJkYBRTb5NpWaSAZ6</code>
       </div>
     </div>
   </footer>
@@ -2236,10 +1976,11 @@
     </div>
 
     <div class="dialog-content">
-      <div style="background: #fdf6e9; border: 1px solid #d4a75a; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.92rem; color: #6c4718;">
-        <strong>活動提示：</strong>本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。
+      <div class="dialog-notice" style="background: #fdf6e9; border: 1px solid #d4a75a; border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.92rem; color: #6c4718;">
+        <strong class="dialog-notice-label">活動提示：</strong><span class="dialog-notice-text">本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。</span>
       </div>
 
+      <div class="dialog-rules-list">
       <h3>一、活動宗旨與目標</h3>
       <p>
         中央研究院將於 2028 年邁入建院百周年（1928 — 2028）。為傳承學術奠基精神、展現卓越研究能量並勾勒未來新世紀願景，特舉辦「中央研究院百周年標語（Slogan）公開徵選活動」，期能藉由全院同仁的智慧與文采，凝聚跨世代之中研精神。
@@ -2281,6 +2022,7 @@
       <p>
         得獎作品之著作財產權依主辦單位規定讓與或授權中央研究院運用於百年院慶相關宣傳、出版、文宣、影音及官方活動中。主辦單位保有活動辦法之最終解釋與修訂權利。
       </p>
+      </div>
     </div>
 
     <div class="dialog-footer">
@@ -2308,6 +2050,16 @@
   </div>
 
   <!-- ========================================================
+       BACK TO TOP BUTTON
+       ======================================================== -->
+  <button type="button" class="back-to-top" id="backToTopBtn" aria-label="回到頁面頂部">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 19V5" />
+      <path d="M5 12l7-7 7 7" />
+    </svg>
+  </button>
+
+  <!-- ========================================================
        CLIENT-SIDE JAVASCRIPT
        ======================================================== -->
   <script>
@@ -2323,7 +2075,6 @@
         document.getElementById("headerCtaBtn"),
         document.getElementById("desktopSubmitBtn"),
         document.getElementById("mobileSubmitBtn"),
-        document.getElementById("bottomCtaSubmitBtn"),
       ];
       submitButtons.forEach((btn) => {
         if (btn) btn.href = GOOGLE_FORM_URL;
@@ -2416,19 +2167,22 @@
         }
       });
 
-      // 5. Mobile Floating Bar Scroll Observer
+      // 5. Mobile Floating Bar & Back-to-Top Scroll Observer
       const heroSection = document.getElementById("hero-top");
       const mobileFloatingBar = document.getElementById("mobileFloatingBar");
+      const backToTopBtn = document.getElementById("backToTopBtn");
 
-      if (heroSection && mobileFloatingBar && "IntersectionObserver" in window) {
+      if (heroSection && "IntersectionObserver" in window) {
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              // If hero is NOT intersecting (user scrolled past), show floating bar
+              // If hero is NOT intersecting (user scrolled past), show floating bar / back-to-top button
               if (!entry.isIntersecting) {
-                mobileFloatingBar.classList.add("visible");
+                if (mobileFloatingBar) mobileFloatingBar.classList.add("visible");
+                if (backToTopBtn) backToTopBtn.classList.add("visible");
               } else {
-                mobileFloatingBar.classList.remove("visible");
+                if (mobileFloatingBar) mobileFloatingBar.classList.remove("visible");
+                if (backToTopBtn) backToTopBtn.classList.remove("visible");
               }
             });
           },
@@ -2436,10 +2190,17 @@
         );
         observer.observe(heroSection);
       }
+
+      // 6. Back to Top Button Click
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
     });
   </script>
 
   <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
-  <script src="assets/cms.js?v=6"></script>
+  <script src="assets/cms.js?v=13"></script>
 </body>
 </html>
