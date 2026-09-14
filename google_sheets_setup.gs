@@ -69,7 +69,6 @@ function setupCentennialSloganSheets() {
     ["winners_show_slogan_zh", "得獎公告是否顯示「中文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["winners_show_slogan_en", "得獎公告是否顯示「英文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["dialog_title", "徵選辦法彈窗標題", "中央研究院百周年標語徵選活動辦法", "Academia Sinica Centennial Slogan Campaign — Guidelines", "彈窗頂部標題"],
-    ["dialog_notice", "彈窗內活動提示文字", "本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。", "This page follows the Secretariat's requirements. Submissions link to a Google Form; official results follow the organizer's latest announcements.", "彈窗內黃色提示框文字"],
     ["dialog_close_btn", "彈窗關閉按鈕文字", "關閉視窗", "Close", "彈窗底部按鈕"],
     ["dialog_submit_btn", "彈窗投稿按鈕文字", "前往表單投稿 ›", "Submit Now ›", "彈窗底部按鈕"],
     ["footer_brand_title", "頁尾機構主標題", "中央研究院 百周年院慶標語徵選", "Academia Sinica Centennial Slogan Campaign", "Footer 左欄大字"],

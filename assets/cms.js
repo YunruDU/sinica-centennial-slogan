@@ -117,10 +117,6 @@
         zh: "中央研究院百周年標語徵選活動辦法",
         en: "Academia Sinica Centennial Slogan Campaign — Guidelines"
       },
-      dialog_notice: {
-        zh: "本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。",
-        en: "This page follows the Secretariat's requirements. Submissions link to a Google Form; official results follow the organizer's latest announcements."
-      },
       dialog_close_btn: { zh: "關閉視窗", en: "Close" },
       dialog_submit_btn: { zh: "前往表單投稿 ›", en: "Submit Now ›" },
 
@@ -850,11 +846,6 @@
 
     const dialogTitle = document.querySelector(".dialog-header-title");
     if (dialogTitle && s.dialog_title) dialogTitle.textContent = isEn ? s.dialog_title.en : s.dialog_title.zh;
-
-    const dialogNoticeText = document.querySelector(".dialog-notice-text");
-    if (dialogNoticeText && s.dialog_notice) dialogNoticeText.textContent = isEn ? s.dialog_notice.en : s.dialog_notice.zh;
-    const dialogNoticeLabel = document.querySelector(".dialog-notice-label");
-    if (dialogNoticeLabel) dialogNoticeLabel.textContent = isEn ? "Notice:" : "活動提示：";
 
     const dialogBody = document.querySelector(".dialog-rules-list");
     const formUrl = liveData.settings.submit_form_url ? (isEn ? liveData.settings.submit_form_url.en : liveData.settings.submit_form_url.zh) : "https://forms.gle/MJkYBRTb5NpWaSAZ6";
