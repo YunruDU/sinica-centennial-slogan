@@ -1030,6 +1030,43 @@
 
     const copyright = document.querySelector(".footer-copyright");
     if (copyright && s.footer_copyright) copyright.textContent = isEn ? s.footer_copyright.en : s.footer_copyright.zh;
+
+    renderFooterLinks(lang);
+  }
+
+  // 各平台圖示（依「常見問題與Footer」分頁「Footer連結」列的「類型/圖示」欄位對應，未知類型 fallback 為通用連結圖示）
+  const FOOTER_LINK_ICONS = {
+    web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>',
+    info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>',
+    facebook: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"></path></svg>',
+    youtube: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.5v-7l6.3 3.5Z"></path></svg>',
+    link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.5 1.5"></path><path d="M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.5-1.5"></path></svg>'
+  };
+
+  // 渲染頁尾右下角的平台圖示連結（資料來源：「常見問題與Footer」分頁的「Footer連結」列）
+  // 用 createElement + 屬性賦值而非字串拼接組出 <a href>，避免網址/名稱裡若含特殊字元破壞 HTML 結構
+  function renderFooterLinks(lang) {
+    const isEn = lang === "en";
+    const container = document.getElementById("footerSocialLinks");
+    if (!container || !liveData.footerLinks) return;
+
+    container.innerHTML = "";
+    liveData.footerLinks
+      .filter(l => l.show)
+      .forEach(l => {
+        const name = (isEn ? l.name_en : l.name_zh) || "";
+        const a = document.createElement("a");
+        a.href = l.url || "#";
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.className = "footer-social-link";
+        if (name) {
+          a.setAttribute("aria-label", name);
+          a.title = name;
+        }
+        a.innerHTML = FOOTER_LINK_ICONS[l.type] || FOOTER_LINK_ICONS.link;
+        container.appendChild(a);
+      });
   }
 
   // 渲染 FAQ 常見問題

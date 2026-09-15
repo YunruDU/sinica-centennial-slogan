@@ -1167,6 +1167,34 @@
       color: #827267;
     }
 
+    .footer-social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .footer-social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(212, 167, 90, 0.3);
+      color: #dfba76;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .footer-social-links a svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .footer-social-links a:hover {
+      background: rgba(212, 167, 90, 0.15);
+      border-color: var(--gold-light);
+      color: #fff;
+    }
+
     /* ========================================================
        MODAL DIALOG (徵選辦法 POPUP)
        ======================================================== */
@@ -2021,6 +2049,7 @@
       <div class="footer-copyright">
         © 2026 Academia Sinica 中央研究院. All Rights Reserved.
       </div>
+      <div class="footer-social-links" id="footerSocialLinks"></div>
     </div>
   </footer>
 
@@ -2256,6 +2285,6 @@
   </script>
 
   <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
-  <script src="assets/cms.js?v=21"></script>
+  <script src="assets/cms.js?v=22"></script>
 </body>
 </html>
