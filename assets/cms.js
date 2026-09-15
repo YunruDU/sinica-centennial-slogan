@@ -1066,13 +1066,14 @@
           a.setAttribute("aria-label", name);
           a.title = name;
         }
-        if (l.type === "logo") {
+        const typeKey = (l.type || "").trim().toLowerCase();
+        if (typeKey === "logo") {
           const img = document.createElement("img");
           img.src = "assets/sinica-logo.png";
           img.alt = name;
           a.appendChild(img);
         } else {
-          a.innerHTML = FOOTER_LINK_ICONS[l.type] || FOOTER_LINK_ICONS.link;
+          a.innerHTML = FOOTER_LINK_ICONS[typeKey] || FOOTER_LINK_ICONS.link;
         }
         container.appendChild(a);
       });
