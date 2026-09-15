@@ -822,6 +822,46 @@
       border-top: 1px dashed var(--border-soft);
     }
 
+    .entry-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 28px;
+    }
+
+    .entry-page-btn {
+      min-width: 36px;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-soft);
+      background: #ffffff;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .entry-page-btn:hover:not(:disabled):not(.active) {
+      border-color: var(--gold-bright);
+      color: var(--wine-primary);
+    }
+
+    .entry-page-btn.active {
+      background: var(--wine-gradient);
+      border-color: transparent;
+      color: #ffffff;
+      cursor: default;
+    }
+
+    .entry-page-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
     .shortlist-empty {
       text-align: center;
       padding: 40px 24px;
@@ -1887,6 +1927,7 @@
         </div>
 
         <div class="entry-list" id="shortlistList"></div>
+        <div class="entry-pagination" id="shortlistPagination" hidden></div>
         <p class="shortlist-empty" id="shortlistEmpty" hidden>入圍名單尚未公布，敬請期待。</p>
       </div>
     </section>
@@ -1903,6 +1944,7 @@
         </div>
 
         <div class="entry-list" id="winnersList"></div>
+        <div class="entry-pagination" id="winnersPagination" hidden></div>
         <p class="shortlist-empty" id="winnersEmpty" hidden>得獎名單尚未公布，敬請期待。</p>
       </div>
     </section>
@@ -2272,6 +2314,6 @@
   </script>
 
   <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
-  <script src="assets/cms.js?v=25"></script>
+  <script src="assets/cms.js?v=26"></script>
 </body>
 </html>

@@ -1157,6 +1157,54 @@
     return `<article class="entry-card">${metaHtml}${zhHtml}${enHtml}${conceptHtml}</article>`;
   }
 
+  // 入圍/得獎名單每頁筆數，超過時顯示頁籤
+  const ENTRY_PAGE_SIZE = 5;
+  // 各自記住目前頁數（用物件而非純數字，方便在函式間以參照傳遞、原地修改）；
+  // 中英文切換時保留頁數，只有筆數變動導致頁數超出範圍時才會被下面的 clamp 拉回去。
+  const shortlistPageState = { page: 1 };
+  const winnersPageState = { page: 1 };
+
+  // 將 rows 依 ENTRY_PAGE_SIZE 分頁，渲染當前頁的卡片與頁籤按鈕；點擊頁籤只重繪，不重新拉取資料
+  function renderEntryListWithPagination(listEl, paginationEl, rows, isEn, opts, pageState) {
+    const totalPages = Math.max(1, Math.ceil(rows.length / ENTRY_PAGE_SIZE));
+    if (pageState.page > totalPages) pageState.page = totalPages;
+    if (pageState.page < 1) pageState.page = 1;
+
+    const start = (pageState.page - 1) * ENTRY_PAGE_SIZE;
+    const pageRows = rows.slice(start, start + ENTRY_PAGE_SIZE);
+    listEl.innerHTML = pageRows.map(r => buildEntryCardHtml(r, isEn, opts)).join("");
+
+    if (!paginationEl) return;
+
+    if (totalPages <= 1) {
+      paginationEl.hidden = true;
+      paginationEl.innerHTML = "";
+      return;
+    }
+
+    const goToPage = p => {
+      pageState.page = p;
+      renderEntryListWithPagination(listEl, paginationEl, rows, isEn, opts, pageState);
+      listEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    let html = `<button type="button" class="entry-page-btn entry-page-prev" ${pageState.page === 1 ? "disabled" : ""} aria-label="${isEn ? "Previous page" : "上一頁"}">‹</button>`;
+    for (let p = 1; p <= totalPages; p++) {
+      html += `<button type="button" class="entry-page-btn${p === pageState.page ? " active" : ""}" data-page="${p}">${p}</button>`;
+    }
+    html += `<button type="button" class="entry-page-btn entry-page-next" ${pageState.page === totalPages ? "disabled" : ""} aria-label="${isEn ? "Next page" : "下一頁"}">›</button>`;
+    paginationEl.hidden = false;
+    paginationEl.innerHTML = html;
+
+    paginationEl.querySelectorAll("[data-page]").forEach(btn => {
+      btn.addEventListener("click", () => goToPage(parseInt(btn.dataset.page, 10)));
+    });
+    const prevBtn = paginationEl.querySelector(".entry-page-prev");
+    const nextBtn = paginationEl.querySelector(".entry-page-next");
+    if (prevBtn) prevBtn.addEventListener("click", () => { if (pageState.page > 1) goToPage(pageState.page - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", () => { if (pageState.page < totalPages) goToPage(pageState.page + 1); });
+  }
+
   // 渲染「入圍名單公告」
   function renderShortlist(lang) {
     const isEn = lang === "en";
@@ -1169,6 +1217,7 @@
     if (headerDesc && s.section_shortlist_desc) headerDesc.textContent = isEn ? s.section_shortlist_desc.en : s.section_shortlist_desc.zh;
 
     const list = document.getElementById("shortlistList");
+    const pagination = document.getElementById("shortlistPagination");
     const emptyMsg = document.getElementById("shortlistEmpty");
     if (!list) return;
 
@@ -1188,13 +1237,14 @@
     if (rows.length === 0) {
       list.innerHTML = "";
       list.hidden = true;
+      if (pagination) { pagination.hidden = true; pagination.innerHTML = ""; }
       if (emptyMsg) emptyMsg.hidden = false;
       return;
     }
 
     list.hidden = false;
     if (emptyMsg) emptyMsg.hidden = true;
-    list.innerHTML = rows.map(r => buildEntryCardHtml(r, isEn, opts)).join("");
+    renderEntryListWithPagination(list, pagination, rows, isEn, opts, shortlistPageState);
   }
 
   // 渲染「得獎公告」
@@ -1209,6 +1259,7 @@
     if (headerDesc && s.section_winners_desc) headerDesc.textContent = isEn ? s.section_winners_desc.en : s.section_winners_desc.zh;
 
     const list = document.getElementById("winnersList");
+    const pagination = document.getElementById("winnersPagination");
     const emptyMsg = document.getElementById("winnersEmpty");
     if (!list) return;
 
@@ -1228,13 +1279,14 @@
     if (rows.length === 0) {
       list.innerHTML = "";
       list.hidden = true;
+      if (pagination) { pagination.hidden = true; pagination.innerHTML = ""; }
       if (emptyMsg) emptyMsg.hidden = false;
       return;
     }
 
     list.hidden = false;
     if (emptyMsg) emptyMsg.hidden = true;
-    list.innerHTML = rows.map(r => buildEntryCardHtml(r, isEn, opts)).join("");
+    renderEntryListWithPagination(list, pagination, rows, isEn, opts, winnersPageState);
   }
 
   // 更新語系切換按鈕狀態
