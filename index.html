@@ -1086,7 +1086,7 @@
        FOOTER
        ======================================================== */
     .site-footer {
-      background: #241a17;
+      background: linear-gradient(180deg, var(--wine-dark) 0%, #260509 100%);
       color: #c4b7ad;
       padding: 60px 24px 36px;
       border-top: 1px solid rgba(167, 119, 44, 0.3);
@@ -1434,6 +1434,10 @@
     @media (max-width: 1200px) {
       .footer-container {
         grid-template-columns: 1fr 1fr;
+      }
+      /* 品牌介紹改佔滿整列，避免「主辦聯絡資訊」單獨落到第二列、右側留白的怪異排版 */
+      .footer-container > div:first-child {
+        grid-column: 1 / -1;
       }
     }
 
