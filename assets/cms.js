@@ -1030,11 +1030,6 @@
 
     const copyright = document.querySelector(".footer-copyright");
     if (copyright && s.footer_copyright) copyright.textContent = isEn ? s.footer_copyright.en : s.footer_copyright.zh;
-
-    const formNoteLabel = document.querySelector(".footer-form-note-label");
-    const formNoteUrl = document.querySelector(".footer-form-note-url");
-    if (formNoteLabel && s.footer_form_note_label) formNoteLabel.textContent = isEn ? s.footer_form_note_label.en : s.footer_form_note_label.zh;
-    if (formNoteUrl && s.submit_form_url) formNoteUrl.textContent = isEn ? s.submit_form_url.en : s.submit_form_url.zh;
   }
 
   // 渲染 FAQ 常見問題
