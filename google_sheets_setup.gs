@@ -57,6 +57,7 @@ function setupCentennialSloganSheets() {
     ["shortlist_mask_sso", "入圍名單「SSO」欄是否遮蔽顯示", "是", "是", "填「是」只顯示帳號前2碼＋星號；填「否」完整顯示帳號"],
     ["shortlist_show_slogan_zh", "入圍名單是否顯示「中文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_slogan_en", "入圍名單是否顯示「英文標語」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["shortlist_show_concept", "入圍名單是否顯示「創作理念說明」", "是", "是", "填「否」則不顯示理念說明段落"],
     ["section_winners_title", "「得獎公告」區塊標題", "得獎公告", "Winners Announcement", "首頁得獎公告區塊大標"],
     ["section_winners_desc", "「得獎公告」區塊說明", "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。", "Congratulations to the winners, and thank you to everyone who submitted an entry.", "首頁得獎公告區塊副標"],
     ["section_winners_show", "是否顯示「得獎公告」整個區塊", "否", "否", "得獎名單確定前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"],
@@ -68,6 +69,7 @@ function setupCentennialSloganSheets() {
     ["winners_mask_sso", "得獎公告「SSO」欄是否遮蔽顯示", "是", "是", "填「是」只顯示帳號前2碼＋星號；填「否」完整顯示帳號"],
     ["winners_show_slogan_zh", "得獎公告是否顯示「中文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["winners_show_slogan_en", "得獎公告是否顯示「英文標語」欄", "是", "是", "填「否」則整欄隱藏"],
+    ["winners_show_concept", "得獎公告是否顯示「創作理念說明」", "是", "是", "填「否」則不顯示理念說明段落"],
     ["dialog_title", "徵選辦法彈窗標題", "中央研究院百周年標語徵選活動辦法", "Academia Sinica Centennial Slogan Campaign — Guidelines", "彈窗頂部標題"],
     ["dialog_close_btn", "彈窗關閉按鈕文字", "關閉視窗", "Close", "彈窗底部按鈕"],
     ["dialog_submit_btn", "彈窗投稿按鈕文字", "前往表單投稿 ›", "Submit Now ›", "彈窗底部按鈕"],
@@ -131,17 +133,19 @@ function setupCentennialSloganSheets() {
   // 6. 入圍名單公告
   // SSO 欄位預設遮蔽顯示（保留前 2 碼＋星號），可透過「全站與主視覺」分頁的 shortlist_mask_sso 關閉遮蔽。
   // 整個區塊預設隱藏（section_shortlist_show = 否），初選結果出爐後再改為「是」公開。
+  // 「創作理念說明」欄位為選填，加在「是否顯示」後面（而非中間），舊資料不需搬動位置即可相容。
   createOrUpdateSheet(ss, "入圍名單公告", [
-    ["順序", "所別 (中)", "所別 (英)", "姓名 (中)", "姓名 (英)", "SSO帳號", "中文標語", "英文標語", "是否顯示"],
-    ["1", "範例：資訊服務處", "e.g. Office of Information Technology", "王小明", "Wang Xiao-Ming", "wxm1234", "範例標語：以一句話，凝鍊百年學術精神", "Example: A century of scholarship in a single phrase", "否"]
-  ], [60, 180, 260, 120, 160, 140, 320, 360, 90], "#500a11");
+    ["順序", "所別 (中)", "所別 (英)", "姓名 (中)", "姓名 (英)", "SSO帳號", "中文標語", "英文標語", "是否顯示", "創作理念說明 (中，選填)", "創作理念說明 (英，選填)"],
+    ["1", "範例：資訊服務處", "e.g. Office of Information Technology", "王小明", "Wang Xiao-Ming", "wxm1234", "範例標語：以一句話，凝鍊百年學術精神", "Example: A century of scholarship in a single phrase", "否", "範例理念：本標語呼應中研院百年來追求真理、貢獻社會的精神。", "Example concept: This slogan reflects Academia Sinica's century-long pursuit of truth."]
+  ], [60, 180, 260, 120, 160, 140, 320, 360, 90, 360, 360], "#500a11");
 
   // 7. 得獎公告
   // SSO 欄位預設遮蔽顯示，整個區塊預設隱藏（section_winners_show = 否），得獎名單確定後再改為「是」公開。
+  // 「創作理念說明」欄位同樣加在「是否顯示」後面。
   createOrUpdateSheet(ss, "得獎公告", [
-    ["順序", "獎項 (中)", "獎項 (英)", "所別 (中)", "所別 (英)", "姓名 (中)", "姓名 (英)", "SSO帳號", "中文標語", "英文標語", "是否顯示"],
-    ["1", "範例：首獎", "e.g. Grand Prize", "範例：資訊服務處", "e.g. Office of Information Technology", "王小明", "Wang Xiao-Ming", "wxm1234", "範例標語：以一句話，凝鍊百年學術精神", "Example: A century of scholarship in a single phrase", "否"]
-  ], [60, 140, 180, 180, 260, 120, 160, 140, 320, 360, 90], "#7a541c");
+    ["順序", "獎項 (中)", "獎項 (英)", "所別 (中)", "所別 (英)", "姓名 (中)", "姓名 (英)", "SSO帳號", "中文標語", "英文標語", "是否顯示", "創作理念說明 (中，選填)", "創作理念說明 (英，選填)"],
+    ["1", "範例：首獎", "e.g. Grand Prize", "範例：資訊服務處", "e.g. Office of Information Technology", "王小明", "Wang Xiao-Ming", "wxm1234", "範例標語：以一句話，凝鍊百年學術精神", "Example: A century of scholarship in a single phrase", "否", "範例理念：本標語呼應中研院百年來追求真理、貢獻社會的精神。", "Example concept: This slogan reflects Academia Sinica's century-long pursuit of truth."]
+  ], [60, 140, 180, 180, 260, 120, 160, 140, 320, 360, 90, 360, 360], "#7a541c");
 }
 
 function createOrUpdateSheet(ss, sheetName, data, colWidths, headerColor) {

@@ -751,48 +751,37 @@
       background: #ffffff;
     }
 
-    .shortlist-table-wrap {
-      overflow-x: auto;
+    .entry-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .entry-card {
+      background: var(--bg-cream);
       border: 1px solid var(--border-soft);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
+      padding: 22px 26px;
     }
 
-    .shortlist-table {
-      width: 100%;
-      min-width: 640px;
-      border-collapse: collapse;
-      font-size: 0.95rem;
-    }
-
-    .shortlist-table thead th {
-      background: var(--wine-gradient);
-      color: #ffffff;
-      font-weight: 700;
-      text-align: left;
-      padding: 14px 18px;
-      letter-spacing: 0.04em;
-      white-space: nowrap;
-    }
-
-    .shortlist-table tbody td {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border-soft);
-      color: var(--text-main);
-      vertical-align: top;
-    }
-
-    .shortlist-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .shortlist-table tbody tr:nth-child(even) {
-      background: var(--bg-cream);
-    }
-
-    .shortlist-table tbody .col-sso {
-      font-family: var(--font-serif-en);
+    .entry-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 14px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
       color: var(--text-muted);
+    }
+
+    .entry-meta-item:not(:last-child) {
+      padding-right: 14px;
+      border-right: 1px solid var(--border-soft);
+    }
+
+    .entry-meta-sso {
+      font-family: var(--font-serif-en);
       letter-spacing: 0.04em;
     }
 
@@ -809,13 +798,28 @@
       white-space: nowrap;
     }
 
-    .shortlist-table.hide-award .col-award,
-    .shortlist-table.hide-dept .col-dept,
-    .shortlist-table.hide-name .col-name,
-    .shortlist-table.hide-sso .col-sso,
-    .shortlist-table.hide-zh .col-zh,
-    .shortlist-table.hide-en .col-en {
-      display: none;
+    .entry-slogan-zh {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--wine-primary);
+      line-height: 1.5;
+    }
+
+    .entry-slogan-en {
+      font-size: 0.98rem;
+      font-style: italic;
+      color: var(--text-main);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+
+    .entry-concept {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--border-soft);
     }
 
     .shortlist-empty {
@@ -1882,21 +1886,8 @@
           <p class="section-desc">初選入圍作品名單，正式得獎結果請以官方公告為準。</p>
         </div>
 
-        <div class="shortlist-table-wrap">
-          <table class="shortlist-table" id="shortlistTable">
-            <thead>
-              <tr>
-                <th class="col-dept">所別</th>
-                <th class="col-name">姓名</th>
-                <th class="col-sso">SSO</th>
-                <th class="col-zh">中文標語</th>
-                <th class="col-en">英文標語</th>
-              </tr>
-            </thead>
-            <tbody id="shortlistTableBody"></tbody>
-          </table>
-          <p class="shortlist-empty" id="shortlistEmpty" hidden>入圍名單尚未公布，敬請期待。</p>
-        </div>
+        <div class="entry-list" id="shortlistList"></div>
+        <p class="shortlist-empty" id="shortlistEmpty" hidden>入圍名單尚未公布，敬請期待。</p>
       </div>
     </section>
 
@@ -1911,22 +1902,8 @@
           <p class="section-desc">恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。</p>
         </div>
 
-        <div class="shortlist-table-wrap">
-          <table class="shortlist-table" id="winnersTable">
-            <thead>
-              <tr>
-                <th class="col-award">獎項</th>
-                <th class="col-dept">所別</th>
-                <th class="col-name">姓名</th>
-                <th class="col-sso">SSO</th>
-                <th class="col-zh">中文標語</th>
-                <th class="col-en">英文標語</th>
-              </tr>
-            </thead>
-            <tbody id="winnersTableBody"></tbody>
-          </table>
-          <p class="shortlist-empty" id="winnersEmpty" hidden>得獎名單尚未公布，敬請期待。</p>
-        </div>
+        <div class="entry-list" id="winnersList"></div>
+        <p class="shortlist-empty" id="winnersEmpty" hidden>得獎名單尚未公布，敬請期待。</p>
       </div>
     </section>
 
@@ -2295,6 +2272,6 @@
   </script>
 
   <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
-  <script src="assets/cms.js?v=24"></script>
+  <script src="assets/cms.js?v=25"></script>
 </body>
 </html>

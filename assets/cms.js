@@ -83,6 +83,7 @@
       shortlist_mask_sso: { zh: "是", en: "是" },
       shortlist_show_slogan_zh: { zh: "是", en: "是" },
       shortlist_show_slogan_en: { zh: "是", en: "是" },
+      shortlist_show_concept: { zh: "是", en: "是" },
       section_winners_title: { zh: "得獎公告", en: "Winners Announcement" },
       section_winners_desc: {
         zh: "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。",
@@ -97,6 +98,7 @@
       winners_mask_sso: { zh: "是", en: "是" },
       winners_show_slogan_zh: { zh: "是", en: "是" },
       winners_show_slogan_en: { zh: "是", en: "是" },
+      winners_show_concept: { zh: "是", en: "是" },
       section_timeline_title: { zh: "活動推展重要時程", en: "Campaign Timeline" },
       section_timeline_desc: {
         zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。",
@@ -161,6 +163,8 @@
         sso: "",
         slogan_zh: "",
         slogan_en: "",
+        concept_zh: "",
+        concept_en: "",
         show: false
       }
     ],
@@ -176,6 +180,8 @@
         sso: "",
         slogan_zh: "",
         slogan_en: "",
+        concept_zh: "",
+        concept_en: "",
         show: false
       }
     ],
@@ -569,6 +575,9 @@
       if (footers.length > 0) liveData.footerLinks = footers;
 
       // 6. 入圍名單公告
+      // 欄位 J/K（索引9-10，選填）：「創作理念說明(中)/(英)」，加在原本欄位最後面（而非插在
+      // 「是否顯示」前面），這樣試算表還沒補上這兩欄時，前面既有欄位（含「是否顯示」）的位置
+      // 完全不受影響，仍照舊解析；只有補上後 concept 欄位才會有內容。
       const shortlistRows = await fetchSheetJson("入圍名單公告", ["順序", "所別 (中)"]);
       if (shortlistRows.length > 0) {
         liveData.shortlist = shortlistRows.map(row => ({
@@ -579,11 +588,13 @@
           sso: row[5] || "",
           slogan_zh: row[6] || "",
           slogan_en: row[7] || "",
-          show: row[8] !== "否"
+          show: row[8] !== "否",
+          concept_zh: row[9] || "",
+          concept_en: row[10] || row[9] || ""
         }));
       }
 
-      // 7. 得獎公告
+      // 7. 得獎公告（欄位 L/M 為選填的創作理念說明，同上原則加在最後面）
       const winnersRows = await fetchSheetJson("得獎公告", ["順序", "獎項 (中)"]);
       if (winnersRows.length > 0) {
         liveData.winners = winnersRows.map(row => ({
@@ -596,7 +607,9 @@
           sso: row[7] || "",
           slogan_zh: row[8] || "",
           slogan_en: row[9] || "",
-          show: row[10] !== "否"
+          show: row[10] !== "否",
+          concept_zh: row[11] || "",
+          concept_en: row[12] || row[11] || ""
         }));
       }
 
@@ -1120,7 +1133,31 @@
     return sso.slice(0, 2) + "＊＊＊＊";
   }
 
-  // 渲染「入圍名單公告」表格
+  // 產生單張「入圍/得獎」卡片的 HTML（兩個區塊共用）：頂部識別資訊列（所別/姓名/SSO，各自可關）
+  // + 中英文標語 + 創作理念說明（文字較長，獨立成一段，而非硬塞進表格欄位）
+  function buildEntryCardHtml(r, isEn, opts) {
+    const dept = isEn ? r.dept_en : r.dept_zh;
+    const name = isEn ? r.name_en : r.name_zh;
+    const sso = opts.maskSsoOn ? maskSso(r.sso) : r.sso;
+    const concept = isEn ? r.concept_en : r.concept_zh;
+
+    const metaParts = [];
+    if (opts.showAward && (r.award_zh || r.award_en)) {
+      metaParts.push(`<span class="award-pill">${isEn ? r.award_en : r.award_zh}</span>`);
+    }
+    if (opts.showDept && dept) metaParts.push(`<span class="entry-meta-item">${dept}</span>`);
+    if (opts.showName && name) metaParts.push(`<span class="entry-meta-item">${name}</span>`);
+    if (opts.showSso && sso) metaParts.push(`<span class="entry-meta-item entry-meta-sso">${sso}</span>`);
+    const metaHtml = metaParts.length > 0 ? `<div class="entry-card-meta">${metaParts.join("")}</div>` : "";
+
+    const zhHtml = opts.showZh && r.slogan_zh ? `<p class="entry-slogan-zh">${r.slogan_zh}</p>` : "";
+    const enHtml = opts.showEn && r.slogan_en ? `<p class="entry-slogan-en">${r.slogan_en}</p>` : "";
+    const conceptHtml = opts.showConcept && concept ? `<p class="entry-concept">${concept}</p>` : "";
+
+    return `<article class="entry-card">${metaHtml}${zhHtml}${enHtml}${conceptHtml}</article>`;
+  }
+
+  // 渲染「入圍名單公告」
   function renderShortlist(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
@@ -1131,56 +1168,36 @@
     if (headerTitle && s.section_shortlist_title) headerTitle.textContent = isEn ? s.section_shortlist_title.en : s.section_shortlist_title.zh;
     if (headerDesc && s.section_shortlist_desc) headerDesc.textContent = isEn ? s.section_shortlist_desc.en : s.section_shortlist_desc.zh;
 
-    const table = document.getElementById("shortlistTable");
-    const tbody = document.getElementById("shortlistTableBody");
+    const list = document.getElementById("shortlistList");
     const emptyMsg = document.getElementById("shortlistEmpty");
-    if (!table || !tbody) return;
+    if (!list) return;
 
-    // 欄位開關
-    const showDept = !(s.shortlist_show_dept && s.shortlist_show_dept.zh === "否");
-    const showName = !(s.shortlist_show_name && s.shortlist_show_name.zh === "否");
-    const showSso = !(s.shortlist_show_sso && s.shortlist_show_sso.zh === "否");
-    const maskSsoOn = !(s.shortlist_mask_sso && s.shortlist_mask_sso.zh === "否");
-    const showZh = !(s.shortlist_show_slogan_zh && s.shortlist_show_slogan_zh.zh === "否");
-    const showEn = !(s.shortlist_show_slogan_en && s.shortlist_show_slogan_en.zh === "否");
-
-    table.classList.toggle("hide-dept", !showDept);
-    table.classList.toggle("hide-name", !showName);
-    table.classList.toggle("hide-sso", !showSso);
-    table.classList.toggle("hide-zh", !showZh);
-    table.classList.toggle("hide-en", !showEn);
+    const opts = {
+      showAward: false,
+      showDept: !(s.shortlist_show_dept && s.shortlist_show_dept.zh === "否"),
+      showName: !(s.shortlist_show_name && s.shortlist_show_name.zh === "否"),
+      showSso: !(s.shortlist_show_sso && s.shortlist_show_sso.zh === "否"),
+      maskSsoOn: !(s.shortlist_mask_sso && s.shortlist_mask_sso.zh === "否"),
+      showZh: !(s.shortlist_show_slogan_zh && s.shortlist_show_slogan_zh.zh === "否"),
+      showEn: !(s.shortlist_show_slogan_en && s.shortlist_show_slogan_en.zh === "否"),
+      showConcept: !(s.shortlist_show_concept && s.shortlist_show_concept.zh === "否")
+    };
 
     const rows = (liveData.shortlist || []).filter(r => r.show && (r.name_zh || r.name_en || r.slogan_zh));
 
     if (rows.length === 0) {
-      tbody.innerHTML = "";
-      table.hidden = true;
+      list.innerHTML = "";
+      list.hidden = true;
       if (emptyMsg) emptyMsg.hidden = false;
       return;
     }
 
-    table.hidden = false;
+    list.hidden = false;
     if (emptyMsg) emptyMsg.hidden = true;
-
-    tbody.innerHTML = rows
-      .map(r => {
-        const dept = isEn ? r.dept_en : r.dept_zh;
-        const name = isEn ? r.name_en : r.name_zh;
-        const sso = maskSsoOn ? maskSso(r.sso) : r.sso;
-        return `
-          <tr>
-            <td class="col-dept">${dept || ""}</td>
-            <td class="col-name">${name || ""}</td>
-            <td class="col-sso">${sso || ""}</td>
-            <td class="col-zh">${r.slogan_zh || ""}</td>
-            <td class="col-en">${r.slogan_en || ""}</td>
-          </tr>
-        `;
-      })
-      .join("");
+    list.innerHTML = rows.map(r => buildEntryCardHtml(r, isEn, opts)).join("");
   }
 
-  // 渲染「得獎公告」表格
+  // 渲染「得獎公告」
   function renderWinners(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
@@ -1191,57 +1208,33 @@
     if (headerTitle && s.section_winners_title) headerTitle.textContent = isEn ? s.section_winners_title.en : s.section_winners_title.zh;
     if (headerDesc && s.section_winners_desc) headerDesc.textContent = isEn ? s.section_winners_desc.en : s.section_winners_desc.zh;
 
-    const table = document.getElementById("winnersTable");
-    const tbody = document.getElementById("winnersTableBody");
+    const list = document.getElementById("winnersList");
     const emptyMsg = document.getElementById("winnersEmpty");
-    if (!table || !tbody) return;
+    if (!list) return;
 
-    // 欄位開關
-    const showAward = !(s.winners_show_award && s.winners_show_award.zh === "否");
-    const showDept = !(s.winners_show_dept && s.winners_show_dept.zh === "否");
-    const showName = !(s.winners_show_name && s.winners_show_name.zh === "否");
-    const showSso = !(s.winners_show_sso && s.winners_show_sso.zh === "否");
-    const maskSsoOn = !(s.winners_mask_sso && s.winners_mask_sso.zh === "否");
-    const showZh = !(s.winners_show_slogan_zh && s.winners_show_slogan_zh.zh === "否");
-    const showEn = !(s.winners_show_slogan_en && s.winners_show_slogan_en.zh === "否");
-
-    table.classList.toggle("hide-award", !showAward);
-    table.classList.toggle("hide-dept", !showDept);
-    table.classList.toggle("hide-name", !showName);
-    table.classList.toggle("hide-sso", !showSso);
-    table.classList.toggle("hide-zh", !showZh);
-    table.classList.toggle("hide-en", !showEn);
+    const opts = {
+      showAward: !(s.winners_show_award && s.winners_show_award.zh === "否"),
+      showDept: !(s.winners_show_dept && s.winners_show_dept.zh === "否"),
+      showName: !(s.winners_show_name && s.winners_show_name.zh === "否"),
+      showSso: !(s.winners_show_sso && s.winners_show_sso.zh === "否"),
+      maskSsoOn: !(s.winners_mask_sso && s.winners_mask_sso.zh === "否"),
+      showZh: !(s.winners_show_slogan_zh && s.winners_show_slogan_zh.zh === "否"),
+      showEn: !(s.winners_show_slogan_en && s.winners_show_slogan_en.zh === "否"),
+      showConcept: !(s.winners_show_concept && s.winners_show_concept.zh === "否")
+    };
 
     const rows = (liveData.winners || []).filter(r => r.show && (r.name_zh || r.name_en || r.slogan_zh));
 
     if (rows.length === 0) {
-      tbody.innerHTML = "";
-      table.hidden = true;
+      list.innerHTML = "";
+      list.hidden = true;
       if (emptyMsg) emptyMsg.hidden = false;
       return;
     }
 
-    table.hidden = false;
+    list.hidden = false;
     if (emptyMsg) emptyMsg.hidden = true;
-
-    tbody.innerHTML = rows
-      .map(r => {
-        const award = isEn ? r.award_en : r.award_zh;
-        const dept = isEn ? r.dept_en : r.dept_zh;
-        const name = isEn ? r.name_en : r.name_zh;
-        const sso = maskSsoOn ? maskSso(r.sso) : r.sso;
-        return `
-          <tr>
-            <td class="col-award">${award ? `<span class="award-pill">${award}</span>` : ""}</td>
-            <td class="col-dept">${dept || ""}</td>
-            <td class="col-name">${name || ""}</td>
-            <td class="col-sso">${sso || ""}</td>
-            <td class="col-zh">${r.slogan_zh || ""}</td>
-            <td class="col-en">${r.slogan_en || ""}</td>
-          </tr>
-        `;
-      })
-      .join("");
+    list.innerHTML = rows.map(r => buildEntryCardHtml(r, isEn, opts)).join("");
   }
 
   // 更新語系切換按鈕狀態
