@@ -75,7 +75,8 @@
     vertical-align: top;
   }
   tbody tr:nth-child(even) { background: var(--bg); }
-  td.wrap-cell, th.wrap-cell { white-space: normal; max-width: 220px; }
+  td.wrap-cell, th.wrap-cell { white-space: normal; max-width: 220px; min-width: 140px; }
+  td.num-cell, th:not(.wrap-cell):not(:first-child) { min-width: 44px; }
   td.num-cell { text-align: right; font-family: "Consolas", monospace; }
   td.rank-cell { font-weight: 700; color: var(--wine); text-align: center; }
   td.order-toggle {
