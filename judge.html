@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>評審評分 | 中央研究院百年院慶標語徵選</title>
+<style>
+  :root {
+    --wine: #6c0e18;
+    --gold: #a7772c;
+    --bg: #faf6ef;
+    --text: #2c2420;
+    --muted: #7a6f66;
+    --border: rgba(167, 119, 44, 0.25);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header {
+    background: var(--wine);
+    color: #ffffff;
+    padding: 20px 24px;
+  }
+  header h1 { margin: 0; font-size: 1.15rem; }
+  header p { margin: 4px 0 0; font-size: 0.85rem; opacity: 0.85; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 16px 80px; }
+  .status-bar { text-align: center; padding: 10px; font-size: 0.85rem; color: var(--muted); }
+  .entry-card {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  }
+  .entry-order { font-size: 0.8rem; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+  .entry-zh { font-size: 1.1rem; font-weight: 700; color: var(--wine); margin: 0 0 4px; }
+  .entry-en { font-style: italic; margin: 0 0 10px; }
+  .entry-concept {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    margin-bottom: 14px;
+  }
+  .score-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+  .score-field { flex: 1; min-width: 110px; }
+  .score-field label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 4px; }
+  .score-field input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  .save-col { display: flex; flex-direction: column; gap: 4px; }
+  .save-btn {
+    padding: 9px 20px;
+    border: none;
+    border-radius: 999px;
+    background: var(--wine);
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .save-btn:disabled { opacity: 0.5; cursor: default; }
+  .save-msg { font-size: 0.78rem; min-height: 16px; }
+  .save-msg.ok { color: #2e7d32; }
+  .save-msg.err { color: #c62828; }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>中央研究院百年院慶標語徵選 — 評審評分</h1>
+    <p id="judgeNameLabel">載入中…</p>
+  </header>
+  <main>
+    <div class="status-bar" id="statusBar">載入入圍作品中…</div>
+    <div id="list"></div>
+  </main>
+
+  <script>
+    // 與公開網站共用同一份 Google 試算表 ID，讀取「入圍名單公告」分頁
+    const SHEET_ID = "10cFGVyCSQqGEPjWw7LBs1xs9hevCXWpUfoV2DhU8qYU";
+    // 部署 judge_scoring_backend.gs 後拿到的網頁應用程式網址，貼在這裡
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby1TfRqZwAqpw4BZwvWcwpakrrbWJy03Q104GbpSgHXAl9l3gYF17sPqE86ypGh9PY4/exec";
+
+    function getToken() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("c") || "";
+    }
+
+    // 讀取入圍名單公告，故意不套用「是否顯示」這個公開網站專用的開關，
+    // 評審在正式公告前也要能看到全部入圍作品；也刻意不讀所別/姓名/SSO，
+    // 維持評審介面不揭露投稿人身分。
+    async function fetchShortlist() {
+      const url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+        "/gviz/tq?headers=1&tqx=out:json&sheet=" + encodeURIComponent("入圍名單公告");
+      const resp = await fetch(url);
+      const text = await resp.text();
+      const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/s);
+      if (!match) return [];
+      const json = JSON.parse(match[1]);
+      if (!json.table || !json.table.rows) return [];
+
+      return json.table.rows
+        .map(r => (r.c || []).map(cell => {
+          if (!cell) return "";
+          if (cell.f !== null && cell.f !== undefined && String(cell.f).trim() !== "") return String(cell.f).trim();
+          return cell.v !== null && cell.v !== undefined ? String(cell.v).trim() : "";
+        }))
+        .map(row => ({
+          order: row[0],
+          zh: row[6] || "",
+          en: row[7] || "",
+          conceptZh: row[9] || "",
+          conceptEn: row[10] || ""
+        }))
+        .filter(r => r.order && r.zh);
+    }
+
+    async function fetchMyScores(token) {
+      const url = APPS_SCRIPT_URL + "?action=myScores&token=" + encodeURIComponent(token);
+      const resp = await fetch(url);
+      return resp.json();
+    }
+
+    // 送出時用 text/plain 而非 application/json 當 Content-Type，避免瀏覽器
+    // 對 Apps Script 網頁應用程式送出 CORS 預檢請求（Apps Script 預設不處理
+    // OPTIONS 預檢，用 application/json 會直接失敗）；後端仍會把內容當 JSON 解析。
+    async function saveScore(token, order, scores) {
+      const resp = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ token: token, order: order, scores: scores })
+      });
+      return resp.json();
+    }
+
+    function buildCard(entry, savedScore) {
+      const card = document.createElement("div");
+      card.className = "entry-card";
+      card.innerHTML =
+        '<div class="entry-order">第 ' + entry.order + ' 件</div>' +
+        '<p class="entry-zh"></p>' +
+        (entry.en ? '<p class="entry-en"></p>' : "") +
+        (entry.conceptZh ? '<p class="entry-concept"></p>' : "") +
+        '<div class="score-row">' +
+          '<div class="score-field"><label>評分項目1（30%）</label><input type="number" min="0" max="30" class="s-item1" /></div>' +
+          '<div class="score-field"><label>評分項目2（30%）</label><input type="number" min="0" max="30" class="s-item2" /></div>' +
+          '<div class="score-field"><label>評分項目3（40%）</label><input type="number" min="0" max="40" class="s-item3" /></div>' +
+          '<div class="save-col"><button type="button" class="save-btn">送出分數</button><div class="save-msg"></div></div>' +
+        '</div>';
+
+      card.querySelector(".entry-zh").textContent = entry.zh;
+      if (entry.en) card.querySelector(".entry-en").textContent = entry.en;
+      if (entry.conceptZh) card.querySelector(".entry-concept").textContent = entry.conceptZh;
+
+      const item1Input = card.querySelector(".s-item1");
+      const item2Input = card.querySelector(".s-item2");
+      const item3Input = card.querySelector(".s-item3");
+      if (savedScore) {
+        item1Input.value = savedScore.item1;
+        item2Input.value = savedScore.item2;
+        item3Input.value = savedScore.item3;
+      }
+
+      const btn = card.querySelector(".save-btn");
+      const msg = card.querySelector(".save-msg");
+      btn.addEventListener("click", async () => {
+        const item1 = item1Input.value;
+        const item2 = item2Input.value;
+        const item3 = item3Input.value;
+        if (item1 === "" || item2 === "" || item3 === "") {
+          msg.textContent = "請填寫完整三項分數";
+          msg.className = "save-msg err";
+          return;
+        }
+        btn.disabled = true;
+        msg.textContent = "送出中…";
+        msg.className = "save-msg";
+        try {
+          const result = await saveScore(getToken(), entry.order, { item1: item1, item2: item2, item3: item3 });
+          if (result.success) {
+            msg.textContent = "已儲存，總分 " + result.total;
+            msg.className = "save-msg ok";
+          } else {
+            msg.textContent = "儲存失敗：" + (result.error || "未知錯誤");
+            msg.className = "save-msg err";
+          }
+        } catch (e) {
+          msg.textContent = "連線失敗，請稍後再試";
+          msg.className = "save-msg err";
+        }
+        btn.disabled = false;
+      });
+
+      return card;
+    }
+
+    async function init() {
+      const token = getToken();
+      const statusBar = document.getElementById("statusBar");
+      const list = document.getElementById("list");
+      const judgeLabel = document.getElementById("judgeNameLabel");
+
+      if (!token) {
+        statusBar.textContent = "";
+        list.innerHTML = '<div class="empty-state">此連結缺少評分代碼，請聯繫主辦單位確認連結是否正確。</div>';
+        judgeLabel.textContent = "";
+        return;
+      }
+
+      try {
+        const results = await Promise.all([fetchShortlist(), fetchMyScores(token)]);
+        const entries = results[0];
+        const myScoresResp = results[1];
+
+        if (!myScoresResp.success) {
+          statusBar.textContent = "";
+          list.innerHTML = '<div class="empty-state">' + (myScoresResp.error || "評分代碼無效，請聯繫主辦單位確認連結是否正確。") + '</div>';
+          judgeLabel.textContent = "";
+          return;
+        }
+
+        judgeLabel.textContent = "評審委員：" + myScoresResp.judgeName;
+        statusBar.textContent = "共 " + entries.length + " 件入圍作品";
+        entries.forEach(entry => {
+          list.appendChild(buildCard(entry, myScoresResp.scores[String(entry.order)]));
+        });
+      } catch (e) {
+        statusBar.textContent = "";
+        list.innerHTML = '<div class="empty-state">載入失敗，請重新整理頁面再試一次。</div>';
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
