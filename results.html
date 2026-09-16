@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>評分結果總表 | 中央研究院百年院慶標語徵選</title>
+<style>
+  :root {
+    --wine: #6c0e18;
+    --gold: #a7772c;
+    --bg: #faf6ef;
+    --text: #2c2420;
+    --muted: #7a6f66;
+    --border: rgba(167, 119, 44, 0.25);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+  header { background: var(--wine); color: #ffffff; padding: 20px 24px; }
+  header h1 { margin: 0; font-size: 1.15rem; }
+  header p { margin: 4px 0 0; font-size: 0.85rem; opacity: 0.85; }
+  main { max-width: 100%; margin: 0 auto; padding: 20px 16px 60px; }
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .toolbar input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.92rem;
+  }
+  .toolbar button {
+    padding: 9px 16px;
+    border: 1px solid var(--wine);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--wine);
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .toolbar button.primary { background: var(--wine); color: #ffffff; }
+  .toolbar button.active { background: var(--gold); border-color: var(--gold); color: #ffffff; }
+  .status-bar { font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; }
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #ffffff;
+  }
+  table { border-collapse: collapse; font-size: 0.85rem; white-space: nowrap; }
+  thead th {
+    position: sticky;
+    top: 0;
+    background: var(--wine);
+    color: #ffffff;
+    padding: 8px 10px;
+    text-align: left;
+    z-index: 1;
+  }
+  tbody td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: var(--bg); }
+  td.wrap-cell, th.wrap-cell { white-space: normal; max-width: 260px; }
+  td.num-cell { text-align: right; font-family: "Consolas", monospace; }
+  td.rank-cell { font-weight: 700; color: var(--wine); text-align: center; }
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>中央研究院百年院慶標語徵選 — 評分結果總表</h1>
+    <p>僅供主辦單位查看，請勿外流此連結</p>
+  </header>
+  <main>
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="搜尋序號或標語內容…" />
+      <button type="button" id="detailToggleBtn">切換為明細</button>
+      <button type="button" id="downloadBtn" class="primary">下載結果 CSV</button>
+    </div>
+    <div class="status-bar" id="statusBar">載入中…</div>
+    <div class="table-wrap" id="tableWrap"></div>
+  </main>
+
+  <script>
+    const SHEET_ID = "10cFGVyCSQqGEPjWw7LBs1xs9hevCXWpUfoV2DhU8qYU";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyaJMLn9os_5o1zpgDZnX_eDAfTv_usm2StPcS2BzOginQ3sfSp5Jb4HhGbdxKdyck9/exec";
+
+    let allEntries = [];
+    let judges = [];
+    let scoresByJudge = {};
+    let detailMode = false;
+    let searchTerm = "";
+
+    function getToken() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("c") || "";
+    }
+
+    async function fetchShortlist() {
+      const url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+        "/gviz/tq?headers=1&tqx=out:json&sheet=" + encodeURIComponent("入圍名單公告");
+      const resp = await fetch(url);
+      const text = await resp.text();
+      const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/s);
+      if (!match) return [];
+      const json = JSON.parse(match[1]);
+      if (!json.table || !json.table.rows) return [];
+      return json.table.rows
+        .map(r => (r.c || []).map(cell => {
+          if (!cell) return "";
+          if (cell.f !== null && cell.f !== undefined && String(cell.f).trim() !== "") return String(cell.f).trim();
+          return cell.v !== null && cell.v !== undefined ? String(cell.v).trim() : "";
+        }))
+        .map(row => ({ order: row[0], zh: row[6] || "", en: row[7] || "", conceptZh: row[9] || "", conceptEn: row[10] || "" }))
+        .filter(r => r.order && r.zh);
+    }
+
+    async function fetchAllScores(token) {
+      const url = APPS_SCRIPT_URL + "?action=allScores&token=" + encodeURIComponent(token);
+      const resp = await fetch(url);
+      return resp.json();
+    }
+
+    function matchesSearch(entry, term) {
+      if (!term) return true;
+      const t = term.toLowerCase();
+      return String(entry.order).toLowerCase().includes(t) ||
+        (entry.zh || "").toLowerCase().includes(t) ||
+        (entry.en || "").toLowerCase().includes(t);
+    }
+
+    // 依「總分」（各委員總分加總）由高到低排名；同分則排名相同（標準競賽排名法）
+    function computeRankedRows() {
+      const rows = allEntries.map(entry => {
+        let sum = 0;
+        let judgedCount = 0;
+        const perJudge = judges.map(j => {
+          const s = scoresByJudge[j] && scoresByJudge[j][String(entry.order)];
+          if (s) {
+            sum += Number(s.total) || 0;
+            judgedCount++;
+          }
+          return s || null;
+        });
+        return { entry: entry, perJudge: perJudge, sum: sum, judgedCount: judgedCount };
+      });
+
+      const sorted = rows.slice().sort((a, b) => b.sum - a.sum);
+      let rank = 0, prevSum = null, seen = 0;
+      sorted.forEach(r => {
+        seen++;
+        if (r.sum !== prevSum) {
+          rank = seen;
+          prevSum = r.sum;
+        }
+        r.rank = rank;
+      });
+      return sorted;
+    }
+
+    function buildHeader() {
+      const cols = ["序號", "中文標語", "英文標語", "創作理念(中)", "創作理念(英)"];
+      judges.forEach(j => {
+        if (detailMode) {
+          cols.push(j + "－項目1", j + "－項目2", j + "－項目3", j + "－小計");
+        } else {
+          cols.push(j);
+        }
+      });
+      cols.push("總分", "已評委員數", "排行");
+      return cols;
+    }
+
+    function buildRowValues(r) {
+      const cells = [r.entry.order, r.entry.zh, r.entry.en, r.entry.conceptZh, r.entry.conceptEn];
+      r.perJudge.forEach(s => {
+        if (detailMode) {
+          cells.push(s ? s.item1 : "", s ? s.item2 : "", s ? s.item3 : "", s ? s.total : "");
+        } else {
+          cells.push(s ? s.total : "");
+        }
+      });
+      cells.push(r.sum, r.judgedCount, r.rank);
+      return cells;
+    }
+
+    const WRAP_COL_INDEXES = [1, 2, 3, 4]; // 中文標語/英文標語/理念(中)/理念(英) 需要換行顯示
+    const NUM_COL_START = 5; // 從第幾欄開始是數字（委員分數 ~ 排行）
+
+    function renderTable(rows) {
+      const header = buildHeader();
+      const table = document.createElement("table");
+
+      const thead = document.createElement("thead");
+      const headTr = document.createElement("tr");
+      header.forEach((label, idx) => {
+        const th = document.createElement("th");
+        th.textContent = label;
+        if (WRAP_COL_INDEXES.includes(idx)) th.classList.add("wrap-cell");
+        headTr.appendChild(th);
+      });
+      thead.appendChild(headTr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      rows.forEach(r => {
+        const values = buildRowValues(r);
+        const tr = document.createElement("tr");
+        values.forEach((val, idx) => {
+          const td = document.createElement("td");
+          td.textContent = val === null || val === undefined || val === "" ? (idx >= NUM_COL_START ? "" : "") : val;
+          if (WRAP_COL_INDEXES.includes(idx)) td.classList.add("wrap-cell");
+          else if (idx >= NUM_COL_START) td.classList.add("num-cell");
+          if (idx === values.length - 1) { td.classList.add("rank-cell"); td.classList.remove("num-cell"); }
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+
+      const wrap = document.getElementById("tableWrap");
+      wrap.innerHTML = "";
+      wrap.appendChild(table);
+    }
+
+    function csvEscape(val) {
+      const s = String(val === null || val === undefined ? "" : val);
+      if (/[",\n]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+      return s;
+    }
+
+    function downloadCsv(rows) {
+      const header = buildHeader();
+      const lines = [header].concat(rows.map(buildRowValues));
+      const csvContent = "﻿" + lines.map(row => row.map(csvEscape).join(",")).join("\r\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const today = new Date().toISOString().slice(0, 10);
+      a.download = "評分結果_" + today + (detailMode ? "_明細" : "_總表") + ".csv";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function render() {
+      const rankedRows = computeRankedRows();
+      const filtered = rankedRows.filter(r => matchesSearch(r.entry, searchTerm));
+      renderTable(filtered);
+      document.getElementById("statusBar").textContent =
+        "共 " + allEntries.length + " 件入圍作品，" + judges.length + " 位委員，目前顯示 " + filtered.length + " 筆" +
+        (searchTerm ? "（已套用搜尋）" : "");
+      window.__currentFilteredRows = filtered;
+    }
+
+    async function init() {
+      const token = getToken();
+      const statusBar = document.getElementById("statusBar");
+
+      if (!token) {
+        statusBar.textContent = "";
+        document.getElementById("tableWrap").innerHTML = '<div class="empty-state">此連結缺少管理代碼，請確認連結是否正確。</div>';
+        return;
+      }
+
+      try {
+        const results = await Promise.all([fetchShortlist(), fetchAllScores(token)]);
+        allEntries = results[0];
+        const scoresResp = results[1];
+
+        if (!scoresResp.success) {
+          statusBar.textContent = "";
+          document.getElementById("tableWrap").innerHTML = '<div class="empty-state">' + (scoresResp.error || "管理代碼無效") + '</div>';
+          return;
+        }
+
+        judges = scoresResp.judges;
+        scoresByJudge = scoresResp.scores;
+        render();
+      } catch (e) {
+        statusBar.textContent = "";
+        document.getElementById("tableWrap").innerHTML = '<div class="empty-state">載入失敗，請重新整理頁面再試一次。</div>';
+      }
+    }
+
+    document.getElementById("searchInput").addEventListener("input", e => {
+      searchTerm = e.target.value.trim();
+      render();
+    });
+
+    document.getElementById("detailToggleBtn").addEventListener("click", () => {
+      detailMode = !detailMode;
+      document.getElementById("detailToggleBtn").textContent = detailMode ? "切換為總表" : "切換為明細";
+      document.getElementById("detailToggleBtn").classList.toggle("active", detailMode);
+      render();
+    });
+
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      downloadCsv(window.__currentFilteredRows || []);
+    });
+
+    init();
+  </script>
+</body>
+</html>
