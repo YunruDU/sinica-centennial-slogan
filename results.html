@@ -75,9 +75,26 @@
     vertical-align: top;
   }
   tbody tr:nth-child(even) { background: var(--bg); }
-  td.wrap-cell, th.wrap-cell { white-space: normal; max-width: 260px; }
+  td.wrap-cell, th.wrap-cell { white-space: normal; max-width: 220px; }
   td.num-cell { text-align: right; font-family: "Consolas", monospace; }
   td.rank-cell { font-weight: 700; color: var(--wine); text-align: center; }
+  td.order-toggle {
+    cursor: pointer;
+    color: var(--wine);
+    font-weight: 700;
+    user-select: none;
+  }
+  td.order-toggle:hover { text-decoration: underline; }
+  tr.concept-row td.concept-cell {
+    background: var(--bg);
+    white-space: normal;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--text);
+    border-bottom: 2px solid var(--border);
+  }
+  .concept-cell strong { color: var(--wine); }
   .empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
 </style>
 </head>
@@ -199,37 +216,114 @@
       return cells;
     }
 
-    const WRAP_COL_INDEXES = [1, 2, 3, 4]; // 中文標語/英文標語/理念(中)/理念(英) 需要換行顯示
-    const NUM_COL_START = 5; // 從第幾欄開始是數字（委員分數 ~ 排行）
+    // 畫面上的表格「不」放創作理念欄位（文字量太大，會把每一列撐得很高，
+    // 難以掃視比對分數）。理念改成點序號展開/收合查看，CSV 匯出則仍然完整
+    // 保留理念欄位（見 buildHeader/buildRowValues，兩者維持不變）。
+    function buildScreenHeader() {
+      const cols = ["序號", "中文標語", "英文標語"];
+      judges.forEach(j => {
+        if (detailMode) {
+          cols.push(j + "－項目1", j + "－項目2", j + "－項目3", j + "－小計");
+        } else {
+          cols.push(j);
+        }
+      });
+      cols.push("總分", "已評委員數", "排行");
+      return cols;
+    }
 
     function renderTable(rows) {
-      const header = buildHeader();
+      const headerLabels = buildScreenHeader();
       const table = document.createElement("table");
 
       const thead = document.createElement("thead");
       const headTr = document.createElement("tr");
-      header.forEach((label, idx) => {
+      headerLabels.forEach((label, idx) => {
         const th = document.createElement("th");
         th.textContent = label;
-        if (WRAP_COL_INDEXES.includes(idx)) th.classList.add("wrap-cell");
+        if (idx === 1 || idx === 2) th.classList.add("wrap-cell");
         headTr.appendChild(th);
       });
       thead.appendChild(headTr);
       table.appendChild(thead);
 
       const tbody = document.createElement("tbody");
+      const totalCols = headerLabels.length;
+
       rows.forEach(r => {
-        const values = buildRowValues(r);
         const tr = document.createElement("tr");
-        values.forEach((val, idx) => {
-          const td = document.createElement("td");
-          td.textContent = val === null || val === undefined || val === "" ? (idx >= NUM_COL_START ? "" : "") : val;
-          if (WRAP_COL_INDEXES.includes(idx)) td.classList.add("wrap-cell");
-          else if (idx >= NUM_COL_START) td.classList.add("num-cell");
-          if (idx === values.length - 1) { td.classList.add("rank-cell"); td.classList.remove("num-cell"); }
-          tr.appendChild(td);
+
+        const orderTd = document.createElement("td");
+        orderTd.className = "order-toggle";
+        orderTd.textContent = "▸ " + r.entry.order;
+        tr.appendChild(orderTd);
+
+        const zhTd = document.createElement("td");
+        zhTd.className = "wrap-cell";
+        zhTd.textContent = r.entry.zh;
+        tr.appendChild(zhTd);
+
+        const enTd = document.createElement("td");
+        enTd.className = "wrap-cell";
+        enTd.textContent = r.entry.en;
+        tr.appendChild(enTd);
+
+        r.perJudge.forEach(s => {
+          const keys = detailMode ? ["item1", "item2", "item3", "total"] : ["total"];
+          keys.forEach(key => {
+            const td = document.createElement("td");
+            td.className = "num-cell";
+            td.textContent = s ? s[key] : "";
+            tr.appendChild(td);
+          });
         });
+
+        const sumTd = document.createElement("td");
+        sumTd.className = "num-cell";
+        sumTd.textContent = r.sum;
+        tr.appendChild(sumTd);
+
+        const cntTd = document.createElement("td");
+        cntTd.className = "num-cell";
+        cntTd.textContent = r.judgedCount;
+        tr.appendChild(cntTd);
+
+        const rankTd = document.createElement("td");
+        rankTd.className = "rank-cell";
+        rankTd.textContent = r.rank;
+        tr.appendChild(rankTd);
+
         tbody.appendChild(tr);
+
+        // 理念詳細列，預設收合，點序號展開/收合
+        const detailTr = document.createElement("tr");
+        detailTr.className = "concept-row";
+        detailTr.hidden = true;
+        const detailTd = document.createElement("td");
+        detailTd.colSpan = totalCols;
+        detailTd.className = "concept-cell";
+
+        const zhLabel = document.createElement("strong");
+        zhLabel.textContent = "創作理念（中）：";
+        const zhSpan = document.createElement("span");
+        zhSpan.textContent = r.entry.conceptZh || "（無）";
+        const enLabel = document.createElement("strong");
+        enLabel.textContent = "創作理念（英）：";
+        const enSpan = document.createElement("span");
+        enSpan.textContent = r.entry.conceptEn || "（無）";
+
+        detailTd.appendChild(zhLabel);
+        detailTd.appendChild(zhSpan);
+        detailTd.appendChild(document.createElement("br"));
+        detailTd.appendChild(enLabel);
+        detailTd.appendChild(enSpan);
+        detailTr.appendChild(detailTd);
+        tbody.appendChild(detailTr);
+
+        orderTd.addEventListener("click", () => {
+          detailTr.hidden = !detailTr.hidden;
+          orderTd.textContent = (detailTr.hidden ? "▸ " : "▾ ") + r.entry.order;
+        });
       });
       table.appendChild(tbody);
 
