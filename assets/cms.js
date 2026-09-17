@@ -132,7 +132,7 @@
         title_zh: "入圍名單公告", title_en: "Shortlist Announcement",
         desc_zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。",
         desc_en: "List of shortlisted entries. Official winners will follow a separate announcement.",
-        order: 5, show: false
+        order: 5, show: true
       },
       winners: {
         title_zh: "得獎公告", title_en: "Winners Announcement",
