@@ -63,20 +63,6 @@
       contact_email: { zh: "centennial@gate.sinica.edu.tw", en: "centennial@gate.sinica.edu.tw" },
       contact_phone: { zh: "02-2789-9400", en: "+886-2-2789-9400" },
 
-      section_highlights_title: { zh: "最新消息", en: "Latest News" },
-      section_highlights_desc: {
-        zh: "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。",
-        en: "Latest announcements and updates about the centennial slogan campaign."
-      },
-      section_highlights_show: { zh: "是", en: "是" },
-      section_highlights_order: { zh: "1", en: "1" },
-      section_shortlist_title: { zh: "入圍名單公告", en: "Shortlist Announcement" },
-      section_shortlist_desc: {
-        zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。",
-        en: "List of shortlisted entries. Official winners will follow a separate announcement."
-      },
-      section_shortlist_show: { zh: "否", en: "否" },
-      section_shortlist_order: { zh: "5", en: "5" },
       shortlist_show_dept: { zh: "是", en: "是" },
       shortlist_show_name: { zh: "是", en: "是" },
       shortlist_show_sso: { zh: "是", en: "是" },
@@ -84,13 +70,6 @@
       shortlist_show_slogan_zh: { zh: "是", en: "是" },
       shortlist_show_slogan_en: { zh: "是", en: "是" },
       shortlist_show_concept: { zh: "是", en: "是" },
-      section_winners_title: { zh: "得獎公告", en: "Winners Announcement" },
-      section_winners_desc: {
-        zh: "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。",
-        en: "Congratulations to the winners, and thank you to everyone who submitted an entry."
-      },
-      section_winners_show: { zh: "否", en: "否" },
-      section_winners_order: { zh: "6", en: "6" },
       winners_show_award: { zh: "是", en: "是" },
       winners_show_dept: { zh: "是", en: "是" },
       winners_show_name: { zh: "是", en: "是" },
@@ -99,21 +78,6 @@
       winners_show_slogan_zh: { zh: "是", en: "是" },
       winners_show_slogan_en: { zh: "是", en: "是" },
       winners_show_concept: { zh: "是", en: "是" },
-      section_timeline_title: { zh: "活動推展重要時程", en: "Campaign Timeline" },
-      section_timeline_desc: {
-        zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。",
-        en: "Key milestones and tentative schedule. Submit your entries before the deadline!"
-      },
-      section_timeline_show: { zh: "是", en: "是" },
-      section_timeline_order: { zh: "2", en: "2" },
-      section_faq_title: { zh: "常見問答", en: "Frequently Asked Questions" },
-      section_faq_desc: {
-        zh: "關於百年院慶標語徵選活動之常見問題整理",
-        en: "Answers to common questions regarding the slogan campaign."
-      },
-      section_faq_show: { zh: "是", en: "是" },
-      section_faq_order: { zh: "4", en: "4" },
-      section_rules_order: { zh: "3", en: "3" },
 
       dialog_title: {
         zh: "中央研究院百周年標語徵選活動辦法",
@@ -140,6 +104,42 @@
         en: "© 2026 Academia Sinica. All Rights Reserved."
       },
       footer_form_note_label: { zh: "✦ 投稿 Google 表單連結：", en: "✦ Submission Google Form:" }
+    },
+
+    // 各區塊的標題／說明／順序／顯示開關，全部集中在這裡（對應試算表「各區塊設定」
+    // 分頁，一列就是一個功能區塊，同一列可以調整該區塊的所有設定，不會分散在別處）
+    sections: {
+      highlights: {
+        title_zh: "最新消息", title_en: "Latest News",
+        desc_zh: "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。",
+        desc_en: "Latest announcements and updates about the centennial slogan campaign.",
+        order: 1, show: true
+      },
+      timeline: {
+        title_zh: "活動推展重要時程", title_en: "Campaign Timeline",
+        desc_zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。",
+        desc_en: "Key milestones and tentative schedule. Submit your entries before the deadline!",
+        order: 2, show: true
+      },
+      rules: { order: 3, show: true }, // 無獨立區塊，點擊「詳細辦法」開啟彈跳視窗，只用得到 order
+      faq: {
+        title_zh: "常見問答", title_en: "Frequently Asked Questions",
+        desc_zh: "關於百年院慶標語徵選活動之常見問題整理",
+        desc_en: "Answers to common questions regarding the slogan campaign.",
+        order: 4, show: true
+      },
+      shortlist: {
+        title_zh: "入圍名單公告", title_en: "Shortlist Announcement",
+        desc_zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。",
+        desc_en: "List of shortlisted entries. Official winners will follow a separate announcement.",
+        order: 5, show: false
+      },
+      winners: {
+        title_zh: "得獎公告", title_en: "Winners Announcement",
+        desc_zh: "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。",
+        desc_en: "Congratulations to the winners, and thank you to everyone who submitted an entry.",
+        order: 6, show: false
+      }
     },
 
     news: [
@@ -472,6 +472,25 @@
         }
       });
 
+      // 1.5 各區塊設定：標題／說明／順序／顯示開關，一列對應一個功能區塊，
+      // 同一列即可調整該區塊的全部設定（取代原本散落在「全站與主視覺」裡
+      // 好幾個獨立 Key 的舊做法）。找不到分頁時 sectionRows 會是空陣列，
+      // liveData.sections 直接沿用 DEFAULT_DATA 的預設值，不會壞掉。
+      const sectionRows = await fetchSheetJson("各區塊設定", ["區塊代碼 (勿改)", "中文標題"]);
+      sectionRows.forEach(row => {
+        const key = row[0];
+        if (!key) return;
+        const existing = liveData.sections[key] || {};
+        liveData.sections[key] = {
+          title_zh: row[1] || existing.title_zh || "",
+          title_en: row[2] || row[1] || existing.title_en || "",
+          desc_zh: row[3] || existing.desc_zh || "",
+          desc_en: row[4] || row[3] || existing.desc_en || "",
+          order: row[5] || existing.order,
+          show: row[6] !== "否"
+        };
+      });
+
       // 2. 最新消息
       const newsRows = await fetchSheetJson("最新消息", ["順序", "消息標題 (中)"]);
       if (newsRows.length > 0) {
@@ -781,12 +800,12 @@
   // 渲染「最新消息」手風琴（原「活動三大核心重點」區塊）
   function renderNews(lang) {
     const isEn = lang === "en";
-    const s = liveData.settings;
-    applySectionToggle("#highlights", "nav_highlights", s.section_highlights_show);
+    const sec = liveData.sections.highlights || {};
+    applySectionToggle("#highlights", "nav_highlights", sec.show !== false);
     const headerTitle = document.querySelector("#highlights .section-title");
     const headerDesc = document.querySelector("#highlights .section-desc");
-    if (headerTitle && s.section_highlights_title) headerTitle.textContent = isEn ? s.section_highlights_title.en : s.section_highlights_title.zh;
-    if (headerDesc && s.section_highlights_desc) headerDesc.textContent = isEn ? s.section_highlights_desc.en : s.section_highlights_desc.zh;
+    if (headerTitle && sec.title_zh) headerTitle.textContent = isEn ? sec.title_en : sec.title_zh;
+    if (headerDesc && sec.desc_zh) headerDesc.textContent = isEn ? sec.desc_en : sec.desc_zh;
 
     const accordion = document.getElementById("newsAccordion");
     if (!accordion || !liveData.news) return;
@@ -817,12 +836,12 @@
   // 渲染 Timeline 時程
   function renderTimeline(lang) {
     const isEn = lang === "en";
-    const s = liveData.settings;
-    applySectionToggle("#timeline", "nav_timeline", s.section_timeline_show);
+    const sec = liveData.sections.timeline || {};
+    applySectionToggle("#timeline", "nav_timeline", sec.show !== false);
     const headerTitle = document.querySelector("#timeline .section-title");
     const headerDesc = document.querySelector("#timeline .section-desc");
-    if (headerTitle && s.section_timeline_title) headerTitle.textContent = isEn ? s.section_timeline_title.en : s.section_timeline_title.zh;
-    if (headerDesc && s.section_timeline_desc) headerDesc.textContent = isEn ? s.section_timeline_desc.en : s.section_timeline_desc.zh;
+    if (headerTitle && sec.title_zh) headerTitle.textContent = isEn ? sec.title_en : sec.title_zh;
+    if (headerDesc && sec.desc_zh) headerDesc.textContent = isEn ? sec.desc_en : sec.desc_zh;
 
     const wrap = document.querySelector(".timeline-wrap");
     if (!wrap || !liveData.timeline) return;
@@ -890,10 +909,8 @@
   }
 
   // 切換整個區塊（連同對應的導覽選單項目）的顯示/隱藏
-  // sectionSelector：區塊的 CSS selector；navKey：對應的 nav_* 設定鍵（用 data-navkey 查找元素，不依賴 DOM 順序）；showSetting：settings 裡的顯示欄位物件（{zh, en}）
-  function applySectionToggle(sectionSelector, navKey, showSetting) {
-    const show = !(showSetting && (showSetting.zh === "否" || showSetting.en === "否"));
-
+  // sectionSelector：區塊的 CSS selector；navKey：對應的 nav_* 設定鍵（用 data-navkey 查找元素，不依賴 DOM 順序）；show：是否顯示（布林值）
+  function applySectionToggle(sectionSelector, navKey, show) {
     const section = document.querySelector(sectionSelector);
     if (section) section.hidden = !show;
 
@@ -913,19 +930,19 @@
   // 依試算表的「順序」設定，重新排列首頁區塊（主視覺之後、頁尾之前）與對應的導覽選單項目。
   // 「詳細辦法」只有導覽項目、沒有實體區塊（點擊會開彈窗），所以只影響選單排序。
   function applySectionOrder() {
-    const s = liveData.settings;
-    const parseOrder = (setting, fallback) => {
-      const n = setting && parseFloat(setting.zh);
+    const sections = liveData.sections;
+    const parseOrder = (sec, fallback) => {
+      const n = sec && parseFloat(sec.order);
       return Number.isFinite(n) ? n : fallback;
     };
 
     const orderMap = {
-      nav_highlights: parseOrder(s.section_highlights_order, 1),
-      nav_timeline: parseOrder(s.section_timeline_order, 2),
-      nav_rules: parseOrder(s.section_rules_order, 3),
-      nav_faq: parseOrder(s.section_faq_order, 4),
-      nav_shortlist: parseOrder(s.section_shortlist_order, 5),
-      nav_winners: parseOrder(s.section_winners_order, 6)
+      nav_highlights: parseOrder(sections.highlights, 1),
+      nav_timeline: parseOrder(sections.timeline, 2),
+      nav_rules: parseOrder(sections.rules, 3),
+      nav_faq: parseOrder(sections.faq, 4),
+      nav_shortlist: parseOrder(sections.shortlist, 5),
+      nav_winners: parseOrder(sections.winners, 6)
     };
 
     // 1. 重新排列 <main> 內的實體區塊。做法：算出「完整」子元素順序陣列（hero 固定第一，
@@ -1095,12 +1112,12 @@
   // 渲染 FAQ 常見問題
   function renderFaq(lang) {
     const isEn = lang === "en";
-    const s = liveData.settings;
-    applySectionToggle("#faq", "nav_faq", s.section_faq_show);
+    const sec = liveData.sections.faq || {};
+    applySectionToggle("#faq", "nav_faq", sec.show !== false);
     const headerTitle = document.querySelector("#faq .section-title");
     const headerDesc = document.querySelector("#faq .section-desc");
-    if (headerTitle && s.section_faq_title) headerTitle.textContent = isEn ? s.section_faq_title.en : s.section_faq_title.zh;
-    if (headerDesc && s.section_faq_desc) headerDesc.textContent = isEn ? s.section_faq_desc.en : s.section_faq_desc.zh;
+    if (headerTitle && sec.title_zh) headerTitle.textContent = isEn ? sec.title_en : sec.title_zh;
+    if (headerDesc && sec.desc_zh) headerDesc.textContent = isEn ? sec.desc_en : sec.desc_zh;
 
     const accordion = document.getElementById("faqAccordion");
     if (!accordion || !liveData.faq) return;
@@ -1209,12 +1226,13 @@
   function renderShortlist(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
-    applySectionToggle("#shortlist", "nav_shortlist", s.section_shortlist_show);
+    const sec = liveData.sections.shortlist || {};
+    applySectionToggle("#shortlist", "nav_shortlist", sec.show !== false);
 
     const headerTitle = document.querySelector("#shortlist .section-title");
     const headerDesc = document.querySelector("#shortlist .section-desc");
-    if (headerTitle && s.section_shortlist_title) headerTitle.textContent = isEn ? s.section_shortlist_title.en : s.section_shortlist_title.zh;
-    if (headerDesc && s.section_shortlist_desc) headerDesc.textContent = isEn ? s.section_shortlist_desc.en : s.section_shortlist_desc.zh;
+    if (headerTitle && sec.title_zh) headerTitle.textContent = isEn ? sec.title_en : sec.title_zh;
+    if (headerDesc && sec.desc_zh) headerDesc.textContent = isEn ? sec.desc_en : sec.desc_zh;
 
     const list = document.getElementById("shortlistList");
     const pagination = document.getElementById("shortlistPagination");
@@ -1251,12 +1269,13 @@
   function renderWinners(lang) {
     const isEn = lang === "en";
     const s = liveData.settings;
-    applySectionToggle("#winners", "nav_winners", s.section_winners_show);
+    const sec = liveData.sections.winners || {};
+    applySectionToggle("#winners", "nav_winners", sec.show !== false);
 
     const headerTitle = document.querySelector("#winners .section-title");
     const headerDesc = document.querySelector("#winners .section-desc");
-    if (headerTitle && s.section_winners_title) headerTitle.textContent = isEn ? s.section_winners_title.en : s.section_winners_title.zh;
-    if (headerDesc && s.section_winners_desc) headerDesc.textContent = isEn ? s.section_winners_desc.en : s.section_winners_desc.zh;
+    if (headerTitle && sec.title_zh) headerTitle.textContent = isEn ? sec.title_en : sec.title_zh;
+    if (headerDesc && sec.desc_zh) headerDesc.textContent = isEn ? sec.desc_en : sec.desc_zh;
 
     const list = document.getElementById("winnersList");
     const pagination = document.getElementById("winnersPagination");

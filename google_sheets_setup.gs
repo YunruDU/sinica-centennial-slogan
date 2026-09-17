@@ -34,23 +34,6 @@ function setupCentennialSloganSheets() {
     ["organizer_name", "主辦單位名稱", "中央研究院 秘書處", "Secretariat, Academia Sinica", "頁尾聯絡資訊：主辦窗口"],
     ["contact_email", "聯絡電子信箱", "centennial@gate.sinica.edu.tw", "centennial@gate.sinica.edu.tw", "頁尾聯絡資訊：信箱"],
     ["contact_phone", "聯絡電話", "02-2789-9400", "+886-2-2789-9400", "頁尾聯絡資訊：電話"],
-    ["section_highlights_title", "「最新消息」區塊標題", "最新消息", "Latest News", "首頁第1區塊大標"],
-    ["section_highlights_desc", "「最新消息」區塊說明", "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。", "Latest announcements and updates about the centennial slogan campaign.", "首頁第1區塊副標"],
-    ["section_highlights_show", "是否顯示「最新消息」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
-    ["section_highlights_order", "「最新消息」區塊順序", "1", "1", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
-    ["section_timeline_title", "「重要時程」區塊標題", "活動推展重要時程", "Campaign Timeline", "首頁第2區塊大標"],
-    ["section_timeline_desc", "「重要時程」區塊說明", "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。", "Key milestones and tentative schedule. Submit your entries before the deadline!", "首頁第2區塊副標"],
-    ["section_timeline_show", "是否顯示「重要時程」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
-    ["section_timeline_order", "「重要時程」區塊順序", "2", "2", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
-    ["section_faq_title", "「常見問答」區塊標題", "常見問答", "Frequently Asked Questions", "首頁第4區塊大標"],
-    ["section_faq_desc", "「常見問答」區塊說明", "關於百年院慶標語徵選活動之常見問題整理", "Answers to common questions regarding the slogan campaign.", "首頁第4區塊副標"],
-    ["section_faq_show", "是否顯示「常見問答」整個區塊", "是", "是", "填「否」則整塊隱藏（含導覽選單項目）"],
-    ["section_faq_order", "「常見問答」區塊順序", "4", "4", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
-    ["section_rules_order", "「詳細辦法」導覽項目順序", "3", "3", "此項目沒有對應區塊（點擊開彈窗），只影響選單排序"],
-    ["section_shortlist_title", "「入圍名單公告」區塊標題", "入圍名單公告", "Shortlist Announcement", "首頁入圍名單區塊大標"],
-    ["section_shortlist_desc", "「入圍名單公告」區塊說明", "初選入圍作品名單，正式得獎結果請以官方公告為準。", "List of shortlisted entries. Official winners will follow a separate announcement.", "首頁入圍名單區塊副標"],
-    ["section_shortlist_show", "是否顯示「入圍名單公告」整個區塊", "否", "否", "初選結果出爐前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"],
-    ["section_shortlist_order", "「入圍名單公告」區塊順序", "5", "5", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
     ["shortlist_show_dept", "入圍名單是否顯示「所別」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_name", "入圍名單是否顯示「姓名」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_sso", "入圍名單是否顯示「SSO」欄", "是", "是", "填「否」則整欄隱藏"],
@@ -58,10 +41,6 @@ function setupCentennialSloganSheets() {
     ["shortlist_show_slogan_zh", "入圍名單是否顯示「中文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_slogan_en", "入圍名單是否顯示「英文標語」欄", "是", "是", "填「否」則整欄隱藏"],
     ["shortlist_show_concept", "入圍名單是否顯示「創作理念說明」", "是", "是", "填「否」則不顯示理念說明段落"],
-    ["section_winners_title", "「得獎公告」區塊標題", "得獎公告", "Winners Announcement", "首頁得獎公告區塊大標"],
-    ["section_winners_desc", "「得獎公告」區塊說明", "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。", "Congratulations to the winners, and thank you to everyone who submitted an entry.", "首頁得獎公告區塊副標"],
-    ["section_winners_show", "是否顯示「得獎公告」整個區塊", "否", "否", "得獎名單確定前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"],
-    ["section_winners_order", "「得獎公告」區塊順序", "6", "6", "數字越小越前面；主視覺固定最前、頁尾固定最後"],
     ["winners_show_award", "得獎公告是否顯示「獎項」欄", "是", "是", "填「否」則整欄隱藏"],
     ["winners_show_dept", "得獎公告是否顯示「所別」欄", "是", "是", "填「否」則整欄隱藏"],
     ["winners_show_name", "得獎公告是否顯示「姓名」欄", "是", "是", "填「否」則整欄隱藏"],
@@ -83,6 +62,20 @@ function setupCentennialSloganSheets() {
     ["footer_copyright", "頁尾版權宣告", "© 2026 Academia Sinica 中央研究院. All Rights Reserved.", "© 2026 Academia Sinica. All Rights Reserved.", "Footer 最底部"],
     ["footer_form_note_label", "頁尾投稿表單提示文字", "✦ 投稿 Google 表單連結：", "✦ Submission Google Form:", "Footer 最底部，網址自動帶入 submit_form_url"]
   ], [200, 260, 340, 380, 300], "#500a11");
+
+  // 1.5 各區塊設定：標題／說明／順序／顯示開關，一列對應一個功能區塊，同一列
+  // 就能調整該區塊的全部設定，不用再到「全站與主視覺」裡東翻西找好幾個獨立項目。
+  // 「詳細辦法」沒有獨立區塊（點擊開彈跳視窗），中英文標題/說明/顯示欄位留空即可，
+  // 只有「顯示順序」會被使用。
+  createOrUpdateSheet(ss, "各區塊設定", [
+    ["區塊代碼 (勿改)", "中文標題", "英文標題", "中文說明", "英文說明", "顯示順序", "是否顯示", "備註"],
+    ["highlights", "最新消息", "Latest News", "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。", "Latest announcements and updates about the centennial slogan campaign.", "1", "是", "首頁第1個區塊"],
+    ["timeline", "活動推展重要時程", "Campaign Timeline", "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。", "Key milestones and tentative schedule. Submit your entries before the deadline!", "2", "是", "首頁第2個區塊"],
+    ["rules", "", "", "", "", "3", "", "此項無獨立區塊，點擊「詳細辦法」會開啟彈跳視窗，只有「顯示順序」影響選單排序"],
+    ["faq", "常見問答", "Frequently Asked Questions", "關於百年院慶標語徵選活動之常見問題整理", "Answers to common questions regarding the slogan campaign.", "4", "是", "首頁第4個區塊"],
+    ["shortlist", "入圍名單公告", "Shortlist Announcement", "初選入圍作品名單，正式得獎結果請以官方公告為準。", "List of shortlisted entries. Official winners will follow a separate announcement.", "5", "否", "初選結果出爐前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"],
+    ["winners", "得獎公告", "Winners Announcement", "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。", "Congratulations to the winners, and thank you to everyone who submitted an entry.", "6", "否", "得獎名單確定前請保持「否」；填「是」才會公開整個區塊（含導覽選單項目）"]
+  ], [140, 220, 260, 340, 380, 90, 90, 320], "#8a1724");
 
   // 2. 最新消息（手風琴展開/收合，筆數不固定，新增列即可增加消息）
   createOrUpdateSheet(ss, "最新消息", [
