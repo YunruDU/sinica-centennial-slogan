@@ -1141,7 +1141,7 @@
       max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-columns: 1.3fr 1fr;
       gap: 40px;
       padding-bottom: 40px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1478,10 +1478,6 @@
     @media (max-width: 1200px) {
       .footer-container {
         grid-template-columns: 1fr 1fr;
-      }
-      /* 品牌介紹改佔滿整列，避免「主辦聯絡資訊」單獨落到第二列、右側留白的怪異排版 */
-      .footer-container > div:first-child {
-        grid-column: 1 / -1;
       }
     }
 
@@ -2040,25 +2036,6 @@
       <div>
         <div class="footer-brand-title">中央研究院 百周年院慶標語徵選</div>
         <div class="footer-brand-en">ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN</div>
-        <p class="footer-desc footer-desc-main">
-          指導主辦：中央研究院 百年院慶籌備委員會<br />
-          執行單位：中央研究院 秘書處<br />
-          技術協同：中央研究院 資訊服務處
-        </p>
-      </div>
-
-      <div>
-        <div class="footer-col-title" id="footerQuickLinksTitle">快速連結</div>
-        <ul class="footer-list">
-          <li><a href="#hero-top" class="footer-quicklink" data-navkey="nav_hero">回首頁主視覺</a></li>
-          <li><a href="#highlights" class="footer-quicklink" data-navkey="nav_highlights">活動三大重點</a></li>
-          <li><a href="#timeline" class="footer-quicklink" data-navkey="nav_timeline">徵選期程表</a></li>
-          <li><a href="#rules" data-action="open-rules" class="footer-quicklink" data-navkey="nav_rules">詳細徵選辦法</a></li>
-          <li><a href="#faq" class="footer-quicklink" data-navkey="nav_faq">常見問答 (FAQ)</a></li>
-          <li><a href="#shortlist" class="footer-quicklink" data-navkey="nav_shortlist">入圍名單公告</a></li>
-          <li><a href="#winners" class="footer-quicklink" data-navkey="nav_winners">得獎公告</a></li>
-          <li><a href="https://www.sinica.edu.tw" target="_blank" rel="noopener noreferrer" class="footer-official-link">中央研究院官網 ↗</a></li>
-        </ul>
       </div>
 
       <div>
@@ -2314,6 +2291,6 @@
   </script>
 
   <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
-  <script src="assets/cms.js?v=28"></script>
+  <script src="assets/cms.js?v=29"></script>
 </body>
 </html>
