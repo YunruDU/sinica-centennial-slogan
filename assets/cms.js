@@ -405,7 +405,13 @@
   function loadCachedData() {
     try {
       const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) return JSON.parse(cached);
+      if (cached) {
+        // 防呆：舊版快取可能是在新增某些頂層欄位（例如 sections）之前存的，
+        // 直接回傳會讓畫面渲染時讀到 undefined 而整頁報錯。這裡改成跟預設
+        // 資料做一層合併，快取裡沒有的頂層欄位就補回預設值。
+        const parsed = JSON.parse(cached);
+        return Object.assign(JSON.parse(JSON.stringify(DEFAULT_DATA)), parsed);
+      }
     } catch (e) {
       console.warn("無法讀取本地快取：", e);
     }
