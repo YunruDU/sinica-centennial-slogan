@@ -59,6 +59,28 @@
       },
       hero_btn_submit: { zh: "我要投稿", en: "Submit Now" },
       hero_btn_rules: { zh: "徵選辦法", en: "Guidelines" },
+
+      // 主視覺版面二（深色空拍背景＋倒數計時器樣式，類似示意站設計）。
+      // hero_layout 填 "1" 顯示原本版面，填 "2" 切換成這一組版面。
+      hero_layout: { zh: "1", en: "1" },
+      hero2_bg_type: { zh: "video", en: "video" }, // image 或 video（video 時改讀 hero2_bg_youtube_id）
+      hero2_bg_image: { zh: "assets/campus-aerial.jpg", en: "assets/campus-aerial.jpg" },
+      hero2_bg_youtube_id: { zh: "QBqknUQoz4s", en: "QBqknUQoz4s" }, // YouTube 影片 ID（網址 watch?v= 後面那一串），留空則使用圖片背景
+      hero2_badge_text: { zh: "中央研究院 百年院慶", en: "ACADEMIA SINICA 100TH ANNIVERSARY" },
+      hero2_title: { zh: "百年中研\n啟航新世紀", en: "A Century of Sinica\nSailing into a New Era" },
+      hero2_subtitle: {
+        zh: "以一句話，凝鍊百年學術精神，開展下一個世紀。",
+        en: "In a single phrase, embody a century of scholarship and inspire the future."
+      },
+      hero2_countdown_label: { zh: "距離投稿倒數", en: "Countdown to Submission Deadline" },
+      hero2_countdown_target: { zh: "2026-10-31 23:59:59", en: "2026-10-31 23:59:59" }, // 倒數目標日期時間
+      hero2_countdown_caption: {
+        zh: "倒數目標：2026 年 10 月 31 日 23:59 · 投稿截止",
+        en: "Deadline: Oct 31, 2026, 23:59"
+      },
+      hero2_btn_submit_text: { zh: "認識百年系列活動", en: "Discover the Centennial Series" },
+      hero2_btn_rules_text: { zh: "走進百年大事紀", en: "Explore the Centennial Timeline" },
+
       organizer_name: { zh: "中央研究院 秘書處", en: "Secretariat, Academia Sinica" },
       contact_email: { zh: "centennial@gate.sinica.edu.tw", en: "centennial@gate.sinica.edu.tw" },
       contact_phone: { zh: "02-2789-9400", en: "+886-2-2789-9400" },
@@ -398,6 +420,7 @@
   // 當前全域資料儲存
   let liveData = loadCachedData() || JSON.parse(JSON.stringify(DEFAULT_DATA));
   let currentLang = localStorage.getItem("as_slogan_lang") || "zh";
+  let hero2CountdownTimer = null; // 主視覺版面二的倒數計時器 interval id，重新渲染時要先清掉舊的再開新的
 
   // ========================================================
   // 2. 快取載入與儲存
@@ -431,7 +454,13 @@
   // ========================================================
   // expectedHeaders：[A欄標題, B欄標題]。Google 的 gviz 端點在分頁名稱不存在時，
   // 不會回傳錯誤，而是靜默 fallback 回試算表第一個分頁的內容——曾實際造成資料錯亂。
-  // 因此這裡強制核對回傳的標題列，不符合就視為「分頁不存在」回傳空陣列，交由呼叫端 fallback 回預設內容，避免再次汙染畫面。
+  // 因此這裡強制核對回傳的標題列，不符合就視為「分頁讀不到」（可能剛建立、gviz 索引
+  // 還沒跟上、或名稱打錯）回傳 null；呼叫端遇到 null 時維持畫面原本內容，不會被清空。
+  //
+  // 回傳 null 跟回傳 [] 是刻意分開的兩種情況：
+  //   null → 分頁本身讀不到／讀取失敗，暫時性問題，畫面應該維持原本內容
+  //   []   → 分頁讀得到，但目前真的沒有任何資料列，屬於「使用者主動清空」，
+  //          畫面應該照實反映（該區塊/欄位不顯示），不套用 cms.js 內建的預設文字
   async function fetchSheetJson(sheetName, expectedHeaders) {
     const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?headers=1&tqx=out:json&sheet=${encodeURIComponent(sheetName)}`;
     const resp = await fetch(url);
@@ -440,16 +469,18 @@
     const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/s);
     if (!match) throw new Error("Invalid GViz format");
     const json = JSON.parse(match[1]);
-    if (!json.table || !json.table.rows) return [];
+    if (!json.table) return null;
 
     if (Array.isArray(expectedHeaders) && expectedHeaders.length > 0) {
       const cols = json.table.cols || [];
       const headerMismatch = expectedHeaders.some((expected, idx) => (cols[idx] && cols[idx].label) !== expected);
       if (headerMismatch) {
-        console.warn(`[Google Sheets CMS] 分頁「${sheetName}」尚不存在或欄位標題不符，暫時略過並使用預設內容。`);
-        return [];
+        console.warn(`[Google Sheets CMS] 分頁「${sheetName}」尚不存在或欄位標題不符，暫時略過，畫面維持原本內容。`);
+        return null;
       }
     }
+
+    if (!json.table.rows) return [];
 
     return json.table.rows.map(r =>
       (r.c || []).map(cell => {
@@ -466,40 +497,48 @@
     updateSyncBadge("loading", currentLang === "zh" ? "同步雲端資料中..." : "Syncing Google Sheets...");
     try {
       // 1. 全站與主視覺
+      // rows 為 null 代表分頁暫時讀不到，維持畫面原本內容；rows 為 []（分頁讀得到但
+      // 沒有資料列）或有資料時，都整個重建 liveData.settings，試算表沒填的欄位就不
+      // 會出現在畫面上，不會被 cms.js 內建的預設文字頂著。
       const settingsRows = await fetchSheetJson("全站與主視覺", ["設定項目代碼 (Key)", "項目說明 (Description)"]);
-      settingsRows.forEach(row => {
-        const key = row[0];
-        const zh = row[2];
-        const en = row[3];
-        if (key && (zh || en)) {
-          if (!liveData.settings[key]) liveData.settings[key] = {};
-          if (zh) liveData.settings[key].zh = zh;
-          if (en) liveData.settings[key].en = en;
-        }
-      });
+      if (settingsRows !== null) {
+        liveData.settings = {};
+        settingsRows.forEach(row => {
+          const key = row[0];
+          const zh = row[2];
+          const en = row[3];
+          if (key && (zh || en)) {
+            liveData.settings[key] = {};
+            if (zh) liveData.settings[key].zh = zh;
+            if (en) liveData.settings[key].en = en;
+          }
+        });
+      }
 
       // 1.5 各區塊設定：標題／說明／順序／顯示開關，一列對應一個功能區塊，
       // 同一列即可調整該區塊的全部設定（取代原本散落在「全站與主視覺」裡
-      // 好幾個獨立 Key 的舊做法）。找不到分頁時 sectionRows 會是空陣列，
-      // liveData.sections 直接沿用 DEFAULT_DATA 的預設值，不會壞掉。
+      // 好幾個獨立 Key 的舊做法）。分頁讀不到時（null）畫面維持原本內容；
+      // 讀得到時整個重建，某個區塊的列被刪掉，該區塊就不會再有標題/說明。
       const sectionRows = await fetchSheetJson("各區塊設定", ["區塊代碼 (勿改)", "中文標題"]);
-      sectionRows.forEach(row => {
-        const key = row[0];
-        if (!key) return;
-        const existing = liveData.sections[key] || {};
-        liveData.sections[key] = {
-          title_zh: row[1] || existing.title_zh || "",
-          title_en: row[2] || row[1] || existing.title_en || "",
-          desc_zh: row[3] || existing.desc_zh || "",
-          desc_en: row[4] || row[3] || existing.desc_en || "",
-          order: row[5] || existing.order,
-          show: row[6] !== "否"
-        };
-      });
+      if (sectionRows !== null) {
+        liveData.sections = {};
+        sectionRows.forEach(row => {
+          const key = row[0];
+          if (!key) return;
+          liveData.sections[key] = {
+            title_zh: row[1] || "",
+            title_en: row[2] || row[1] || "",
+            desc_zh: row[3] || "",
+            desc_en: row[4] || row[3] || "",
+            order: row[5] || undefined,
+            show: row[6] !== "否"
+          };
+        });
+      }
 
       // 2. 最新消息
       const newsRows = await fetchSheetJson("最新消息", ["順序", "消息標題 (中)"]);
-      if (newsRows.length > 0) {
+      if (newsRows !== null) {
         liveData.news = newsRows.map(row => ({
           title_zh: row[1] || "",
           title_en: row[2] || row[1] || "",
@@ -515,7 +554,7 @@
       // 欄位 K/L/M/N（索引10-13，選填）：「圖示大字(中)/(英)」「圖示小字(中)/(英)」，
       // 用來控制時程圓圈徽章顯示的文字。留空則自動 fallback 為預設四階段樣式。
       const timelineRows = await fetchSheetJson("重要時程", ["順序", "階段名稱 (中)"]);
-      if (timelineRows.length > 0) {
+      if (timelineRows !== null) {
         timelineRows.forEach((row, idx) => {
           let circleMainZh = "10月";
           let circleSubZh = "01日";
@@ -562,7 +601,7 @@
 
       // 4. 徵選辦法彈窗
       const rulesRows = await fetchSheetJson("徵選辦法彈窗", ["順序", "章節名稱 (中)"]);
-      if (rulesRows.length > 0) {
+      if (rulesRows !== null) {
         liveData.rules = rulesRows.map(row => ({
           title_zh: row[1] || "",
           title_en: row[2] || row[1] || "",
@@ -574,37 +613,39 @@
 
       // 5. 常見問題與Footer
       const faqFooterRows = await fetchSheetJson("常見問題與Footer", ["類別", "順序"]);
-      const faqs = [];
-      const footers = [];
-      faqFooterRows.forEach(row => {
-        const type = row[0];
-        if (type === "FAQ") {
-          faqs.push({
-            q_zh: row[2] || "",
-            q_en: row[3] || row[2] || "",
-            a_zh: row[4] || "",
-            a_en: row[5] || row[4] || "",
-            show: row[7] !== "否"
-          });
-        } else if (type === "Footer連結") {
-          footers.push({
-            name_zh: row[2] || "",
-            name_en: row[3] || row[2] || "",
-            url: row[4] || "#",
-            type: row[6] || "web",
-            show: row[7] !== "否"
-          });
-        }
-      });
-      if (faqs.length > 0) liveData.faq = faqs;
-      if (footers.length > 0) liveData.footerLinks = footers;
+      if (faqFooterRows !== null) {
+        const faqs = [];
+        const footers = [];
+        faqFooterRows.forEach(row => {
+          const type = row[0];
+          if (type === "FAQ") {
+            faqs.push({
+              q_zh: row[2] || "",
+              q_en: row[3] || row[2] || "",
+              a_zh: row[4] || "",
+              a_en: row[5] || row[4] || "",
+              show: row[7] !== "否"
+            });
+          } else if (type === "Footer連結") {
+            footers.push({
+              name_zh: row[2] || "",
+              name_en: row[3] || row[2] || "",
+              url: row[4] || "#",
+              type: row[6] || "web",
+              show: row[7] !== "否"
+            });
+          }
+        });
+        liveData.faq = faqs;
+        liveData.footerLinks = footers;
+      }
 
       // 6. 入圍名單公告
       // 欄位 J/K（索引9-10，選填）：「創作理念說明(中)/(英)」，加在原本欄位最後面（而非插在
       // 「是否顯示」前面），這樣試算表還沒補上這兩欄時，前面既有欄位（含「是否顯示」）的位置
       // 完全不受影響，仍照舊解析；只有補上後 concept 欄位才會有內容。
       const shortlistRows = await fetchSheetJson("入圍名單公告", ["順序", "所別 (中)"]);
-      if (shortlistRows.length > 0) {
+      if (shortlistRows !== null) {
         liveData.shortlist = shortlistRows.map(row => ({
           dept_zh: row[1] || "",
           dept_en: row[2] || row[1] || "",
@@ -621,7 +662,7 @@
 
       // 7. 得獎公告（欄位 L/M 為選填的創作理念說明，同上原則加在最後面）
       const winnersRows = await fetchSheetJson("得獎公告", ["順序", "獎項 (中)"]);
-      if (winnersRows.length > 0) {
+      if (winnersRows !== null) {
         liveData.winners = winnersRows.map(row => ({
           award_zh: row[1] || "",
           award_en: row[2] || row[1] || "",
@@ -752,6 +793,9 @@
     applyPictureImage(document.querySelector(".hero-poster-img"), s.hero_desktop_img && (isEn ? s.hero_desktop_img.en : s.hero_desktop_img.zh));
     applyPictureImage(document.querySelector(".mobile-100-img"), s.hero_mobile_logo && (isEn ? s.hero_mobile_logo.en : s.hero_mobile_logo.zh));
     applyMobileCampusBg(s.hero_mobile_campus && (isEn ? s.hero_mobile_campus.en : s.hero_mobile_campus.zh));
+
+    // 4.7. 主視覺版面一／二切換（試算表 hero_layout 填 "2" 時顯示深色背景＋倒數計時器版面）
+    applyHeroLayout(lang, formUrl, rulesBtnText);
 
     // 5. 最新消息區塊渲染
     renderNews(lang);
@@ -1016,6 +1060,123 @@
     if (!mobileHero) return;
     mobileHero.style.backgroundImage =
       "linear-gradient(180deg, rgba(254, 252, 248, 0.94) 0%, rgba(254, 252, 248, 0.84) 45%, rgba(254, 252, 248, 0.92) 80%, #faf6ef 100%), url('" + url + "')";
+  }
+
+  // 依「全站與主視覺」分頁的 hero_layout（"1" 或 "2"）切換顯示哪一組主視覺
+  function applyHeroLayout(lang, formUrl, rulesBtnDefaultText) {
+    const s = liveData.settings;
+    const isEn = lang === "en";
+    const layout1 = document.querySelector(".hero-layout-1");
+    const layout2 = document.querySelector(".hero-layout-2");
+    const useLayout2 = s.hero_layout && s.hero_layout.zh === "2";
+
+    if (layout1) layout1.hidden = useLayout2;
+    if (layout2) layout2.hidden = !useLayout2;
+
+    if (useLayout2) renderHero2(lang, formUrl, rulesBtnDefaultText);
+  }
+
+  // 渲染主視覺版面二：深色背景（圖片或 YouTube 影片）＋ 倒數計時器
+  function renderHero2(lang, formUrl, rulesBtnDefaultText) {
+    const s = liveData.settings;
+    const isEn = lang === "en";
+
+    const badge = document.querySelector(".hero2-badge");
+    if (badge && s.hero2_badge_text) badge.textContent = isEn ? s.hero2_badge_text.en : s.hero2_badge_text.zh;
+
+    const title = document.querySelector(".hero2-title");
+    if (title && s.hero2_title) {
+      const text = isEn ? s.hero2_title.en : s.hero2_title.zh;
+      title.innerHTML = text.split("\n").filter(Boolean).map(line => line).join("<br />");
+    }
+
+    const subtitle = document.querySelector(".hero2-subtitle");
+    if (subtitle && s.hero2_subtitle) subtitle.textContent = isEn ? s.hero2_subtitle.en : s.hero2_subtitle.zh;
+
+    const cdLabel = document.querySelector(".hero2-countdown-label");
+    if (cdLabel && s.hero2_countdown_label) cdLabel.textContent = isEn ? s.hero2_countdown_label.en : s.hero2_countdown_label.zh;
+
+    const cdCaption = document.querySelector(".hero2-countdown-caption");
+    if (cdCaption && s.hero2_countdown_caption) cdCaption.textContent = isEn ? s.hero2_countdown_caption.en : s.hero2_countdown_caption.zh;
+
+    // 背景：試算表 hero2_bg_type 填 "video" 且有填 YouTube ID 時顯示背景影片，否則用背景圖片
+    const bgImg = document.querySelector(".hero2-bg-img");
+    const bgVideoWrap = document.querySelector(".hero2-bg-video-wrap");
+    const bgVideo = document.querySelector(".hero2-bg-video");
+    const bgType = s.hero2_bg_type ? s.hero2_bg_type.zh : "image";
+    const youtubeId = s.hero2_bg_youtube_id ? (isEn ? s.hero2_bg_youtube_id.en : s.hero2_bg_youtube_id.zh) : "";
+
+    if (bgType === "video" && youtubeId) {
+      if (bgImg) bgImg.hidden = true;
+      if (bgVideoWrap) bgVideoWrap.hidden = false;
+      if (bgVideo) {
+        // 用 youtube-nocookie.com（隱私加強模式）+ 隱藏控制列/鍵盤互動，做法跟參考的示意站一致，
+        // loop=1 搭配 playlist=自己的影片 ID 是 YouTube 嵌入播放器單支影片自動循環的標準寫法。
+        const embedUrl = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(youtubeId)}` +
+          `?autoplay=1&mute=1&loop=1&playlist=${encodeURIComponent(youtubeId)}` +
+          `&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3` +
+          `&disablekb=1&fs=0&playsinline=1`;
+        if (bgVideo.getAttribute("src") !== embedUrl) bgVideo.src = embedUrl;
+      }
+    } else {
+      if (bgVideoWrap) bgVideoWrap.hidden = true;
+      if (bgImg) {
+        bgImg.hidden = false;
+        const imgUrl = s.hero2_bg_image ? (isEn ? s.hero2_bg_image.en : s.hero2_bg_image.zh) : "assets/campus-aerial.jpg";
+        if (imgUrl && bgImg.getAttribute("src") !== imgUrl) bgImg.src = imgUrl;
+      }
+    }
+
+    // 按鈕：文字用 hero2 專屬設定，但動作沿用既有機制（我要投稿超連結／開啟徵選辦法彈窗）
+    const submitBtn = document.getElementById("hero2SubmitBtn");
+    if (submitBtn) {
+      submitBtn.href = formUrl;
+      submitBtn.textContent = s.hero2_btn_submit_text
+        ? (isEn ? s.hero2_btn_submit_text.en : s.hero2_btn_submit_text.zh)
+        : (isEn ? "Discover the Centennial Series" : "認識百年系列活動");
+    }
+    const rulesBtn = document.getElementById("hero2RulesBtn");
+    if (rulesBtn) {
+      rulesBtn.textContent = s.hero2_btn_rules_text
+        ? (isEn ? s.hero2_btn_rules_text.en : s.hero2_btn_rules_text.zh)
+        : rulesBtnDefaultText;
+    }
+
+    startHero2Countdown(s.hero2_countdown_target ? s.hero2_countdown_target.zh : "");
+  }
+
+  // 倒數計時器：每秒更新天/時/分/秒，重新渲染（切換語言、Excel 同步）時要先清掉舊的 interval 再開新的，避免重複計時
+  function startHero2Countdown(targetStr) {
+    if (hero2CountdownTimer) {
+      clearInterval(hero2CountdownTimer);
+      hero2CountdownTimer = null;
+    }
+    const target = targetStr ? new Date(targetStr.replace(/-/g, "/")) : null;
+    const daysEl = document.getElementById("hero2CdDays");
+    const hoursEl = document.getElementById("hero2CdHours");
+    const minutesEl = document.getElementById("hero2CdMinutes");
+    const secondsEl = document.getElementById("hero2CdSeconds");
+    if (!target || isNaN(target.getTime()) || !daysEl) return;
+
+    function tick() {
+      const diff = target.getTime() - Date.now();
+      const clamped = Math.max(0, diff);
+      const days = Math.floor(clamped / 86400000);
+      const hours = Math.floor((clamped % 86400000) / 3600000);
+      const minutes = Math.floor((clamped % 3600000) / 60000);
+      const seconds = Math.floor((clamped % 60000) / 1000);
+      daysEl.textContent = String(days);
+      hoursEl.textContent = String(hours).padStart(2, "0");
+      minutesEl.textContent = String(minutes).padStart(2, "0");
+      secondsEl.textContent = String(seconds).padStart(2, "0");
+      if (diff <= 0 && hero2CountdownTimer) {
+        clearInterval(hero2CountdownTimer);
+        hero2CountdownTimer = null;
+      }
+    }
+
+    tick();
+    hero2CountdownTimer = setInterval(tick, 1000);
   }
 
   // 渲染 Footer 頁尾

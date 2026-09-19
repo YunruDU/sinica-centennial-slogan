@@ -87,8 +87,6 @@
   </main>
 
   <script>
-    // 與公開網站共用同一份 Google 試算表 ID，讀取「入圍名單公告」分頁
-    const SHEET_ID = "10cFGVyCSQqGEPjWw7LBs1xs9hevCXWpUfoV2DhU8qYU";
     // 部署 judge_scoring_backend.gs 後拿到的網頁應用程式網址，貼在這裡
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyaJMLn9os_5o1zpgDZnX_eDAfTv_usm2StPcS2BzOginQ3sfSp5Jb4HhGbdxKdyck9/exec";
 
@@ -97,33 +95,16 @@
       return params.get("c") || "";
     }
 
-    // 讀取入圍名單公告，故意不套用「是否顯示」這個公開網站專用的開關，
-    // 評審在正式公告前也要能看到全部入圍作品；也刻意不讀所別/姓名/SSO，
-    // 維持評審介面不揭露投稿人身分。
-    async function fetchShortlist() {
-      const url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
-        "/gviz/tq?headers=1&tqx=out:json&sheet=" + encodeURIComponent("入圍名單公告");
+    // 讀取入圍作品內容，改成透過 Apps Script 後端（而非直接讀公開試算表），
+    // 因為公開試算表是「知道連結的人都能看」，正式公告前不能把作品內容放在
+    // 那裡；後端讀的是私人「委員評分」試算表裡的「入圍作品內容」分頁，一樣
+    // 刻意不含所別/姓名/SSO，維持評審介面不揭露投稿人身分。
+    async function fetchEntries(token) {
+      const url = APPS_SCRIPT_URL + "?action=entries&token=" + encodeURIComponent(token);
       const resp = await fetch(url);
-      const text = await resp.text();
-      const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/s);
-      if (!match) return [];
-      const json = JSON.parse(match[1]);
-      if (!json.table || !json.table.rows) return [];
-
-      return json.table.rows
-        .map(r => (r.c || []).map(cell => {
-          if (!cell) return "";
-          if (cell.f !== null && cell.f !== undefined && String(cell.f).trim() !== "") return String(cell.f).trim();
-          return cell.v !== null && cell.v !== undefined ? String(cell.v).trim() : "";
-        }))
-        .map(row => ({
-          order: row[0],
-          zh: row[6] || "",
-          en: row[7] || "",
-          conceptZh: row[9] || "",
-          conceptEn: row[10] || ""
-        }))
-        .filter(r => r.order && r.zh);
+      const data = await resp.json();
+      if (!data.success) return [];
+      return data.entries || [];
     }
 
     async function fetchMyScores(token) {
@@ -219,7 +200,7 @@
       }
 
       try {
-        const results = await Promise.all([fetchShortlist(), fetchMyScores(token)]);
+        const results = await Promise.all([fetchEntries(token), fetchMyScores(token)]);
         const entries = results[0];
         const myScoresResp = results[1];
 
