@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#670b15" />
   <meta name="description" content="中央研究院百周年標語徵選活動（Academia Sinica Centennial Slogan Campaign，1928 — 2028）。以一句話，凝鍊百年學術精神，開展下一個世紀。" />
-  <meta property="og:title" content="中央研究院百周年標語徵選" />
+  <meta property="og:title" content="中央研究院百年標語徵選" />
   <meta property="og:description" content="以一句話，凝鍊百年學術精神，開展下一個世紀。歡迎全體同仁踴躍投稿！" />
   <meta property="og:image" content="assets/hero-desktop.png" />
-  <title>中央研究院百周年標語徵選 | 1928 — 2028</title>
+  <title>中央研究院百年標語徵選 | 1928 — 2028</title>
 
   <!-- Google Fonts: Noto Serif TC & Cinzel -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -701,6 +701,41 @@
        這裡明確補回來，否則 JS 切換 hidden 屬性時畫面不會真的隱藏 */
     .hero-layout-2[hidden] {
       display: none;
+    }
+
+    /* 投稿前的登入提醒視窗 */
+    .login-notice-dialog {
+      border: 1.5px solid var(--gold-bright);
+      border-radius: 14px;
+      background: #fffdfa;
+      padding: 0;
+      margin: auto;
+      width: min(92vw, 420px);
+      box-shadow: 0 25px 80px rgba(44, 20, 10, 0.4);
+    }
+    .login-notice-dialog::backdrop {
+      background: rgba(36, 20, 15, 0.65);
+    }
+    .login-notice-inner {
+      padding: 28px 26px 22px;
+      text-align: center;
+    }
+    .login-notice-title {
+      margin: 0 0 12px;
+      font-size: 1.15rem;
+      color: var(--wine-primary);
+    }
+    .login-notice-body {
+      margin: 0 0 22px;
+      line-height: 1.8;
+      color: #3a2e2a;
+      font-size: 0.98rem;
+    }
+    .login-notice-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .hero2-bg {
@@ -1872,7 +1907,7 @@
       <a href="#top" class="nav-brand" aria-label="中央研究院百周年標語徵選首頁">
         <img src="assets/sinica-logo.png" alt="中央研究院標誌" class="nav-brand-logo" />
         <div class="nav-brand-text">
-          <span class="nav-brand-title">中央研究院 百周年院慶</span>
+          <span class="nav-brand-title">中央研究院 百年院慶</span>
           <span class="nav-brand-subtitle">1928 — 2028 · CENTENNIAL</span>
         </div>
       </a>
@@ -1881,7 +1916,7 @@
       <nav aria-label="全站主要導覽">
         <ul class="nav-links">
           <li><a href="#hero-top" class="nav-link" data-navkey="nav_hero">活動首頁</a></li>
-          <li><a href="#highlights" class="nav-link" data-navkey="nav_highlights">徵選重點</a></li>
+          <li><a href="#highlights" class="nav-link" data-navkey="nav_highlights">最新消息</a></li>
           <li><a href="#timeline" class="nav-link" data-navkey="nav_timeline">重要時程</a></li>
           <li><a href="#rules" class="nav-link" data-action="open-rules" data-navkey="nav_rules">詳細辦法</a></li>
           <li><a href="#faq" class="nav-link" data-navkey="nav_faq">常見問題</a></li>
@@ -1893,7 +1928,7 @@
       <!-- Right Action Group -->
       <div class="nav-right-group">
         <!-- CTA Button in Header -->
-        <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="nav-cta" id="headerCtaBtn" title="點擊前往 Google Form 填寫徵選標語">
+        <a href="https://forms.gle/aCeM3Rkwap4a8uzX6" target="_blank" rel="noopener noreferrer" class="nav-cta" id="headerCtaBtn" title="點擊前往 Google Form 填寫徵選標語">
           <span>我要投稿</span>
           <span aria-hidden="true">›</span>
         </a>
@@ -1927,16 +1962,16 @@
       </div>
 
       <ul class="drawer-links">
-        <li><a href="#hero-top" class="drawer-link" data-navkey="nav_hero">首頁視覺</a></li>
-        <li><a href="#highlights" class="drawer-link" data-navkey="nav_highlights">活動重點</a></li>
-        <li><a href="#timeline" class="drawer-link" data-navkey="nav_timeline">時程規劃</a></li>
-        <li><a href="#rules" class="drawer-link" data-action="open-rules" data-navkey="nav_rules">徵選辦法</a></li>
-        <li><a href="#faq" class="drawer-link" data-navkey="nav_faq">常見問答</a></li>
+        <li><a href="#hero-top" class="drawer-link" data-navkey="nav_hero">活動首頁</a></li>
+        <li><a href="#highlights" class="drawer-link" data-navkey="nav_highlights">最新消息</a></li>
+        <li><a href="#timeline" class="drawer-link" data-navkey="nav_timeline">重要時程</a></li>
+        <li><a href="#rules" class="drawer-link" data-action="open-rules" data-navkey="nav_rules">詳細辦法</a></li>
+        <li><a href="#faq" class="drawer-link" data-navkey="nav_faq">常見問題</a></li>
         <li><a href="#shortlist" class="drawer-link" data-navkey="nav_shortlist">入圍名單</a></li>
         <li><a href="#winners" class="drawer-link" data-navkey="nav_winners">得獎公告</a></li>
       </ul>
       <div style="margin-top: auto; padding-top: 24px;">
-        <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="drawerSubmitBtn">
+        <a href="https://forms.gle/aCeM3Rkwap4a8uzX6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="drawerSubmitBtn">
           前往投稿表單 ›
         </a>
       </div>
@@ -1968,7 +2003,7 @@
         <div class="hero-hotspots">
           <!-- Primary CTA Button: 我要投稿 (Opens Google Form) -->
           <a 
-            href="https://forms.gle/MJkYBRTb5NpWaSAZ6" 
+            href="https://forms.gle/aCeM3Rkwap4a8uzX6" 
             target="_blank" 
             rel="noopener noreferrer" 
             class="hero-hotspot-btn hero-btn-submit-desktop"
@@ -2020,7 +2055,7 @@
           <!-- Action Buttons: 我要投稿 & 徵選辦法 (Stacked / 換行) -->
           <div class="mobile-actions-stack">
             <a 
-              href="https://forms.gle/MJkYBRTb5NpWaSAZ6" 
+              href="https://forms.gle/aCeM3Rkwap4a8uzX6" 
               target="_blank" 
               rel="noopener noreferrer" 
               class="btn-m-action btn-m-submit"
@@ -2107,7 +2142,7 @@
 
         <div class="hero2-buttons">
           <a
-            href="https://forms.gle/MJkYBRTb5NpWaSAZ6"
+            href="https://forms.gle/aCeM3Rkwap4a8uzX6"
             target="_blank"
             rel="noopener noreferrer"
             class="hero2-btn hero2-btn-primary"
@@ -2334,19 +2369,19 @@
   <footer class="site-footer">
     <div class="footer-container">
       <div>
-        <div class="footer-brand-title">中央研究院 百周年院慶標語徵選</div>
+        <div class="footer-brand-title">中央研究院 百年院慶標語徵選</div>
         <div class="footer-brand-en">ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN</div>
       </div>
 
       <div>
         <div class="footer-col-title" id="footerContactTitle">主辦聯絡資訊</div>
         <p class="footer-desc footer-address" style="line-height: 1.8;">
-          院區地址：115201 臺北市南港區研究院路二段128號
+          地址：115201 臺北市南港區研究院路二段128號
         </p>
         <p class="footer-desc footer-contact-line" style="line-height: 1.8;">
-          主辦窗口：<span class="footer-org-name">中央研究院 秘書處</span><br />
-          聯絡信箱：<a class="footer-contact-email" href="mailto:centennial@gate.sinica.edu.tw">centennial@gate.sinica.edu.tw</a><br />
-          聯絡電話：<span class="footer-contact-phone">02-2789-9400</span>
+          主辦窗口：<span class="footer-org-name">本院秘書處科林小姐</span><br />
+          聯絡信箱：<a class="footer-contact-email" href="mailto:lsy@as.edu.tw">lsy@as.edu.tw</a><br />
+          聯絡電話：<span class="footer-contact-phone">(02)2789-9873</span>
         </p>
       </div>
     </div>
@@ -2364,7 +2399,7 @@
        ======================================================== -->
   <dialog class="rules-dialog" id="rulesDialog" aria-labelledby="dialogTitle">
     <div class="dialog-header">
-      <h2 class="dialog-header-title" id="dialogTitle">中央研究院百周年標語徵選活動辦法</h2>
+      <h2 class="dialog-header-title" id="dialogTitle">中央研究院百年標語徵選活動辦法</h2>
       <button type="button" class="dialog-close-btn" id="dialogCloseBtn" aria-label="關閉彈出視窗">×</button>
     </div>
 
@@ -2419,9 +2454,21 @@
       <button type="button" class="btn-mobile btn-mobile-secondary" id="dialogCancelBtn" style="width: auto; min-height: 44px; padding: 8px 24px; font-size: 0.95rem;">
         關閉視窗
       </button>
-      <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="dialogSubmitBtn" style="width: auto; min-height: 44px; padding: 8px 26px; font-size: 0.95rem;">
+      <a href="https://forms.gle/aCeM3Rkwap4a8uzX6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="dialogSubmitBtn" style="width: auto; min-height: 44px; padding: 8px 26px; font-size: 0.95rem;">
         前往表單投稿 ›
       </a>
+    </div>
+  </dialog>
+
+  <!-- 投稿前登入提醒：點「我要投稿」類按鈕時先跳出，按確定才前往表單 -->
+  <dialog class="login-notice-dialog" id="loginNoticeDialog" aria-labelledby="loginNoticeTitle">
+    <div class="login-notice-inner">
+      <h2 class="login-notice-title" id="loginNoticeTitle">投稿前請先確認</h2>
+      <p class="login-notice-body" id="loginNoticeBody">請使用院內 AS.EDU.TW 信箱登入 Google 帳號後，再填寫投稿表單。</p>
+      <div class="login-notice-actions">
+        <button type="button" class="btn-mobile btn-mobile-secondary" id="loginNoticeCancel" style="width:auto; min-height:44px; padding:8px 24px;">取消</button>
+        <button type="button" class="btn-mobile btn-mobile-primary" id="loginNoticeConfirm" style="width:auto; min-height:44px; padding:8px 26px;">確定，前往投稿</button>
+      </div>
     </div>
   </dialog>
 
@@ -2433,7 +2480,7 @@
       <button type="button" class="btn-mobile btn-mobile-secondary" data-action="open-rules" id="floatingRulesBtn" style="flex: 1; min-height: 46px; font-size: 0.95rem;">
         徵選辦法
       </button>
-      <a href="https://forms.gle/MJkYBRTb5NpWaSAZ6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="floatingSubmitBtn" style="flex: 1.4; min-height: 46px; font-size: 0.95rem;">
+      <a href="https://forms.gle/aCeM3Rkwap4a8uzX6" target="_blank" rel="noopener noreferrer" class="btn-mobile btn-mobile-primary" id="floatingSubmitBtn" style="flex: 1.4; min-height: 46px; font-size: 0.95rem;">
         我要投稿 ›
       </a>
     </div>
@@ -2457,7 +2504,7 @@
      * CENTRAL CONFIGURATION
      * Anyone can easily modify the target Google Form URL here:
      */
-    const GOOGLE_FORM_URL = "https://forms.gle/MJkYBRTb5NpWaSAZ6";
+    const GOOGLE_FORM_URL = "https://forms.gle/aCeM3Rkwap4a8uzX6";
 
     document.addEventListener("DOMContentLoaded", () => {
       // 1. Sync all submit buttons to the configured Google Form URL
@@ -2469,6 +2516,26 @@
       submitButtons.forEach((btn) => {
         if (btn) btn.href = GOOGLE_FORM_URL;
       });
+
+      // 1.5 投稿前登入提醒：所有「我要投稿」類按鈕先跳出提醒，按確定才開啟表單連結
+      const loginDialog = document.getElementById("loginNoticeDialog");
+      const submitIds = ["headerCtaBtn", "drawerSubmitBtn", "desktopSubmitBtn", "mobileSubmitBtn", "hero2SubmitBtn", "dialogSubmitBtn", "floatingSubmitBtn"];
+      let pendingFormUrl = "";
+
+      document.addEventListener("click", (e) => {
+        const link = e.target.closest("a");
+        if (!link || !submitIds.includes(link.id) || !loginDialog || typeof loginDialog.showModal !== "function") return;
+        if (document.body.dataset.loginNotice === "off") return; // Excel 關閉提醒時，照原本連結直接前往
+        e.preventDefault();
+        pendingFormUrl = link.href;
+        loginDialog.showModal();
+      }, true);
+
+      document.getElementById("loginNoticeConfirm").addEventListener("click", () => {
+        loginDialog.close();
+        if (pendingFormUrl) window.open(pendingFormUrl, "_blank", "noopener,noreferrer");
+      });
+      document.getElementById("loginNoticeCancel").addEventListener("click", () => loginDialog.close());
 
       // 2. Rules Modal Dialog Controller
       const rulesDialog = document.getElementById("rulesDialog");
@@ -2591,6 +2658,6 @@
   </script>
 
   <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
-  <script src="assets/cms.js?v=31"></script>
+  <script src="assets/cms.js?v=34"></script>
 </body>
 </html>

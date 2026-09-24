@@ -14,77 +14,50 @@
   // 確保離線、無網路或 Google API 延遲時瞬間正常顯示
   // ========================================================
   const DEFAULT_DATA = {
+    // 預設內容跟目前 Google 試算表「全站與主視覺」同步（試算表讀不到／還沒載入完成時顯示這份）。
+    // hero_layout 填 "1" 顯示原本主視覺，填 "2" 顯示深色背景＋倒數計時器版面；
+    // login_notice_show 填「否」= 點我要投稿不跳登入提醒視窗。
     settings: {
-      site_title: {
-        zh: "中央研究院百周年標語徵選 | 1928 — 2028",
-        en: "Academia Sinica Centennial Slogan Campaign | 1928 — 2028"
-      },
-      brand_title: {
-        zh: "中央研究院 百周年院慶",
-        en: "Academia Sinica Centennial"
-      },
-      brand_subtitle: {
-        zh: "1928 — 2028 · CENTENNIAL",
-        en: "1928 — 2028 · CENTENNIAL"
-      },
+      site_title: { zh: "中央研究院百年標語徵選 | 1928 — 2028", en: "Academia Sinica Centennial Slogan Campaign | 1928 — 2028" },
+      brand_title: { zh: "中央研究院 百年院慶", en: "Academia Sinica Centennial" },
+      brand_subtitle: { zh: "1928 — 2028 · CENTENNIAL", en: "1928 — 2028 · CENTENNIAL" },
       nav_hero: { zh: "活動首頁", en: "Home" },
-      nav_highlights: { zh: "最新消息", en: "Latest News" },
+      nav_highlights: { zh: "最新消息", en: "News" },
       nav_timeline: { zh: "重要時程", en: "Timeline" },
       nav_rules: { zh: "詳細辦法", en: "Guidelines" },
       nav_faq: { zh: "常見問題", en: "FAQ" },
       nav_shortlist: { zh: "入圍名單", en: "Shortlist" },
       nav_winners: { zh: "得獎公告", en: "Winners" },
-      nav_submit_btn: { zh: "我要投稿", en: "Submit Now" },
-      submit_form_url: {
-        zh: "https://forms.gle/MJkYBRTb5NpWaSAZ6",
-        en: "https://forms.gle/MJkYBRTb5NpWaSAZ6"
-      },
-      hero_desktop_img: {
-        zh: "assets/hero-desktop.png",
-        en: "assets/hero-desktop.png"
-      },
-      hero_mobile_logo: {
-        zh: "assets/centennial-100.png",
-        en: "assets/centennial-100.png"
-      },
-      hero_mobile_campus: {
-        zh: "assets/campus-aerial.jpg",
-        en: "assets/campus-aerial.jpg"
-      },
+      nav_submit_btn: { zh: "我要投稿", en: "Start Submission" },
+      submit_form_url: { zh: "https://forms.gle/aCeM3Rkwap4a8uzX6", en: "https://forms.gle/aCeM3Rkwap4a8uzX6" },
+      hero_desktop_img: { zh: "assets/hero-desktop.png", en: "assets/hero-desktop.png" },
+      hero_mobile_logo: { zh: "assets/centennial-100.png", en: "assets/centennial-100.png" },
+      hero_mobile_campus: { zh: "assets/campus-aerial.jpg", en: "assets/campus-aerial.jpg" },
       hero_main_title: { zh: "中央研究院", en: "Academia Sinica" },
       hero_sub_title: { zh: "百年標語徵選", en: "Centennial Slogan Campaign" },
-      hero_quote: {
-        zh: "以一句話，凝鍊百年學術精神，開展下一個世紀",
-        en: "In a single phrase, embody a century of scholarship and inspire the future"
-      },
-      hero_btn_submit: { zh: "我要投稿", en: "Submit Now" },
+      hero_quote: { zh: "以一句話，凝鍊百年學術精神，開展下一個世紀", en: "In a single phrase, embody a century of scholarship and inspire the future" },
+      hero_btn_submit: { zh: "我要投稿", en: "Start Submission" },
       hero_btn_rules: { zh: "徵選辦法", en: "Guidelines" },
-
-      // 主視覺版面二（深色空拍背景＋倒數計時器樣式，類似示意站設計）。
-      // hero_layout 填 "1" 顯示原本版面，填 "2" 切換成這一組版面。
       hero_layout: { zh: "1", en: "1" },
-      hero2_bg_type: { zh: "video", en: "video" }, // image 或 video（video 時改讀 hero2_bg_youtube_id）
+      hero2_bg_type: { zh: "video", en: "image" },
       hero2_bg_image: { zh: "assets/campus-aerial.jpg", en: "assets/campus-aerial.jpg" },
-      hero2_bg_youtube_id: { zh: "QBqknUQoz4s", en: "QBqknUQoz4s" }, // YouTube 影片 ID（網址 watch?v= 後面那一串），留空則使用圖片背景
+      hero2_bg_youtube_id: { zh: "QBqknUQoz4s", en: "QBqknUQoz4s" },
       hero2_badge_text: { zh: "中央研究院 百年院慶", en: "ACADEMIA SINICA 100TH ANNIVERSARY" },
       hero2_title: { zh: "百年中研\n啟航新世紀", en: "A Century of Sinica\nSailing into a New Era" },
-      hero2_subtitle: {
-        zh: "以一句話，凝鍊百年學術精神，開展下一個世紀。",
-        en: "In a single phrase, embody a century of scholarship and inspire the future."
-      },
+      hero2_subtitle: { zh: "以一句話，凝鍊百年學術精神，開展下一個世紀。", en: "In a single phrase, embody a century of scholarship and inspire the future." },
       hero2_countdown_label: { zh: "距離投稿倒數", en: "Countdown to Submission Deadline" },
-      hero2_countdown_target: { zh: "2026-10-31 23:59:59", en: "2026-10-31 23:59:59" }, // 倒數目標日期時間
-      hero2_countdown_caption: {
-        zh: "倒數目標：2026 年 10 月 31 日 23:59 · 投稿截止",
-        en: "Deadline: Oct 31, 2026, 23:59"
-      },
+      hero2_countdown_target: { zh: "2026-10-31 23:59:59", en: "2026-10-31 23:59:59" },
+      hero2_countdown_caption: { zh: "倒數目標：2026 年 10 月 31 日 23:59 · 投稿截止", en: "Deadline: Oct 31, 2026, 23:59" },
       hero2_btn_submit_text: { zh: "認識百年系列活動", en: "Discover the Centennial Series" },
       hero2_btn_rules_text: { zh: "走進百年大事紀", en: "Explore the Centennial Timeline" },
-
-      organizer_name: { zh: "中央研究院 秘書處", en: "Secretariat, Academia Sinica" },
-      contact_email: { zh: "centennial@gate.sinica.edu.tw", en: "centennial@gate.sinica.edu.tw" },
-      contact_phone: { zh: "02-2789-9400", en: "+886-2-2789-9400" },
-
+      login_notice_show: { zh: "是", en: "是" },
+      login_notice_title: { zh: "投稿前請先確認", en: "Before You Submit" },
+      login_notice_body: { zh: "請使用院內 AS.EDU.TW 信箱登入 Google 帳號後，再填寫投稿表單。", en: "Please sign in to Google with your institute AS.EDU.TW email before filling out the submission form." },
+      login_notice_confirm: { zh: "確定，前往投稿", en: "OK, Go to Form" },
+      login_notice_cancel: { zh: "取消", en: "Cancel" },
+      organizer_name: { zh: "本院秘書處科林小姐", en: "Secretariat, Academia Sinica" },
+      contact_email: { zh: "lsy@as.edu.tw", en: "lsy@as.edu.tw" },
+      contact_phone: { zh: "(02)2789-9873", en: "(02)2789-9873" },
       shortlist_show_dept: { zh: "是", en: "是" },
       shortlist_show_name: { zh: "是", en: "是" },
       shortlist_show_sso: { zh: "是", en: "是" },
@@ -100,320 +73,95 @@
       winners_show_slogan_zh: { zh: "是", en: "是" },
       winners_show_slogan_en: { zh: "是", en: "是" },
       winners_show_concept: { zh: "是", en: "是" },
-
-      dialog_title: {
-        zh: "中央研究院百周年標語徵選活動辦法",
-        en: "Academia Sinica Centennial Slogan Campaign — Guidelines"
-      },
+      dialog_title: { zh: "中央研究院百年標語徵選活動辦法", en: "Academia Sinica Centennial Slogan Campaign — Guidelines" },
       dialog_close_btn: { zh: "關閉視窗", en: "Close" },
-      dialog_submit_btn: { zh: "前往表單投稿 ›", en: "Submit Now ›" },
-
-      footer_brand_title: { zh: "中央研究院 百周年院慶標語徵選", en: "Academia Sinica Centennial Slogan Campaign" },
+      dialog_submit_btn: { zh: "前往表單投稿 ›", en: "Start Submission ›" },
+      dialog_notice: { zh: "本徵選網頁依秘書處需求說明書製作，投稿入口連結至 Google 表單；正式得獎公告與詳細期程以主辦單位最新公告為準。", en: "This page follows the Secretariat's requirements. Submissions link to a Google Form; official results follow the organizer's latest announcements." },
+      footer_desc: { zh: "執行單位：中央研究院 秘書處\n技術協同：中央研究院 資訊服務處", en: "Organized by: Secretariat, Academia Sinica\nTechnical Support: Office of Information Technology, Academia Sinica" },
+      footer_address: { zh: "地址：115201 臺北市南港區研究院路二段128號", en: "Address: No. 128, Sec. 2, Academia Rd., Nangang Dist., Taipei 115201" },
+      footer_brand_title: { zh: "中央研究院 百年院慶標語徵選", en: "Academia Sinica Centennial Slogan Campaign" },
       footer_brand_en: { zh: "ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN", en: "ACADEMIA SINICA CENTENNIAL SLOGAN CAMPAIGN" },
-      footer_desc: {
-        zh: "指導主辦：中央研究院 百年院慶籌備委員會\n執行單位：中央研究院 秘書處\n技術協同：中央研究院 資訊服務處",
-        en: "Supervised by: Academia Sinica Centennial Committee\nOrganized by: Secretariat, Academia Sinica\nTechnical Support: Office of Information Technology, Academia Sinica"
-      },
       footer_quicklinks_title: { zh: "快速連結", en: "Quick Links" },
       footer_contact_title: { zh: "主辦聯絡資訊", en: "Contact Information" },
-      footer_address: {
-        zh: "院區地址：115201 臺北市南港區研究院路二段128號",
-        en: "Address: No. 128, Sec. 2, Academia Rd., Nangang Dist., Taipei 115201"
-      },
       footer_official_link_text: { zh: "中央研究院官網 ↗", en: "Academia Sinica Official Site ↗" },
-      footer_copyright: {
-        zh: "© 2026 Academia Sinica 中央研究院. All Rights Reserved.",
-        en: "© 2026 Academia Sinica. All Rights Reserved."
-      },
+      footer_copyright: { zh: "© 2026 Academia Sinica 中央研究院. All Rights Reserved.", en: "© 2026 Academia Sinica. All Rights Reserved." },
       footer_form_note_label: { zh: "✦ 投稿 Google 表單連結：", en: "✦ Submission Google Form:" }
     },
 
     // 各區塊的標題／說明／順序／顯示開關，全部集中在這裡（對應試算表「各區塊設定」
     // 分頁，一列就是一個功能區塊，同一列可以調整該區塊的所有設定，不會分散在別處）
+    // 以下預設內容跟目前 Google 試算表同步（試算表讀不到／還沒載入完成時顯示這份）。
+    // 入圍名單、得獎公告刻意留空：避免正式公告前把投稿人資料寫死在公開的網頁原始碼裡。
     sections: {
       highlights: {
         title_zh: "最新消息", title_en: "Latest News",
-        desc_zh: "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。",
-        desc_en: "Latest announcements and updates about the centennial slogan campaign.",
+        desc_zh: "百年院慶標語徵選活動相關最新公告與更新，請隨時留意。", desc_en: "Latest announcements and updates about the centennial slogan campaign.",
         order: 1, show: true
       },
       timeline: {
         title_zh: "活動推展重要時程", title_en: "Campaign Timeline",
-        desc_zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。",
-        desc_en: "Key milestones and tentative schedule. Submit your entries before the deadline!",
+        desc_zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。", desc_en: "Key milestones and tentative schedule. Submit your entries before the deadline!",
         order: 2, show: true
       },
-      rules: { order: 3, show: true }, // 無獨立區塊，點擊「詳細辦法」開啟彈跳視窗，只用得到 order
+      rules: {
+        order: 3, show: true
+      },
       faq: {
         title_zh: "常見問答", title_en: "Frequently Asked Questions",
-        desc_zh: "關於百年院慶標語徵選活動之常見問題整理",
-        desc_en: "Answers to common questions regarding the slogan campaign.",
-        order: 4, show: true
+        desc_zh: "關於百年院慶標語徵選活動之常見問題整理", desc_en: "Answers to common questions regarding the slogan campaign.",
+        order: 5, show: true
       },
       shortlist: {
         title_zh: "入圍名單公告", title_en: "Shortlist Announcement",
-        desc_zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。",
-        desc_en: "List of shortlisted entries. Official winners will follow a separate announcement.",
-        order: 5, show: true
+        desc_zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。", desc_en: "List of shortlisted entries. Official winners will follow a separate announcement.",
+        order: 4, show: true
       },
       winners: {
         title_zh: "得獎公告", title_en: "Winners Announcement",
-        desc_zh: "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。",
-        desc_en: "Congratulations to the winners, and thank you to everyone who submitted an entry.",
-        order: 6, show: false
+        desc_zh: "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。", desc_en: "Congratulations to the winners, and thank you to everyone who submitted an entry.",
+        order: 6, show: true
       }
     },
 
     news: [
-      {
-        title_zh: "百年院慶標語徵選活動正式啟動",
-        title_en: "Centennial Slogan Campaign Officially Launched",
-        date_zh: "2026年10月01日",
-        date_en: "Oct 01, 2026",
-        content_zh: "中央研究院百年院慶標語公開徵選活動正式開放線上投稿，歡迎全體同仁踴躍參與，共同銘刻百年學術榮光。",
-        content_en: "The Academia Sinica Centennial Slogan Campaign is now open for online submissions. All colleagues are warmly invited to participate.",
-        show: true
-      }
+      { title_zh: "百年院慶標語徵選活動正式啟動", title_en: "Centennial Slogan Campaign Officially Launched", date_zh: "2026-10-12", date_en: "Oct 12, 2026", content_zh: "中央研究院百年院慶標語公開徵選活動正式開放線上投稿，歡迎全體同仁踴躍參與，共同銘刻百年學術榮光。", content_en: "The Academia Sinica Centennial Slogan Campaign is now open for online submissions. All colleagues are warmly invited to participate.", show: true },
+      { title_zh: "投稿相關資訊", title_en: "投稿相關資訊", date_zh: "2026-10-12", date_en: "Oct 12, 2026", content_zh: "<span style=\"color:#8A1724;font-weight:bold;\">活動目的</span><br>\n中央研究院即將邁入創院一百周年，為凝聚全院同仁學術精神與傳承使命，特舉辦「百年院慶標語公開徵選活動」，期以簡鍊有力、富深遠意涵之標語，展現中研院學術卓越與開拓下一個世紀之願景。\n<br>\n<span style=\"color:#8A1724;font-weight:bold;\">徵選對象</span><br>\n凡中央研究院現職同仁、退休人員、學生、訪問學者、校友，以及關心中研院之國內外各界人士均可報名參加，不限國籍、年齡與身分。", content_en: "The Academia Sinica Centennial Slogan Campaign is now open for online submissions. All colleagues are warmly invited to participate.", show: true },
+      { title_zh: "最新消息第3則", title_en: "最新消息第3則", date_zh: "2026-10-13", date_en: "Oct 13, 2026", content_zh: "中央研究院百年院慶標語公開徵選活動正式開放線上投稿，歡迎全體同仁踴躍參與，共同銘刻百年學術榮光。", content_en: "The Academia Sinica Centennial Slogan Campaign is now open for online submissions. All colleagues are warmly invited to participate.", show: false }
     ],
 
-    shortlist: [
-      {
-        dept_zh: "",
-        dept_en: "",
-        name_zh: "",
-        name_en: "",
-        sso: "",
-        slogan_zh: "",
-        slogan_en: "",
-        concept_zh: "",
-        concept_en: "",
-        show: false
-      }
-    ],
-
-    winners: [
-      {
-        award_zh: "",
-        award_en: "",
-        dept_zh: "",
-        dept_en: "",
-        name_zh: "",
-        name_en: "",
-        sso: "",
-        slogan_zh: "",
-        slogan_en: "",
-        concept_zh: "",
-        concept_en: "",
-        show: false
-      }
-    ],
+    shortlist: [],
+    winners: [],
 
     timeline: [
-      {
-        circle_main_zh: "10月",
-        circle_sub_zh: "01日",
-        circle_main_en: "OCT",
-        circle_sub_en: "01",
-        title_zh: "線上徵件啟動",
-        title_en: "Submissions Open",
-        desc_zh: "開放線上 Google 表單徵件系統，歡迎全球各界踴躍投件。",
-        desc_en: "Online submission portal opens. All entries welcomed worldwide.",
-        status_zh: "進行中",
-        status_en: "In Progress",
-        active: true,
-        show: true
-      },
-      {
-        circle_main_zh: "10月",
-        circle_sub_zh: "31日",
-        circle_main_en: "OCT",
-        circle_sub_en: "31",
-        title_zh: "徵件截止 (23:59)",
-        title_en: "Submissions Deadline",
-        desc_zh: "截止線上收件，逾期恕不受理。請把握時間送出您的創意！",
-        desc_en: "Deadline for all online submissions. Late submissions will not be accepted.",
-        status_zh: "即將截止",
-        status_en: "Approaching",
-        active: false,
-        show: true
-      },
-      {
-        circle_main_zh: "11月",
-        circle_sub_zh: "初審",
-        circle_main_en: "NOV",
-        circle_sub_en: "2026",
-        title_zh: "專業評審遴選",
-        title_en: "Judging & Selection",
-        desc_zh: "由院慶籌備委員會及各領域專家學者組成評審小組進行匿名審查。",
-        desc_en: "Expert panel evaluates all qualified entries anonymously.",
-        status_zh: "審查中",
-        status_en: "Pending",
-        active: false,
-        show: true
-      },
-      {
-        circle_main_zh: "12月",
-        circle_sub_zh: "揭曉",
-        circle_main_en: "DEC",
-        circle_sub_en: "2026",
-        title_zh: "獲選結果公布",
-        title_en: "Winners Announced",
-        desc_zh: "於中研院官網及百年院慶專頁正式揭曉獲選標語與得獎名單。",
-        desc_en: "Official announcement of winning slogans on Academia Sinica website.",
-        status_zh: "即將揭曉",
-        status_en: "Upcoming",
-        active: false,
-        show: true
-      }
+      { circle_main_zh: "10月", circle_sub_zh: "12日", circle_main_en: "OCT", circle_sub_en: "12", title_zh: "線上徵件啟動", title_en: "Submissions Open", date_zh: "2026年10月01日", date_en: "Oct 01, 2026", desc_zh: "開放線上 Google 表單徵件系統，歡迎全球各界踴躍投件。", desc_en: "Online submission portal opens. All entries welcomed worldwide.", status_zh: "進行中", status_en: "In Progress", active: true, show: true },
+      { circle_main_zh: "11月", circle_sub_zh: "6日", circle_main_en: "NOV", circle_sub_en: "6", title_zh: "徵件截止", title_en: "Submissions Deadline", date_zh: "2026年10月31日 23:59", date_en: "Oct 31, 2026 23:59", desc_zh: "截止線上收件，逾期恕不受理。請把握時間送出您的創意！", desc_en: "Deadline for all online submissions. Late submissions will not be accepted.", status_zh: "即將截止", status_en: "Approaching", active: false, show: true },
+      { circle_main_zh: "11月", circle_sub_zh: "初審", circle_main_en: "NOV", circle_sub_en: "2026", title_zh: "專業評審遴選", title_en: "Judging & Selection", date_zh: "2026年11月", date_en: "November 2026", desc_zh: "由院慶籌備委員會及各領域專家學者組成評審小組進行匿名審查。", desc_en: "Expert panel evaluates all qualified entries anonymously.", status_zh: "審查中", status_en: "Pending", active: false, show: true },
+      { circle_main_zh: "12月", circle_sub_zh: "揭曉", circle_main_en: "DEC", circle_sub_en: "2026", title_zh: "獲選結果公布", title_en: "Winners Announced", date_zh: "2026年12月", date_en: "December 2026", desc_zh: "於中研院官網及百年院慶專頁正式揭曉獲選標語與得獎名單。", desc_en: "Official announcement of winning slogans on Academia Sinica website.", status_zh: "即將揭曉", status_en: "Upcoming", active: false, show: true }
     ],
 
     rules: [
-      {
-        title_zh: "一、活動目的",
-        title_en: "1. Objective",
-        content_zh: "中央研究院即將邁入創院一百周年，為凝聚全院同仁學術精神與傳承使命，特舉辦「百年院慶標語公開徵選活動」，期以簡鍊有力、富深遠意涵之標語，展現中研院學術卓越與開拓下一個世紀之願景。",
-        content_en: "Academia Sinica is approaching its centenary. This campaign invites slogans that embody a century of scholarship and inspire our vision for the next century.",
-        show: true
-      },
-      {
-        title_zh: "二、徵選對象",
-        title_en: "2. Eligibility",
-        content_zh: "凡中央研究院現職同仁、退休人員、學生、訪問學者、校友，以及關心中研院之國內外各界人士均可報名參加，不限國籍、年齡與身分。",
-        content_en: "Open to all current and retired faculty, staff, students, alumni, and anyone passionate about Academia Sinica worldwide.",
-        show: true
-      },
-      {
-        title_zh: "三、標語規範與格式",
-        title_en: "3. Slogan Guidelines & Format",
-        content_zh: "1. 中文或英文皆可（中英文各一組或單一語言投件均可）。\n2. 中文標語以 12 ~ 20 字為原則；英文標語以 5 ~ 15 字（words）為原則。\n3. 須附 100 ~ 200 字創作理念說明，闡述標語發想來源與意涵。\n4. 內容須原創，未曾發表亦未涉及抄襲或侵害他人權利。",
-        content_en: "1. Submissions in Chinese or English are accepted.\n2. Chinese: 12-20 characters; English: 5-15 words.\n3. Include a 100-200 word concept description.\n4. Work must be original and not published elsewhere.",
-        show: true
-      },
-      {
-        title_zh: "四、評選標準",
-        title_en: "4. Judging Criteria",
-        content_zh: "1. 主題契合度（40%）：充分彰顯中研院百年學術精神、價值與未來願景。\n2. 創意與獨特性（30%）：構思新穎、精鍊傳神、具記憶點。\n3. 傳播感染力（30%）：朗朗上口、節奏流暢，易於多媒體宣傳應用。",
-        content_en: "1. Relevance to Centennial Spirit (40%)\n2. Creativity & Originality (30%)\n3. Resonance & Catchiness (30%)",
-        show: true
-      },
-      {
-        title_zh: "五、獎勵辦法",
-        title_en: "5. Prizes & Awards",
-        content_zh: "首獎 1 名：獎金新臺幣 30,000 元整及百周年紀念獎座／證書。\n優等獎 2 名：各得獎金新臺幣 10,000 元整及紀念證書。\n佳作 3 名：各得獎金新臺幣 5,000 元整及紀念證書。\n入選獎若干名：各獲贈中研院百周年限定紀念禮品乙份。",
-        content_en: "Grand Prize (1 Winner): NT$ 30,000 and Centennial Trophy.\nExcellence Award (2 Winners): NT$ 10,000 each and Certificate.\nMerit Award (3 Winners): NT$ 5,000 each and Certificate.\nFinalist Gifts for shortlisted entries.",
-        show: true
-      },
-      {
-        title_zh: "六、智財權與其他注意事項",
-        title_en: "6. Intellectual Property & Terms",
-        content_zh: "1. 獲選作品之著作財產權歸主辦單位（中央研究院）所有，主辦單位有權進行非營利性宣傳、重製及公開展示。\n2. 投稿者保證作品確為原創，如涉及侵權者取消得獎資格並追回獎金與證書。\n3. 主辦單位保留活動內容修改、變更及解釋之最終權利。",
-        content_en: "1. All intellectual property of winning entries transfers to Academia Sinica for official promotion.\n2. Participants guarantee their work is original.\n3. Academia Sinica reserves the right to amend campaign terms.",
-        show: true
-      }
+      { title_zh: "活動目的", title_en: "Objective", content_zh: "中央研究院即將邁入創院一百周年，為凝聚全院同仁學術精神與傳承使命，特舉辦「百年院慶標語公開徵選活動」，期以簡鍊有力、富深遠意涵之標語，展現中研院學術卓越與開拓下一個世紀之願景。", content_en: "Academia Sinica is approaching its centenary. This campaign invites slogans that embody a century of scholarship and inspire our vision for the next century.", show: true },
+      { title_zh: "徵選對象", title_en: "Eligibility", content_zh: "凡中央研究院現職同仁、退休人員、學生、訪問學者、校友，以及關心中研院之國內外各界人士均可報名參加，不限國籍、年齡與身分。", content_en: "Open to all current and retired faculty, staff, students, alumni, and anyone passionate about Academia Sinica worldwide.", show: true },
+      { title_zh: "標語規範與格式", title_en: "Slogan Guidelines & Format", content_zh: "1. 中文或英文皆可（中英文各一組或單一語言投件均可）。\n2. 中文標語以 10 ~ 20 字為原則；英文標語以 5 ~ 15 字（words）為原則。\n3. 須附 100 ~ 200 字創作理念說明，闡述標語發想來源與意涵。\n4. 內容須原創，未曾發表亦未涉及抄襲或侵害他人權利。", content_en: "1. Submissions in Chinese or English are accepted.\n2. Chinese: 12-20 characters; English: 5-15 words.\n3. Include a 100-200 word concept description.\n4. Work must be original and not published elsewhere.", show: true },
+      { title_zh: "評選標準", title_en: "Judging Criteria", content_zh: "1. 主題契合度（40%）：充分彰顯中研院百年學術精神、價值與未來願景。\n2. 創意與獨特性（30%）：構思新穎、精鍊傳神、具記憶點。\n3. 傳播感染力（30%）：朗朗上口、節奏流暢，易於多媒體宣傳應用。", content_en: "1. Relevance to Centennial Spirit (40%)\n2. Creativity & Originality (30%)\n3. Resonance & Catchiness (30%)", show: true },
+      { title_zh: "獎勵辦法", title_en: "Prizes & Awards", content_zh: "首獎 1 名：獎金新臺幣 30,000 元整及百周年紀念獎座／證書。\n優等獎 2 名：各得獎金新臺幣 10,000 元整及紀念證書。\n佳作 3 名：各得獎金新臺幣 5,000 元整及紀念證書。\n入選獎若干名：各獲贈中研院百周年限定紀念禮品乙份。", content_en: "Grand Prize (1 Winner): NT$ 30,000 and Centennial Trophy.\nExcellence Award (2 Winners): NT$ 10,000 each and Certificate.\nMerit Award (3 Winners): NT$ 5,000 each and Certificate.\nFinalist Gifts for shortlisted entries.", show: true },
+      { title_zh: "智財權與其他注意事項", title_en: "Intellectual Property & Terms", content_zh: "1. 獲選作品之著作財產權歸主辦單位（中央研究院）所有，主辦單位有權進行非營利性宣傳、重製及公開展示。\n2. 投稿者保證作品確為原創，如涉及侵權者取消得獎資格並追回獎金與證書。\n3. 主辦單位保留活動內容修改、變更及解釋之最終權利。", content_en: "1. All intellectual property of winning entries transfers to Academia Sinica for official promotion.\n2. Participants guarantee their work is original.\n3. Academia Sinica reserves the right to amend campaign terms.", show: true }
     ],
 
     faq: [
-      {
-        q_zh: "Q1. 每個人可以投稿幾組標語？",
-        q_en: "Q1. How many slogans can I submit?",
-        a_zh: "每位參賽者最多可投稿 3 組標語，每組均需單獨填寫並附上發想理念說明。",
-        a_en: "Each participant may submit up to 3 slogans. Each entry must have its own concept rationale.",
-        show: true
-      },
-      {
-        q_zh: "Q2. 可以用英文或中英混合投稿嗎？",
-        q_en: "Q2. Can I submit in English or bilingual?",
-        a_zh: "可以！歡迎以繁體中文、英文投件，亦可提供中英文對應版本。",
-        a_en: "Yes! Entries in Traditional Chinese, English, or bilingual pairings are all warmly welcomed.",
-        show: true
-      },
-      {
-        q_zh: "Q3. 不是中研院員工或學生也可以參加嗎？",
-        q_en: "Q3. Can the general public participate?",
-        a_zh: "可以！本活動面向全球公開徵件，凡關心中研院的朋友皆可共襄盛舉。",
-        a_en: "Yes! The campaign is open to everyone worldwide who supports Academia Sinica.",
-        show: true
-      },
-      {
-        q_zh: "Q4. 得獎標語會如何使用？",
-        q_en: "Q4. How will winning slogans be used?",
-        a_zh: "獲選之標語將廣泛應用於中研院百周年各項慶祝活動、出版品、文宣品及國際學術交流場合。",
-        a_en: "Winning slogans will be featured in centennial publications, events, banners, and media.",
-        show: true
-      },
-      {
-        q_zh: "Q5. 投稿與投票是否需要以本院 SSO 帳號登入？",
-        q_en: "Q5. Do I need to log in with my institute SSO account to submit or vote?",
-        a_zh: "依規劃，投稿與後續網路票選皆須以中央研究院 SSO 帳號登入驗證，以確認身分並自動帶入基本資料，同時防止外部誤投。",
-        a_en: "Both submission and voting require login with an Academia Sinica SSO account to verify identity, auto-fill basic information, and prevent external voting.",
-        show: true
-      },
-      {
-        q_zh: "Q6. 評審過程會看到我的姓名和服務單位嗎？",
-        q_en: "Q6. Will judges see my name and department during review?",
-        a_zh: "不會。評審委員於線上評分介面完全看不到投稿人姓名及服務單位/所中心資訊，以雙盲方式確保評選公平客觀。",
-        a_en: "No. Judges cannot see the submitter's name or department in the scoring interface, ensuring a fair, double-blind review.",
-        show: true
-      },
-      {
-        q_zh: "Q7. 網路票選要怎麼進行？可以投很多次嗎？",
-        q_en: "Q7. How does the online voting work? Can I vote more than once?",
-        a_zh: "初選入圍名單公告後，將開放同仁以 SSO 帳號進行網路票選，每一帳號於票選期間僅能投票 1 次，不開放重複投票。",
-        a_en: "After the shortlist is announced, colleagues may vote online with their SSO account. Each account may vote only once during the voting period.",
-        show: true
-      },
-      {
-        q_zh: "Q8. 標語投稿後可以修改內容嗎？",
-        q_en: "Q8. Can I edit my slogan after submitting?",
-        a_zh: "投稿送出前請務必確認內容無誤；系統將以正式送出時間作為時間戳記依據，故請於送出前仔細確認後再送出。",
-        a_en: "Please review your entry carefully before submitting, as the system timestamps your entry at the moment of submission.",
-        show: true
-      },
-      {
-        q_zh: "Q9. 得獎名單什麼時候公布？會公布在哪裡？",
-        q_en: "Q9. When and where will the winners be announced?",
-        a_zh: "預計12月上旬進行複評，並於12月24日前透過中央研究院官方網站及本活動網頁正式公告得獎名單。",
-        a_en: "The final review is expected in early December, with winners officially announced on the Academia Sinica website and this campaign page before December 24.",
-        show: true
-      },
-      {
-        q_zh: "Q10. 這個網頁未來會不會換網址？",
-        q_en: "Q10. Will this page's URL change in the future?",
-        a_zh: "待百年院慶專屬網站建置完成後，本活動網頁將配合移轉至百年院慶專屬網站項下，屆時將提供新的連結。",
-        a_en: "Once the dedicated centennial website is complete, this campaign page will migrate under it, and a new link will be provided.",
-        show: true
-      }
+      { q_zh: "投稿與投票是否需要以本院 SSO 帳號登入？", q_en: "Do I need to log in with my institute SSO account to submit or vote?", a_zh: "依規劃，投稿與後續網路票選皆須以中央研究院 SSO 帳號登入驗證，以確認身分並自動帶入基本資料，同時防止外部誤投。", a_en: "Both submission and voting require login with an Academia Sinica SSO account to verify identity, auto-fill basic information, and prevent external voting.", show: true },
+      { q_zh: "評審過程會看到我的姓名和服務單位嗎？", q_en: "Will judges see my name and department during review?", a_zh: "不會。評審委員於線上評分介面完全看不到投稿人姓名及服務單位/所中心資訊，以雙盲方式確保評選公平客觀。", a_en: "No. Judges cannot see the submitter's name or department in the scoring interface, ensuring a fair, double-blind review.", show: true },
+      { q_zh: "網路票選要怎麼進行？可以投很多次嗎？", q_en: "How does the online voting work? Can I vote more than once?", a_zh: "初選入圍名單公告後，將開放同仁以 SSO 帳號進行網路票選，每一帳號於票選期間僅能投票 1 次，不開放重複投票。", a_en: "After the shortlist is announced, colleagues may vote online with their SSO account. Each account may vote only once during the voting period.", show: true },
+      { q_zh: "標語投稿後可以修改內容嗎？", q_en: "Can I edit my slogan after submitting?", a_zh: "投稿送出前請務必確認內容無誤；系統將以正式送出時間作為時間戳記依據，故請於送出前仔細確認後再送出。", a_en: "Please review your entry carefully before submitting, as the system timestamps your entry at the moment of submission.", show: true },
+      { q_zh: "得獎名單什麼時候公布？會公布在哪裡？", q_en: "When and where will the winners be announced?", a_zh: "預計12月上旬進行複評，並於12月24日前透過中央研究院官方網站及本活動網頁正式公告得獎名單。", a_en: "The final review is expected in early December, with winners officially announced on the Academia Sinica website and this campaign page before December 24.", show: true },
+      { q_zh: "這個網頁未來會不會換網址？", q_en: "Will this page's URL change in the future?", a_zh: "待百年院慶專屬網站建置完成後，本活動網頁將配合移轉至百年院慶專屬網站項下，屆時將提供新的連結。", a_en: "Once the dedicated centennial website is complete, this campaign page will migrate under it, and a new link will be provided.", show: true }
     ],
 
     footerLinks: [
-      {
-        name_zh: "中央研究院官方網站",
-        name_en: "Academia Sinica Official Website",
-        url: "https://www.sinica.edu.tw",
-        type: "web",
-        show: true
-      },
-      {
-        name_zh: "院況介紹與歷史",
-        name_en: "About Academia Sinica",
-        url: "https://www.sinica.edu.tw/about",
-        type: "info",
-        show: true
-      },
-      {
-        name_zh: "中研院 Facebook",
-        name_en: "AS Facebook Page",
-        url: "https://www.facebook.com/sinicaedu",
-        type: "facebook",
-        show: true
-      },
-      {
-        name_zh: "中研院 YouTube 頻道",
-        name_en: "AS YouTube Channel",
-        url: "https://www.youtube.com/@AcademiaSinica",
-        type: "youtube",
-        show: true
-      }
+      { name_zh: "中央研究院官方網站", name_en: "Academia Sinica Official Website", url: "https://www.sinica.edu.tw", type: "logo", show: true },
+      { name_zh: "中研院IG", name_en: "About Academia Sinica", url: "https://www.instagram.com/sinica.tw/", type: "instagram", show: true },
+      { name_zh: "中研院 Facebook", name_en: "AS Facebook Page", url: "https://www.facebook.com/sinicaedu", type: "facebook", show: true },
+      { name_zh: "中研院 YouTube 頻道", name_en: "AS YouTube Channel", url: "https://www.youtube.com/channel/UCPk594oZYMU4Eak7By5wHyQ", type: "youtube", show: true }
     ]
   };
 
@@ -725,7 +473,7 @@
     });
 
     // 4. 我要投稿超連結 (所有按鈕同步更新 URL 與文字)
-    const formUrl = s.submit_form_url ? (isEn ? s.submit_form_url.en : s.submit_form_url.zh) : "https://forms.gle/MJkYBRTb5NpWaSAZ6";
+    const formUrl = s.submit_form_url ? (isEn ? s.submit_form_url.en : s.submit_form_url.zh) : "https://forms.gle/aCeM3Rkwap4a8uzX6";
     const submitBtnText = s.hero_btn_submit ? (isEn ? s.hero_btn_submit.en : s.hero_btn_submit.zh) : (isEn ? "Submit Now" : "我要投稿");
     const navSubmitBtnText = s.nav_submit_btn ? (isEn ? s.nav_submit_btn.en : s.nav_submit_btn.zh) : (isEn ? "Submit Now" : "我要投稿");
     const rulesBtnText = s.hero_btn_rules ? (isEn ? s.hero_btn_rules.en : s.hero_btn_rules.zh) : (isEn ? "Guidelines" : "徵選辦法");
@@ -796,6 +544,19 @@
 
     // 4.7. 主視覺版面一／二切換（試算表 hero_layout 填 "2" 時顯示深色背景＋倒數計時器版面）
     applyHeroLayout(lang, formUrl, rulesBtnText);
+
+    // 4.8. 投稿前登入提醒視窗：login_notice_show 填「否」就關閉（按鈕直接前往表單），
+    // 沒有這個設定列或填「是」都會顯示。文字部分試算表沒填的欄位，維持 HTML 裡寫好的預設文字。
+    document.body.dataset.loginNotice = (s.login_notice_show && s.login_notice_show.zh === "否") ? "off" : "on";
+    [
+      ["loginNoticeTitle", "login_notice_title"],
+      ["loginNoticeBody", "login_notice_body"],
+      ["loginNoticeConfirm", "login_notice_confirm"],
+      ["loginNoticeCancel", "login_notice_cancel"]
+    ].forEach(([id, key]) => {
+      const node = document.getElementById(id);
+      if (node && s[key]) node.textContent = isEn ? s[key].en : s[key].zh;
+    });
 
     // 5. 最新消息區塊渲染
     renderNews(lang);
@@ -930,7 +691,7 @@
     if (dialogTitle && s.dialog_title) dialogTitle.textContent = isEn ? s.dialog_title.en : s.dialog_title.zh;
 
     const dialogBody = document.querySelector(".dialog-rules-list");
-    const formUrl = liveData.settings.submit_form_url ? (isEn ? liveData.settings.submit_form_url.en : liveData.settings.submit_form_url.zh) : "https://forms.gle/MJkYBRTb5NpWaSAZ6";
+    const formUrl = liveData.settings.submit_form_url ? (isEn ? liveData.settings.submit_form_url.en : liveData.settings.submit_form_url.zh) : "https://forms.gle/aCeM3Rkwap4a8uzX6";
 
     if (dialogBody && liveData.rules) {
       dialogBody.innerHTML = liveData.rules
