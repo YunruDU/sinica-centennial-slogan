@@ -238,7 +238,7 @@
     }
 
     .nav-cta {
-      display: inline-flex;
+      display: none; /* 電腦版導覽列右上角的「我要投稿」按鈕已移除；主視覺與手機端的投稿按鈕不受影響 */
       align-items: center;
       justify-content: center;
       gap: 8px;
@@ -728,8 +728,17 @@
       background: rgba(36, 20, 15, 0.65);
     }
     .login-notice-inner {
+      position: relative;
       padding: 28px 26px 22px;
       text-align: center;
+    }
+    .login-notice-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 32px;
+      height: 32px;
+      font-size: 1.1rem;
     }
     .login-notice-title {
       margin: 0 0 12px;
@@ -741,6 +750,7 @@
       line-height: 1.8;
       color: #3a2e2a;
       font-size: 0.98rem;
+      text-align: left;
     }
     .login-notice-actions {
       display: flex;
@@ -1917,16 +1927,11 @@
     <div class="nav-container">
       <a href="#top" class="nav-brand" aria-label="中央研究院百周年標語徵選首頁">
         <img src="assets/sinica-logo.png" alt="中央研究院標誌" class="nav-brand-logo" />
-        <div class="nav-brand-text">
-          <span class="nav-brand-title">中央研究院 百年院慶</span>
-          <span class="nav-brand-subtitle">1928 — 2028 · CENTENNIAL</span>
-        </div>
       </a>
 
       <!-- Desktop Nav Menu -->
       <nav aria-label="全站主要導覽">
         <ul class="nav-links">
-          <li><a href="#hero-top" class="nav-link" data-navkey="nav_hero">活動首頁</a></li>
           <li><a href="#highlights" class="nav-link" data-navkey="nav_highlights">最新消息</a></li>
           <li><a href="#timeline" class="nav-link" data-navkey="nav_timeline">重要時程</a></li>
           <li><a href="#rules" class="nav-link" data-action="open-rules" data-navkey="nav_rules">詳細辦法</a></li>
@@ -1973,7 +1978,6 @@
       </div>
 
       <ul class="drawer-links">
-        <li><a href="#hero-top" class="drawer-link" data-navkey="nav_hero">活動首頁</a></li>
         <li><a href="#highlights" class="drawer-link" data-navkey="nav_highlights">最新消息</a></li>
         <li><a href="#timeline" class="drawer-link" data-navkey="nav_timeline">重要時程</a></li>
         <li><a href="#rules" class="drawer-link" data-action="open-rules" data-navkey="nav_rules">詳細辦法</a></li>
@@ -2471,14 +2475,15 @@
     </div>
   </dialog>
 
-  <!-- 投稿前登入提醒：點「我要投稿」類按鈕時先跳出，按確定才前往表單 -->
+  <!-- 投稿前登入提醒：點「我要投稿」類按鈕時先跳出，按「本院現職同仁」才前往表單 -->
   <dialog class="login-notice-dialog" id="loginNoticeDialog" aria-labelledby="loginNoticeTitle">
     <div class="login-notice-inner">
+      <button type="button" class="dialog-close-btn login-notice-close" id="loginNoticeClose" aria-label="關閉視窗">×</button>
       <h2 class="login-notice-title" id="loginNoticeTitle">投稿前請先確認</h2>
       <p class="login-notice-body" id="loginNoticeBody">請使用院內 AS.EDU.TW 信箱登入 Google 帳號後，再填寫投稿表單。</p>
       <div class="login-notice-actions">
-        <button type="button" class="btn-mobile btn-mobile-secondary" id="loginNoticeCancel" style="width:auto; min-height:44px; padding:8px 24px;">取消</button>
-        <button type="button" class="btn-mobile btn-mobile-primary" id="loginNoticeConfirm" style="width:auto; min-height:44px; padding:8px 26px;">確定，前往投稿</button>
+        <button type="button" class="btn-mobile btn-mobile-secondary" id="loginNoticeCancel" data-doc-url="" style="width:auto; min-height:44px; padding:8px 24px;">本院院士、退休院友</button>
+        <button type="button" class="btn-mobile btn-mobile-primary" id="loginNoticeConfirm" style="width:auto; min-height:44px; padding:8px 26px;">本院現職同仁</button>
       </div>
     </div>
   </dialog>
@@ -2546,7 +2551,12 @@
         loginDialog.close();
         if (pendingFormUrl) window.open(pendingFormUrl, "_blank", "noopener,noreferrer");
       });
-      document.getElementById("loginNoticeCancel").addEventListener("click", () => loginDialog.close());
+      document.getElementById("loginNoticeCancel").addEventListener("click", (e) => {
+        const docUrl = e.currentTarget.dataset.docUrl;
+        loginDialog.close();
+        if (docUrl) window.open(docUrl, "_blank", "noopener,noreferrer");
+      });
+      document.getElementById("loginNoticeClose").addEventListener("click", () => loginDialog.close());
 
       // 2. Rules Modal Dialog Controller
       const rulesDialog = document.getElementById("rulesDialog");
@@ -2669,6 +2679,6 @@
   </script>
 
   <!-- Google Sheets CMS & Bilingual (i18n) Engine -->
-  <script src="assets/cms.js?v=34"></script>
+  <script src="assets/cms.js?v=40"></script>
 </body>
 </html>

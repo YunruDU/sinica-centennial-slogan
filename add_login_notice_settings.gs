@@ -29,8 +29,9 @@ function addLoginNoticeSettings() {
     ["login_notice_show", "點「我要投稿」時是否先跳出登入提醒視窗", "是", "是", "填「是」跳出提醒，填「否」直接前往表單"],
     ["login_notice_title", "提醒視窗標題", "投稿前請先確認", "Before You Submit", ""],
     ["login_notice_body", "提醒視窗說明文字", "請使用院內 AS.EDU.TW 信箱登入 Google 帳號後，再填寫投稿表單。", "Please sign in to Google with your institute AS.EDU.TW email before filling out the submission form.", ""],
-    ["login_notice_confirm", "提醒視窗「確定」按鈕文字", "確定，前往投稿", "OK, Go to Form", "按下後才會開啟投稿表單"],
-    ["login_notice_cancel", "提醒視窗「取消」按鈕文字", "取消", "Cancel", ""]
+    ["login_notice_confirm", "提醒視窗右側按鈕文字（按下後開啟投稿表單）", "本院現職同仁", "Current Employees", ""],
+    ["login_notice_cancel", "提醒視窗左側按鈕文字", "本院院士、退休院友", "Academicians / Retired Alumni", ""],
+    ["login_notice_alumni_doc_url", "按左側按鈕後開啟的連結（通常是 Word 文件下載連結，例如 Google 雲端硬碟的分享連結）", "", "", "留空則按下後只關閉視窗，不會另外開新分頁"]
   ];
 
   const rowsToAdd = NEW_ROWS.filter(row => !existingKeys[row[0]]);

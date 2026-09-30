@@ -52,9 +52,13 @@
       hero2_btn_rules_text: { zh: "走進百年大事紀", en: "Explore the Centennial Timeline" },
       login_notice_show: { zh: "是", en: "是" },
       login_notice_title: { zh: "投稿前請先確認", en: "Before You Submit" },
-      login_notice_body: { zh: "請使用院內 AS.EDU.TW 信箱登入 Google 帳號後，再填寫投稿表單。", en: "Please sign in to Google with your institute AS.EDU.TW email before filling out the submission form." },
-      login_notice_confirm: { zh: "確定，前往投稿", en: "OK, Go to Form" },
-      login_notice_cancel: { zh: "取消", en: "Cancel" },
+      login_notice_body: {
+        zh: "如您沒有院內 AS.EDU.TW 信箱且您是本院院士或院友，請點選本院院士、院友選項下載表單投稿<br>如有AS帳號請點選本院現職同仁登入 AS.EDU.TW 再填寫投稿表單。",
+        en: "If you do not have an AS.EDU.TW institutional email and are an Academician or Alumnus/Alumna of Academia Sinica, please select \"Academicians / Retired Alumni\" to download the submission form.<br>If you have an AS account, please select \"Current Employees\" to sign in with your AS.EDU.TW account before filling out the submission form."
+      },
+      login_notice_confirm: { zh: "本院現職同仁", en: "Current Employees" },
+      login_notice_cancel: { zh: "本院院士、退休院友", en: "Academicians / Retired Alumni" },
+      login_notice_alumni_doc_url: { zh: "", en: "" }, // 按「本院院士、退休院友」後開啟的連結（通常是 Word 文件下載連結），留空則只關視窗
       organizer_name: { zh: "本院秘書處科林小姐", en: "Secretariat, Academia Sinica" },
       contact_email: { zh: "lsy@as.edu.tw", en: "lsy@as.edu.tw" },
       contact_phone: { zh: "(02)2789-9873", en: "(02)2789-9873" },
@@ -101,10 +105,10 @@
       timeline: {
         title_zh: "活動推展重要時程", title_en: "Campaign Timeline",
         desc_zh: "標語徵選各階段暫定時程規劃，敬請同仁把握投稿期間。", desc_en: "Key milestones and tentative schedule. Submit your entries before the deadline!",
-        order: 2, show: true
+        order: 2, show: false
       },
       rules: {
-        order: 3, show: true
+        order: 3, show: false
       },
       faq: {
         title_zh: "常見問答", title_en: "Frequently Asked Questions",
@@ -114,12 +118,12 @@
       shortlist: {
         title_zh: "入圍名單公告", title_en: "Shortlist Announcement",
         desc_zh: "初選入圍作品名單，正式得獎結果請以官方公告為準。", desc_en: "List of shortlisted entries. Official winners will follow a separate announcement.",
-        order: 4, show: true
+        order: 4, show: false
       },
       winners: {
         title_zh: "得獎公告", title_en: "Winners Announcement",
         desc_zh: "恭喜以下獲獎同仁，感謝所有參與投稿的同仁共同銘刻百年學術榮光。", desc_en: "Congratulations to the winners, and thank you to everyone who submitted an entry.",
-        order: 6, show: true
+        order: 6, show: false
       }
     },
 
@@ -550,13 +554,28 @@
     document.body.dataset.loginNotice = (s.login_notice_show && s.login_notice_show.zh === "否") ? "off" : "on";
     [
       ["loginNoticeTitle", "login_notice_title"],
-      ["loginNoticeBody", "login_notice_body"],
       ["loginNoticeConfirm", "login_notice_confirm"],
       ["loginNoticeCancel", "login_notice_cancel"]
     ].forEach(([id, key]) => {
       const node = document.getElementById(id);
       if (node && s[key]) node.textContent = isEn ? s[key].en : s[key].zh;
     });
+
+    // login_notice_body 允許在 Excel 裡直接打 <br>／<span> 等簡單 HTML 做排版
+    // （跟「最新消息」內容欄位同一套做法），所以這裡用 innerHTML 而不是 textContent。
+    const loginNoticeBodyEl = document.getElementById("loginNoticeBody");
+    if (loginNoticeBodyEl && s.login_notice_body) {
+      loginNoticeBodyEl.innerHTML = isEn ? s.login_notice_body.en : s.login_notice_body.zh;
+    }
+
+    // 「本院院士、退休院友」按鈕：按下後開啟這個網址（通常是 Word 文件下載連結），
+    // 沒有在 Excel 填 login_notice_alumni_doc_url 的話就維持原本行為（只關視窗、不跳轉）。
+    const loginNoticeCancelBtn = document.getElementById("loginNoticeCancel");
+    if (loginNoticeCancelBtn) {
+      loginNoticeCancelBtn.dataset.docUrl = s.login_notice_alumni_doc_url
+        ? (isEn ? s.login_notice_alumni_doc_url.en : s.login_notice_alumni_doc_url.zh)
+        : "";
+    }
 
     // 5. 最新消息區塊渲染
     renderNews(lang);
@@ -717,6 +736,15 @@
       dialogSubmitBtn.href = formUrl;
       dialogSubmitBtn.textContent = s.dialog_submit_btn ? (isEn ? s.dialog_submit_btn.en : s.dialog_submit_btn.zh) : (isEn ? "Submit Now ›" : "前往表單投稿 ›");
     }
+
+    // 「詳細辦法」在「各區塊設定」分頁的「是否顯示」填「否」時，只隱藏導覽列/抽屜選單裡
+    // 的「詳細辦法」項目，不影響其他「徵選辦法」按鈕（主視覺、手機常駐列），那些按鈕
+    // 本來就是各自獨立的行動呼籲，不算是「導覽」。
+    const showRules = (liveData.sections.rules || {}).show !== false;
+    document.querySelectorAll('[data-navkey="nav_rules"]').forEach(link => {
+      const li = link.closest("li");
+      if (li) li.hidden = !showRules;
+    });
   }
 
   // 切換整個區塊（連同對應的導覽選單項目）的顯示/隱藏
@@ -739,7 +767,8 @@
   }
 
   // 依試算表的「順序」設定，重新排列首頁區塊（主視覺之後、頁尾之前）與對應的導覽選單項目。
-  // 「詳細辦法」只有導覽項目、沒有實體區塊（點擊會開彈窗），所以只影響選單排序。
+  // 「詳細辦法」只有導覽項目、沒有實體區塊（點擊會開彈窗），這裡只影響選單排序；
+  // 導覽項目本身的顯示/隱藏（「各區塊設定」的「是否顯示」）在 renderRules() 裡處理。
   function applySectionOrder() {
     const sections = liveData.sections;
     const parseOrder = (sec, fallback) => {
